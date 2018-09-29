@@ -98,24 +98,30 @@ public class TaskOrganiser {
     public ArrayList<Task> filterByProject(String projectSearch) {
         filterByProject = new ArrayList<>();
 
-        try {
-
             for (Task items : tasks) {
                 if (items.getProject().equals(projectSearch)) {
                     filterByProject.add(items);
                 }
             }
 
-            for (Task a : filterByProject) {
-                System.out.println(a);
+            if (filterByProject.isEmpty())
+            {
+                System.out.println("No tasks related to this project");
             }
 
-        }
+            else {
 
-        catch (NullPointerException e)
-        {
-            System.out.println("No tasks under this project");
-        }
+                for (int i = 0; i < filterByProject.size(); i++)
+                {
+                    Task search = filterByProject.get(i);
+
+                    System.out.println(search);
+                }
+            }
+
+
+
+
 
         return filterByProject;
     }
