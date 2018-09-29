@@ -59,7 +59,6 @@ public class TaskDate {
     public void setDueDate(int year, int month, int date)
     {
         Calendar currentCalendar = Calendar.getInstance();
-        //currentCalendar.clear();
         currentCalendar.set(Calendar.YEAR, year);
         currentCalendar.set(Calendar.MONTH, month - 1);
         currentCalendar.set(Calendar.DATE, date);

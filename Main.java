@@ -17,9 +17,14 @@ public class Main {
         sda.addTask(t3);
         sda.addTask(t4);
         sda.addTask(t5);
-
+        t1.setProject("sda");
+        t2.setProject("sda");
+        t3.setProject("IP");
+        t4.setProject("IP");
+        t5.setProject("Sda");
+        //sda.filterByProject("sda");
         //sda.printAllTasks();
-        sda.orderByDate();
+        //sda.orderByDate();
         //t1.getDate().compareTo(t1.getDate().getDueDate());
     }
 }

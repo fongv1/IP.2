@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +18,11 @@ import java.util.List;
 public class TaskOrganiser {
     private ArrayList<Task> tasks;
     private ArrayList<Task> orderByDate;
+    private ArrayList<Task> filterByProject;
 
 
     public TaskOrganiser() {
         tasks = new ArrayList<>();
-        orderByDate = new ArrayList<>();
     }
 
     /**
@@ -45,9 +46,23 @@ public class TaskOrganiser {
      * This will print out a brief description of each task,
      * using the toString method.
      */
-    public void printAllTasks() {
-        for (Task item : tasks) {
-            System.out.println(item.toString());
+    public void printAllTasks()
+    {
+        try {
+            if (tasks.isEmpty()) {
+                System.out.println("There are no tasks added yet.");
+            }
+
+            else {
+                for (Task item : tasks) {
+                    System.out.println(item.toString());
+                }
+            }
+        }
+
+        catch (NullPointerException e)
+        {
+            System.out.println("Due date input may be incorrect");
         }
     }
 
@@ -61,6 +76,7 @@ public class TaskOrganiser {
     {
         try
         {
+            orderByDate = new ArrayList<>();
             List<Task> orderByDate = new ArrayList<>(tasks);
             Collections.sort(orderByDate, new DateComparator());
 
@@ -77,4 +93,37 @@ public class TaskOrganiser {
 
         return orderByDate;
     }
+
+    /**
+     * This will filter tasks by the project they are related to
+     *
+     * @param projectSearch The project name you want to filter by
+     * @return An ArrayList of Tasks associated to the filtered
+     * project
+     */
+    public ArrayList<Task> filterByProject(String projectSearch) {
+        filterByProject = new ArrayList<>();
+
+        try {
+
+            for (Task items : tasks) {
+                if (items.getProject().equals(projectSearch)) {
+                    filterByProject.add(items);
+                }
+            }
+
+            for (Task a : filterByProject) {
+                System.out.println(a);
+            }
+
+        }
+
+        catch (NullPointerException e)
+        {
+            System.out.println("Due date input may be incorrect");
+        }
+
+        return filterByProject;
+    }
+
 }

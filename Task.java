@@ -12,12 +12,15 @@
 
 public class Task
 {
-    static int nextId = 0;
+    private static int nextId = 0;
+    private static String[] statusOptions = {"In Progress", "Finished"};
 
     private int taskId;
     private String taskTitle;
     private String project = null;
     private TaskDate date;
+    private String status;
+
 
     /**
      * Create a task object, which will automatically assign it an ID.
@@ -32,6 +35,7 @@ public class Task
         taskId = nextId + 1;
         nextId += 1;
         setDueDate(dueDateYear, dueDateMonth, dueDateDay);
+        status = statusOptions[0];
     }
 
     /**
@@ -117,5 +121,23 @@ public class Task
         return result;
     }
 
+    /**
+     * A task will start at "In Progress" at creation, calling this
+     * method will complete the task, changing the status to "Finished"
+     */
+
+    public void taskFinsihed()
+    {
+        status = statusOptions[1];
+    }
+
+    /**
+     *
+     * @return Returns the status of the task.
+     */
+    public String getStatus()
+    {
+        return status;
+    }
 }
 
