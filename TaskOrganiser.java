@@ -48,8 +48,8 @@ public class TaskOrganiser {
      */
     public void printAllTasks()
     {
-        try {
-            if (tasks.isEmpty()) {
+            if (tasks.isEmpty())
+            {
                 System.out.println("There are no tasks added yet.");
             }
 
@@ -58,12 +58,6 @@ public class TaskOrganiser {
                     System.out.println(item.toString());
                 }
             }
-        }
-
-        catch (NullPointerException e)
-        {
-            System.out.println("Due date input may be incorrect");
-        }
     }
 
     /**
@@ -120,10 +114,40 @@ public class TaskOrganiser {
 
         catch (NullPointerException e)
         {
-            System.out.println("Due date input may be incorrect");
+            System.out.println("No tasks under this project");
         }
 
         return filterByProject;
+    }
+
+    /**
+     * A task will start at "In Progress" at creation, calling this
+     * method will complete the task, changing the status to "Finished"
+     *
+     * @param taskId The Task Id you want to search for to mark as
+     *               finshed
+     */
+
+    public void markAsDone(int taskId)
+    {
+        boolean searching = true;
+        int index = 0;
+
+        while (index < tasks.size() && searching)
+        {
+            Task search = tasks.get(index);
+
+            if (search.getTaskId() == taskId)
+            {
+                search.changeStatus();
+                searching = false;
+            }
+
+            else
+            {
+                index++;
+            }
+        }
     }
 
 }

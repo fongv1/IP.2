@@ -97,6 +97,7 @@ public class Task
     /**
      * This method allows the user to define when a task is due,
      * relative to the parameters.
+     *
      * @param dueYear The year a task is due
      * @param dueMonth The month a task is due
      * @param dueDate The date a task is due
@@ -114,7 +115,8 @@ public class Task
         String result =     "Task id: " + taskId + "\n" +
                 "Task title: " + taskTitle + "\n" +
                 "Project: " + project + "\n" +
-                "Due date: " + getDate().getDueDate() + "\n";
+                "Due date: " + getDate().getDueDate() + "\n" +
+                "Status: " + getStatus() + "\n";
 
 
 
@@ -122,11 +124,11 @@ public class Task
     }
 
     /**
-     * A task will start at "In Progress" at creation, calling this
-     * method will complete the task, changing the status to "Finished"
+     * This changes the status of the task from
+     * In progress to Finsihed
+     *
      */
-
-    public void taskFinsihed()
+    public void changeStatus()
     {
         status = statusOptions[1];
     }
