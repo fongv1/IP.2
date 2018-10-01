@@ -15,7 +15,7 @@ import java.util.Date;
 public class TaskDate {
 
     private Date creationDate;
-    private Date dueDate = null;
+    private Date dueDate;
 
     public TaskDate(int year, int month, int date)
     {

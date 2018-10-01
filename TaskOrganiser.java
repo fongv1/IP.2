@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,19 +20,26 @@ public class TaskOrganiser {
     private ArrayList<Task> tasks;
     private ArrayList<Task> orderByDate;
     private ArrayList<Task> filterByProject;
+    private ArrayList<Task> finishedTasks;
 
 
     public TaskOrganiser() {
         tasks = new ArrayList<>();
+        finishedTasks = new ArrayList<>();
     }
 
     /**
-     * This method will add your task object to the organiser
+     * Add a new task to the collection.
      *
-     * @param task The task you would like to add
+     * @param taskTitle The description of your task
+     * @param dueDateYear The year the task is due
+     * @param dueDateMonth The month the task is due
+     * @param dueDateDay The date the task is due
      */
-    public void addTask(Task task) {
-        tasks.add(task);
+    public void addTask(String taskTitle, int dueDateYear, int dueDateMonth, int dueDateDay)
+    {
+        Task t = new Task(taskTitle, dueDateYear, dueDateMonth, dueDateDay);
+        tasks.add(t);
     }
 
     /**
@@ -119,22 +127,57 @@ public class TaskOrganiser {
                 }
             }
 
-
-
-
-
         return filterByProject;
     }
 
     /**
-     * A task will start at "In Progress" at creation, calling this
-     * method will complete the task, changing the status to "Finished"
+     * This method allows users to mark the task as done,
+     * which will remove it from the current collection of tasks
      *
-     * @param taskId The Task Id you want to search for to mark as
-     *               finshed
+     * @param taskId The task ID associated to the task you
+     *               would like to mark as done and remove
      */
 
     public void markAsDone(int taskId)
+    {
+        Iterator<Task> it = tasks.iterator();
+        boolean found = false;
+
+        while (it.hasNext() && !found)
+        {
+            Task search = it.next();
+
+            if (search.getTaskId() == taskId)
+            {
+                finishedTasks.add(search);
+                search.changeStatus();
+                it.remove();
+                found = true;
+            }
+        }
+
+        if (finishedTasks.isEmpty())
+        {
+            System.out.println("No tasks under this ID");
+        }
+
+        else
+        {
+            for (Task finished : finishedTasks)
+            {
+                System.out.println(finished.toString());
+            }
+        }
+    }
+
+    /**
+     * This method allows the user to link a task to a particular
+     * project.
+     *
+     * @param taskId The task and ID used to link with a project
+     * @param projectName The name of the project
+     */
+    public void updateProject(int taskId, String projectName)
     {
         boolean searching = true;
         int index = 0;
@@ -145,7 +188,7 @@ public class TaskOrganiser {
 
             if (search.getTaskId() == taskId)
             {
-                search.changeStatus();
+                search.setProject(projectName);
                 searching = false;
             }
 
@@ -153,6 +196,18 @@ public class TaskOrganiser {
             {
                 index++;
             }
+        }
+    }
+
+    public void removeTask(int taskId)
+    {
+        Iterator<Task> it = tasks.iterator();
+
+        while (it.hasNext())
+        {
+            Task search = it.next();
+
+            if (search )
         }
     }
 
