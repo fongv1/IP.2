@@ -17,7 +17,7 @@ public class Task
 
     private int taskId;
     private String taskTitle;
-    private String project = null;
+    private String project = "";
     private TaskDate date;
     private String status;
 
