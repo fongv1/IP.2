@@ -24,7 +24,13 @@ public class Main {
         sda.updateProject(3, "lol");
         sda.updateProject(4, "sda");
         sda.updateProject(5, "lol");
-
+        //sda.printAllTasks();
+        //sda.removeTask(0);
+        //sda.printAllTasks();
+        //sda.markAsDone(8);
+        sda.updateProject(2, "rofls");
+        sda.removeTask(4);
+        sda.printAllTasks();
 
         //t2.setProject("lol");
 
@@ -34,8 +40,8 @@ public class Main {
 
 
         //sda.orderByDate();
-        sda.markAsDone(5);
-        sda.filterByProject("sda");
+        //sda.markAsDone(5);
+        //sda.filterByProject("sda");
 
         //sda.printAllTasks();
     }

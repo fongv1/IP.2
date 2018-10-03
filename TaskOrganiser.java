@@ -1,3 +1,4 @@
+import javax.xml.validation.Validator;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -140,34 +141,27 @@ public class TaskOrganiser {
 
     public void markAsDone(int taskId)
     {
-        Iterator<Task> it = tasks.iterator();
-        boolean found = false;
 
-        while (it.hasNext() && !found)
-        {
-            Task search = it.next();
+        if (checkValidId(taskId)) {
+            Iterator<Task> it = tasks.iterator();
+            boolean found = false;
 
-            if (search.getTaskId() == taskId)
-            {
-                finishedTasks.add(search);
-                search.changeStatus();
-                it.remove();
-                found = true;
+            while (it.hasNext() && !found) {
+                Task search = it.next();
+
+                if (search.getTaskId() == taskId) {
+                    finishedTasks.add(search);
+                    search.changeStatus();
+                    found = true;
+                }
             }
-        }
-
-        if (finishedTasks.isEmpty())
-        {
-            System.out.println("No tasks under this ID");
         }
 
         else
         {
-            for (Task finished : finishedTasks)
-            {
-                System.out.println(finished.toString());
-            }
+            System.out.println("No tasks under this ID");
         }
+
     }
 
     /**
@@ -179,36 +173,73 @@ public class TaskOrganiser {
      */
     public void updateProject(int taskId, String projectName)
     {
-        boolean searching = true;
-        int index = 0;
+        if (checkValidId(taskId)) {
+            boolean searching = true;
+            int index = 0;
 
-        while (index < tasks.size() && searching)
+            while (index < tasks.size() && searching) {
+                Task search = tasks.get(index);
+
+                if (search.getTaskId() == taskId) {
+                    search.setProject(projectName);
+                    searching = false;
+                } else {
+                    index++;
+                }
+            }
+        }
+
+        else
         {
-            Task search = tasks.get(index);
-
-            if (search.getTaskId() == taskId)
-            {
-                search.setProject(projectName);
-                searching = false;
-            }
-
-            else
-            {
-                index++;
-            }
+            System.out.println("No tasks under this ID");
         }
     }
 
     public void removeTask(int taskId)
     {
+        if (checkValidId(taskId)) {
+
+            boolean found = false;
+            Iterator<Task> it = tasks.iterator();
+
+            while (it.hasNext() && !found) {
+                Task search = it.next();
+
+                if (search.getTaskId() == taskId) {
+                    finishedTasks.add(search);
+                    it.remove();
+                    found = true;
+                }
+            }
+        }
+
+        else
+        {
+            System.out.println("There are no tasks under this ID");
+        }
+    }
+
+    public boolean checkValidId(int taskId)
+    {
+        boolean found = false;
         Iterator<Task> it = tasks.iterator();
 
-        while (it.hasNext())
+        while (it.hasNext() && !found)
         {
             Task search = it.next();
 
-            if (search )
+            if (search.getTaskId() == taskId)
+            {
+                found = true;
+            }
+
+            else
+            {
+                found = false;
+            }
         }
+
+        return found;
     }
 
 }
