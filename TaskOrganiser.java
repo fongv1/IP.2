@@ -195,6 +195,13 @@ public class TaskOrganiser {
         }
     }
 
+    /**
+     * This will remove a specific task from the orgnaniser,
+     * according to the task ID
+     *
+     * @param taskId The task ID related to the task, that
+     *               you would like to remove
+     */
     public void removeTask(int taskId)
     {
         if (checkValidId(taskId)) {
@@ -218,6 +225,14 @@ public class TaskOrganiser {
             System.out.println("There are no tasks under this ID");
         }
     }
+
+    /**
+     * A method to check if the parameters entered for a task ID
+     * exist in the task organiser
+     *
+     * @param taskId Check this Task ID if it is valid
+     * @return Does this task ID exist?
+     */
 
     public boolean checkValidId(int taskId)
     {
