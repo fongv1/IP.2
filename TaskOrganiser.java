@@ -20,9 +20,7 @@ import java.util.List;
 public class TaskOrganiser {
     private ArrayList<Task> tasks;
     private ArrayList<Task> orderByDate;
-    private ArrayList<Task> filterByProject;
     private ArrayList<Task> finishedTasks;
-
 
     public TaskOrganiser() {
         tasks = new ArrayList<>();
@@ -97,6 +95,7 @@ public class TaskOrganiser {
         return orderByDate;
     }
 
+
     /**
      * This will filter tasks by the project they are related to
      *
@@ -104,8 +103,9 @@ public class TaskOrganiser {
      * @return An ArrayList of Tasks associated to the filtered
      * project
      */
-    public ArrayList<Task> filterByProject(String projectSearch) {
-        filterByProject = new ArrayList<>();
+    public ArrayList<Task> filterByProject(String projectSearch)
+    {
+        ArrayList<Task> filterByProject = new ArrayList<>();
 
             for (Task items : tasks) {
                 if (items.getProject().equals(projectSearch)) {
@@ -141,6 +141,7 @@ public class TaskOrganiser {
 
     public void markAsDone(int taskId)
     {
+        ArrayList<Task> finishedTasks = new ArrayList<>();
 
         if (checkValidId(taskId)) {
             Iterator<Task> it = tasks.iterator();
@@ -153,6 +154,7 @@ public class TaskOrganiser {
                     finishedTasks.add(search);
                     search.changeStatus();
                     found = true;
+                    System.out.println("Task successfully changed");
                 }
             }
         }
@@ -183,7 +185,10 @@ public class TaskOrganiser {
                 if (search.getTaskId() == taskId) {
                     search.setProject(projectName);
                     searching = false;
-                } else {
+                }
+
+                else
+                    {
                     index++;
                 }
             }
@@ -216,6 +221,7 @@ public class TaskOrganiser {
                     finishedTasks.add(search);
                     it.remove();
                     found = true;
+                    System.out.println("Task successfully removed");
                 }
             }
         }

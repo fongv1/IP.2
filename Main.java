@@ -30,6 +30,7 @@ public class Main {
         //sda.markAsDone(8);
         sda.updateProject(2, "rofls");
         sda.removeTask(4);
+        sda.filterByProject("rofls");
         sda.printAllTasks();
 
         //t2.setProject("lol");
