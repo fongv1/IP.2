@@ -95,6 +95,25 @@ public class TaskOrganiser {
         return orderByDate;
     }
 
+    public void orderByDate1()
+    {
+        try
+        {
+            ArrayList<Task> orderByDate = new ArrayList<>(tasks);
+            Collections.sort(orderByDate, new DateComparator());
+
+            for (Task ordered : orderByDate) {
+                System.out.println(ordered.toString());
+            }
+
+        }
+
+        catch (NullPointerException e)
+        {
+            System.out.println("Due date values may be incorrect");
+        }
+    }
+
 
     /**
      * This will filter tasks by the project they are related to

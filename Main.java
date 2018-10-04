@@ -10,29 +10,31 @@ public class Main {
         //Task t5 = new Task("serve", 2010, 2,20) ;
 
         sda.addTask("boil water", 2049, 12, 2);
-        sda.addTask("make pasta ", 2049, 11, 2);
-        sda.addTask("make sauce ", 2002, 11, 3);
-        sda.addTask("cook pasta ", 2002, 11, 2);
+        //sda.addTask("make pasta ", 2049, 11, 2);
+        //sda.addTask("make sauce ", 2002, 11, 3);
+        //sda.addTask("cook pasta ", 2002, 41, 2);
         sda.addTask("make pokemon ", 2049, 1, 2);
 
 
         //sda.addTask(t3);
         //sda.addTask(t4);
         //sda.addTask(t5  );
-        sda.updateProject(1, "sda");
+        /*sda.updateProject(1, "sda");
         sda.updateProject(2, "sda");
         sda.updateProject(3, "lol");
         sda.updateProject(4, "sda");
-        sda.updateProject(5, "lol");
+        sda.updateProject(5, "lol");*/
         //sda.printAllTasks();
         //sda.removeTask(0);
         //sda.printAllTasks();
         //sda.markAsDone(8);
-        sda.updateProject(2, "rofls");
-        sda.removeTask(4);
-        sda.filterByProject("rofls");
-        sda.printAllTasks();
+        //sda.updateProject(2, "rofls");
+        //
+        //sda.removeTask(4);
+        //sda.filterByProject("rofls");
+        //sda.printAllTasks();
 
+        sda.orderByDate1();
         //t2.setProject("lol");
 
         //t3.setProject("sda");
