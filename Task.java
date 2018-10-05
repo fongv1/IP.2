@@ -127,7 +127,7 @@ public class Task implements Serializable
 
     /**
      * This changes the status of the task from
-     * In progress to Finsihed
+     * In progress to finished
      *
      */
     public void changeStatus()

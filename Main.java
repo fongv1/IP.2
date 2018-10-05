@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.io.*;
 
-public class Main implements Serializable{
+public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         /*TaskOrganiser sda = new TaskOrganiser();
@@ -15,7 +15,7 @@ public class Main implements Serializable{
 
 
         sda.serialise(sda, "test");*/
-
+        TaskOrganiser.unpackFile("test");
         TaskOrganiser.unpackFile("test");
         //TaskOrganiser.loadFile("test");
 
