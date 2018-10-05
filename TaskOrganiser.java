@@ -1,11 +1,4 @@
-import java.io.IOException;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.File;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,7 +16,8 @@ import java.util.List;
  * task objects and Task date objects in order to achieve this.
  */
 
-public class TaskOrganiser {
+public class TaskOrganiser implements Serializable
+{
     private ArrayList<Task> tasks;
     private ArrayList<Task> orderByDate;
     private ArrayList<Task> finishedTasks;

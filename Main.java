@@ -1,13 +1,11 @@
-public class Main {
+import java.io.IOException;
+import java.io.*;
 
-    public static void main(String[] args) {
-        TaskOrganiser sda = new TaskOrganiser();
+public class Main implements Serializable{
 
-        //Task t1 = new Task("Boil water", 2018, 12, 1);
-        //Task t2 = new Task("make pasta", 2018, 11, 2);
-        //Task t3 = new Task("make sauce", 2018, 12, 01);
-        //Task t4 = new Task("make meatballs", 2019, 12, 2);
-        //Task t5 = new Task("serve", 2010, 2,20) ;
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        /*TaskOrganiser sda = new TaskOrganiser();
+
 
         sda.addTask("boil water", 2049, 12, 2);
         sda.addTask("make pasta ", 2049, 11, 2);
@@ -16,7 +14,10 @@ public class Main {
         sda.addTask("make pokemon ", 2049, 1, 2);
 
 
-        sda.saveFile(sda, "test");
+        sda.serialise(sda, "test");*/
+
+        TaskOrganiser.unpackFile("test");
+        //TaskOrganiser.loadFile("test");
 
 
         //sda.addTask(t3);

@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Task Organiser is a simple application which allows users to manage
  * their tasks. It can filter by certain fields associated to the task,
@@ -10,7 +12,7 @@
  * class.
  */
 
-public class Task
+public class Task implements Serializable
 {
     private static int nextId = 0;
     private static String[] statusOptions = {"In Progress", "Finished"};

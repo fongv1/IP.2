@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Comparator;
  * This interface allows the comparison of two due dates of a task, to
  * facilitate the sorting of a task (by due date).
  */
-public class DateComparator implements Comparator
+public class DateComparator implements Comparator, Serializable
 {
     @Override
     public int compare (Object obj1, Object obj2)

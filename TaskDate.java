@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,7 +13,8 @@ import java.util.Date;
  * to a task.
  */
 
-public class TaskDate {
+public class TaskDate implements Serializable
+{
 
     private Date creationDate;
     private Date dueDate;
