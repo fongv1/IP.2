@@ -1,5 +1,11 @@
-import javax.xml.validation.Validator;
-import java.lang.reflect.Array;
+import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.File;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -280,6 +286,42 @@ public class TaskOrganiser {
         }
 
         return found;
+    }
+
+    public static void saveFile (Object object, String fileName)
+    {
+        try
+        {
+            File file = new File (fileName);
+
+            ObjectOutputStream writer =
+                    new ObjectOutputStream(new BufferedOutputStream
+                            (new FileOutputStream(fileName)));
+
+            writer.writeObject(object);
+            writer.close();
+        }
+
+        catch (IOException e)
+        {
+            System.out.println("Error with file input/output");
+        }
+    }
+
+    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
+    {
+        FileInputStream fis = new FileInputStream(fileName);
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        ObjectInputStream ois = new ObjectInputStream(bis);
+
+        Object object = ois.readObject();
+        ois.close();
+        return object;
+    }
+
+    public static TaskOrganiser loadFile(String fileName) throws IOException, ClassNotFoundException
+    {
+        return (TaskOrganiser) unpackFile(fileName);
     }
 
 }

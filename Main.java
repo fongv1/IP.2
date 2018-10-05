@@ -10,10 +10,13 @@ public class Main {
         //Task t5 = new Task("serve", 2010, 2,20) ;
 
         sda.addTask("boil water", 2049, 12, 2);
-        //sda.addTask("make pasta ", 2049, 11, 2);
-        //sda.addTask("make sauce ", 2002, 11, 3);
-        //sda.addTask("cook pasta ", 2002, 41, 2);
+        sda.addTask("make pasta ", 2049, 11, 2);
+        sda.addTask("make sauce ", 2002, 11, 3);
+        sda.addTask("cook pasta ", 2002, 1, 2);
         sda.addTask("make pokemon ", 2049, 1, 2);
+
+
+        sda.saveFile(sda, "test");
 
 
         //sda.addTask(t3);
@@ -34,7 +37,7 @@ public class Main {
         //sda.filterByProject("rofls");
         //sda.printAllTasks();
 
-        sda.orderByDate1();
+        //sda.orderByDate1();
         //t2.setProject("lol");
 
         //t3.setProject("sda");
