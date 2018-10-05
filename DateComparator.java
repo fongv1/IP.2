@@ -22,8 +22,4 @@ public class DateComparator implements Comparator, Serializable
         return (t1.getDate().getDueDate().compareTo(t2.getDate().getDueDate()));
     }
 
-
-
-
-
 }
