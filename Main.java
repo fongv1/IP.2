@@ -13,13 +13,32 @@ public class Main {
         sda.addTask("cook pasta ", 2002, 1, 2);
         sda.addTask("make pokemon ", 2049, 1, 2);
 
+        TaskOrganiser.saveFile(sda, "test");
 
-        sda.serialise(sda, "test");*/
-        TaskOrganiser.unpackFile("test");
-        TaskOrganiser.unpackFile("test");
-        //TaskOrganiser.loadFile("test");
+        */
+        //sda.saveFile(sda, "test");
+        //TaskOrganiser.unpackFile("test");
+        //TaskOrganiser.unpackFile("test");
+        //TaskOrganiser to = TaskOrganiser.loadFile("test");
+        //to.addTask("lol", 2430, 2, 1);
+       // to.addTask("diu,", 2412, 1, 2);
+        //to.printAllTasks();
 
+     //   to.saveFile(to, "123");
 
+        //TaskOrganiser to = TaskOrganiser.loadFile("test");
+
+       // to.addTask("lol", 2034, 2, 4);
+         //TaskOrganiser.loadFile("test1");
+
+       // to.saveFile(to, "test1");
+
+        /*//*TaskOrganiser to2 = TaskOrganiser.loadFile("test1");
+        to2.addTask("dii", 2451, 2, 2);
+
+        to2.saveFile(to2, "to2"); */
+        //TaskOrganiser.unpackFile("to");
+        //TaskOrganiser.loadFile("to");
         //sda.addTask(t3);
         //sda.addTask(t4);
         //sda.addTask(t5  );
