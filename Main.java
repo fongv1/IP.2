@@ -26,6 +26,7 @@ public class Main {
 
      //   to.saveFile(to, "123");
 
+
         //TaskOrganiser to = TaskOrganiser.loadFile("test");
 
        // to.addTask("lol", 2034, 2, 4);
@@ -68,7 +69,9 @@ public class Main {
         //sda.orderByDate();
         //sda.markAsDone(5);
         //sda.filterByProject("sda");
-
+        TaskOrganiser.loadFile("to2");
         //sda.printAllTasks();
+        //TaskOrganiser.loadFile("");
+
     }
 }

@@ -282,6 +282,15 @@ public class TaskOrganiser implements Serializable
         return found;
     }
 
+    /**
+     * Allows user to save their tasks to a text file which they created
+     * to the project's directory.
+     *
+     * @param object The taskorganiser with tasks you would like
+     *               saved.
+     * @param fileName The name of the file you would like saved
+     */
+
     public static void saveFile (Object object, String fileName)
     {
         try
@@ -302,6 +311,16 @@ public class TaskOrganiser implements Serializable
         }
     }
 
+    /**
+     * A private method which reads a text file from the project
+     * directory, saved with existing tasks from the file
+     *
+     * @param fileName The file name you would like to unpack
+     * @return An object saved from previous use of the app
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+
     public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
     {
         FileInputStream fis = new FileInputStream(fileName);
@@ -313,8 +332,22 @@ public class TaskOrganiser implements Serializable
         return object;
     }
 
+    /**
+     * This prepares the Task Organiser with its tasks from
+     * a previous state and readies it for further manipuation
+     * or querying. The file loaded, must be saved from the
+     * same directory as the project
+     *
+     * @param fileName The file name you would like to unpack
+     * @return A Task Organiser from the particular save file
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+
     public static TaskOrganiser loadFile(String fileName) throws IOException, ClassNotFoundException
     {
+        unpackFile(fileName);
+
         return (TaskOrganiser) unpackFile(fileName);
     }
 
