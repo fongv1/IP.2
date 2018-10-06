@@ -321,7 +321,7 @@ public class TaskOrganiser implements Serializable
      * @throws ClassNotFoundException
      */
 
-    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
+    private static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
     {
         FileInputStream fis = new FileInputStream(fileName);
         BufferedInputStream bis = new BufferedInputStream(fis);
