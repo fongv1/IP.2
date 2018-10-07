@@ -69,9 +69,17 @@ public class Main {
         //sda.orderByDate();
         //sda.markAsDone(5);
         //sda.filterByProject("sda");
-        TaskOrganiser.loadFile("to2");
+        //TaskOrganiser to =  TaskOrganiser.loadFile("to2");
+        //to.addTask("lololsolsol", 3424 ,4 ,2 );
+        //to.orderByDate1();
         //sda.printAllTasks();
         //TaskOrganiser.loadFile("");
+
+        Interface sda = new Interface();
+        //
+         sda.start();
+
+
 
     }
 }
