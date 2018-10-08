@@ -31,13 +31,13 @@ public class Task implements Serializable
      * created.
      * @param taskTitle What the task is.
      */
-    public Task (String taskTitle, int dueDateYear, int dueDateMonth, int dueDateDay)
+    public Task (String taskTitle)
     {
         this.taskTitle = taskTitle;
         taskId = nextId + 1;
         nextId += 1;
-        setDueDate(dueDateYear, dueDateMonth, dueDateDay);
         status = statusOptions[0];
+        date = new TaskDate();
     }
 
     /**
@@ -107,22 +107,19 @@ public class Task implements Serializable
     public void setDueDate (int dueYear, int dueMonth, int dueDate)
     {
 
-        date = new TaskDate(dueYear, dueMonth, dueDate);
+        date.setDueDate(dueYear, dueMonth, dueDate);
     }
 
 
     public String toString()
     {
+            String result = "Task id: " + taskId + "\n" +
+                    "Task title: " + taskTitle + "\n" +
+                    "Project: " + project + "\n" +
+                    "Due date: " + date.printDateString() + "\n" +
+                    "Status: " + getStatus() + "\n";
 
-        String result =     "Task id: " + taskId + "\n" +
-                "Task title: " + taskTitle + "\n" +
-                "Project: " + project + "\n" +
-                "Due date: " + getDate().getDueDate() + "\n" +
-                "Status: " + getStatus() + "\n";
-
-
-
-        return result;
+            return result;
     }
 
     /**
