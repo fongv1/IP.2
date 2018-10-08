@@ -5,23 +5,26 @@ public class Interface {
 
     private Parser parser;
     private TaskOrganiser taskOrganiser;
-    private String[] userOptions = {"1a", "1b", "2", "3", "4"};
+    private String command;
 
     public Interface() {
-        printWelcome();
         parser = new Parser();
+        command = "";
+        taskOrganiser = new TaskOrganiser();
+        printWelcome();
     }
 
     public void printWelcome() {
+        System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> Welcome to Task Organiser" + "\n" +
                            ">> You have X tasks todo and Y tasks are done!" + "\n" +
                            ">> Pick an option:" + "\n" +
-                           ">> (1) Show Task List" + "\n" +
-                           "\t" + " (a) by date" + "\n" +
-                           "\t" + " (b) by project" + "\n" +
-                           ">> (2) Add New Task" + "\n" +
-                           ">> (3) Edit Task (update, mark as done, remove)" + "\n" +
+                           ">> (1) Add New Task" + "\n" +
+                           ">> (2) Show Task List" + "\n" +
+                           ">> (3) Edit Task" + "\n" +
                            ">> (4) Save and Quit");
+        System.out.println("--------------------------------------------------------------------------");
+
     }
 
     public void start() {
@@ -29,7 +32,7 @@ public class Interface {
 
         while (!finished) {
 
-            String command = parser.getInput();
+            command = parser.getInput();
             finished = processInPut(command);
         }
 
@@ -40,14 +43,8 @@ public class Interface {
         boolean finished = false;
 
         switch (command) {
-            case "1a": {
-                System.out.println("1a");
-                break;
-            }
-
-            case "1b":
-            {
-                System.out.println("1b");
+            case "1": {
+                optionOne();
                 break;
             }
 
@@ -57,7 +54,7 @@ public class Interface {
             }
 
             case "3": {
-                System.out.println("test 3");
+                optionThree();
                 break;
             }
 
@@ -74,13 +71,153 @@ public class Interface {
         return finished;
     }
 
-    public void optionTwo()
+
+    public void optionOne()
     {
-        System.out.println(">> Input needed for new task" + "\n" +
-                           ">> Enter Task Name and Due Date in the format below:" + "\n" +
-                           ">> [Enter Task], [YYYY], [MM], [DD]");
+        System.out.println(">> Enter name of Task:");
+
+        String name = command = parser.getInput();
+
+        System.out.println("--------------------------------------------------------------------------");
+
+        taskOrganiser.addTask(name);
+
+        printWelcome();
 
     }
+
+    public void optionTwo()
+    {
+        System.out.println(">> (a) show all tasks" + "\n" +
+                           ">> (b) ordered by date" + "\n" +
+                           ">> (c) filtered by project" + "\n" +
+                           ">> (d) return to main menu");
+
+        command = parser.getInput();
+
+        System.out.println("--------------------------------------------------------------------------");
+
+
+        switch (command)
+        {
+            case "a":
+            {
+                taskOrganiser.printAllTasks();
+                printWelcome();
+                break;
+            }
+
+            case "b":
+            {
+                taskOrganiser.orderByDate();
+                printWelcome();
+                break;
+            }
+
+            case "c":
+            {
+                System.out.println(">> Enter project you would like to filter by:");
+
+                command = parser.getInput();
+
+                taskOrganiser.filterByProject(command);
+                printWelcome();
+                break;
+            }
+
+            case "d":
+            {
+                printWelcome();
+                break;
+            }
+
+            default:
+            {
+                System.out.println("Invalid input");
+                optionTwo();
+            }
+        }
+    }
+
+    public void optionThree()
+    {
+        System.out.println(">> (a) add due date" + "\n" +
+                           ">> (b) add project" + "\n" +
+                           ">> (c) mark as done" + "\n" +
+                           ">> (d) edit task name" + "\n" +
+                           ">> (e) remove");
+
+        command = parser.getInput();
+
+        System.out.println("--------------------------------------------------------------------------");
+
+        switch (command)
+        {
+            case "a":
+            {
+                int taskId;
+                int dueYear;
+                int dueMonth;
+                int dueDate;
+
+                System.out.println(">> Please choose which Task ID of the task you would like" +
+                                      " to update:");
+
+                taskOrganiser.printAllTasks();
+                taskId = parser.getIntInput();
+                if (parser.getErrorFlag())
+                {
+                    printWelcome();
+                    break;
+                }
+
+                System.out.println("--------------------------------------------------------------------------");
+
+
+
+                System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
+                                   ">> Please enter the year the task is due:");
+
+                dueYear = parser.getIntInput();
+                if (parser.getErrorFlag())
+                {
+                    printWelcome();
+                    break;
+                }
+
+                System.out.println("--------------------------------------------------------------------------");
+
+
+
+                System.out.println(">> Please enter the month the task is due:");
+
+                dueMonth = parser.getIntInput();
+                if (parser.getErrorFlag())
+                {
+                    printWelcome();
+                    break;
+                }
+
+                System.out.println("--------------------------------------------------------------------------");
+
+
+
+                System.out.println(">> Please enter the date the task is due:");
+
+                dueDate = parser.getIntInput();
+                if (parser.getErrorFlag())
+                {
+                    printWelcome();
+                    break;
+                }
+
+                taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
+                printWelcome();
+                break;
+            }
+        }
+    }
+
 }
 
 

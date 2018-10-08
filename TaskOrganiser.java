@@ -37,6 +37,7 @@ public class TaskOrganiser implements Serializable
     {
         Task t = new Task(taskTitle);
         tasks.add(t);
+        System.out.println("Task added");
     }
 
     /**
@@ -298,9 +299,16 @@ public class TaskOrganiser implements Serializable
         if (findTask(taskId) != noResult)
         {
             int index = findTask(taskId);
+            Task result = tasks.get(index);
 
             tasks.get(index).setDueDate(dueYear, dueMonth, dueDate);
+
+            if (!result.getDate().checkIfDefaultDate())
+            {
+                System.out.println("Due date set");
+            }
         }
+
     }
 
     /**
