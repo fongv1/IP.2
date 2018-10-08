@@ -145,7 +145,8 @@ public class Interface {
                            ">> (b) add project" + "\n" +
                            ">> (c) mark as done" + "\n" +
                            ">> (d) edit task name" + "\n" +
-                           ">> (e) remove");
+                           ">> (e) remove" + "\n" +
+                           ">> (f) return to main menu");
 
         command = parser.getInput();
 
@@ -160,64 +161,171 @@ public class Interface {
                 int dueMonth;
                 int dueDate;
 
+                taskId = chooseTaskFromList();
+
+                if (parser.getErrorFlag())
+                {
+                    printWelcome();
+                    revertErrorFlag();
+                    break;
+                }
+
+                if (taskOrganiser.findTask(taskId) != -1) {
+
+                    System.out.println("--------------------------------------------------------------------------");
+
+
+                    System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
+                            ">> Please enter the year the task is due:");
+
+                    dueYear = parser.getIntInput();
+                    if (parser.getErrorFlag()) {
+                        printWelcome();
+                        revertErrorFlag();
+                        break;
+                    }
+
+                    System.out.println("--------------------------------------------------------------------------");
+
+
+                    System.out.println(">> Please enter the month the task is due:");
+
+                    dueMonth = parser.getIntInput();
+                    if (parser.getErrorFlag()) {
+                        printWelcome();
+                        revertErrorFlag();
+                        break;
+                    }
+
+                    System.out.println("--------------------------------------------------------------------------");
+
+
+                    System.out.println(">> Please enter the date the task is due:");
+
+                    dueDate = parser.getIntInput();
+                    if (parser.getErrorFlag()) {
+                        printWelcome();
+                        revertErrorFlag();
+                        break;
+                    }
+
+                    taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
+                    printWelcome();
+                    break;
+                }
+
+                else
+                {
+                    printWelcome();
+                    break;
+                }
+
+            }
+
+            //!!!! ERROR WITH ADD PROJECT USING GETINTINPUT
+            case "b":
+            {
                 System.out.println(">> Please choose which Task ID of the task you would like" +
-                                      " to update:");
+                        " to update:");
 
                 taskOrganiser.printAllTasks();
-                taskId = parser.getIntInput();
-                if (parser.getErrorFlag())
-                {
-                    printWelcome();
-                    break;
-                }
+                int taskId = parser.getIntInput();
+
 
                 System.out.println("--------------------------------------------------------------------------");
 
+                System.out.println(">> Please enter the name of the project you would like" +
+                                   " to add:");
 
+                command = parser.getInput();
 
-                System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
-                                   ">> Please enter the year the task is due:");
+                taskOrganiser.updateProject(taskId, command);
+                break;
 
-                dueYear = parser.getIntInput();
-                if (parser.getErrorFlag())
+            }
+
+            case "c":
+            {
+                if (taskOrganiser.getTasks().isEmpty())
                 {
+                    System.out.println("No Tasks to mark");
                     printWelcome();
                     break;
                 }
 
-                System.out.println("--------------------------------------------------------------------------");
-
-
-
-                System.out.println(">> Please enter the month the task is due:");
-
-                dueMonth = parser.getIntInput();
-                if (parser.getErrorFlag())
+                else
                 {
+                    int taskId = chooseTaskFromList();
+                    taskOrganiser.markAsDone(taskId);
                     printWelcome();
                     break;
                 }
+            }
 
-                System.out.println("--------------------------------------------------------------------------");
+            case "d":
+            {
+
+                taskOrganiser.printAllTasks();
+                System.out.println(">> Please choose which Task ID of the task you " +
+                        "would like to update");
+
+                try {
+                    int taskId = Integer.parseInt(parser.getInput());
 
 
+                    System.out.println(">> Enter your new task name:");
 
-                System.out.println(">> Please enter the date the task is due:");
+                    command = parser.getInput();
 
-                dueDate = parser.getIntInput();
-                if (parser.getErrorFlag())
-                {
-                    printWelcome();
-                    break;
+                    taskOrganiser.changeTaskTitle(taskId, command);
                 }
 
-                taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
+                catch (NumberFormatException e)
+                {
+                    System.out.println("Please enter an integer");
+                    System.out.println("--------------------------------------------------------------------------");
+                    optionThree();
+                    break;
+                }
+            }
+
+            case "e":
+            {
+                taskOrganiser.removeTask(chooseTaskFromList());
+                break;
+            }
+
+            case "f":
+            {
                 printWelcome();
+                break;
+            }
+
+            default:
+            {
+                System.out.println("Invalid input");
                 break;
             }
         }
     }
 
+    public int chooseTaskFromList()
+    {
+        int taskId;
+
+        System.out.println(">> Please choose which Task ID of the task you would like" +
+                " to update:");
+
+        taskOrganiser.printAllTasks();
+
+        return taskId = parser.getIntInput();
+
+    }
+
+    public void revertErrorFlag()
+    {
+        parser.revertErrorFlag();
+    }
 }
 
 

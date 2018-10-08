@@ -56,7 +56,7 @@ public class TaskOrganiser implements Serializable
     {
             if (tasks.isEmpty())
             {
-                System.out.println("There are no tasks added yet.");
+                System.out.println("There are no tasks to show.");
             }
 
             else {
@@ -83,6 +83,11 @@ public class TaskOrganiser implements Serializable
 
             for (Task ordered : orderByDate) {
                 System.out.println(ordered.toString());
+            }
+
+            if (orderByDate.isEmpty())
+            {
+                System.out.println("No tasks to show");
             }
 
         }
@@ -114,6 +119,7 @@ public class TaskOrganiser implements Serializable
 
             if (filterByProject.isEmpty())
             {
+                System.out.println("--------------------------------------------------------------------------");
                 System.out.println("No tasks related to this project");
             }
 
@@ -148,6 +154,8 @@ public class TaskOrganiser implements Serializable
             int index = findTask(taskId);
 
             tasks.get(index).changeStatus();
+
+            System.out.println("Task is now done");
         }
 
     }
@@ -309,6 +317,21 @@ public class TaskOrganiser implements Serializable
             }
         }
 
+    }
+
+    public void changeTaskTitle (int taskId, String changes)
+    {
+        int noResult = -1;
+
+        if (findTask(taskId) != -1)
+        {
+            int index = findTask(taskId);
+            Task result = tasks.get(index);
+
+            result.changeTaskTitle(changes);
+
+            System.out.println("Task title changed");
+        }
     }
 
     /**

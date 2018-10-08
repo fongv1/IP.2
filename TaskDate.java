@@ -98,11 +98,7 @@ public class TaskDate implements Serializable {
 
     public String printDateString()
     {
-        Calendar empty = Calendar.getInstance();
-        empty.clear();
-        Date emptyTest = empty.getTime();
-
-        if (dueDate.equals(emptyTest))
+        if (checkIfDefaultDate())
         {
             String result = "Due date not set";
 
@@ -124,5 +120,25 @@ public class TaskDate implements Serializable {
         empty.clear();
 
         return empty.getTime();
+    }
+
+    public boolean checkIfDefaultDate()
+    {
+        boolean result = false;
+
+        Calendar empty = Calendar.getInstance();
+        empty.clear();
+        Date emptyTest = empty.getTime();
+
+        if (dueDate.equals(emptyTest))
+        {
+            result = true;
+            return result;
+        }
+
+        else
+        {
+            return result;
+        }
     }
 }

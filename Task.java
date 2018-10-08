@@ -53,7 +53,7 @@ public class Task implements Serializable
      *
      * @param changes Changes you want to make to the task title
      */
-    public void setTaskId(String changes)
+    public void changeTaskTitle (String changes)
     {
         taskTitle = changes;
     }

@@ -77,4 +77,9 @@ public class Parser {
         return errorFlag;
     }
 
+    public void revertErrorFlag()
+    {
+        errorFlag = false;
+    }
+
 }
