@@ -53,11 +53,12 @@ public class TaskDate implements Serializable {
             currentCalendar.set(Calendar.MONTH, month - 1);
             currentCalendar.set(Calendar.DATE, date);
             dueDate = currentCalendar.getTime();
+            System.out.println(">> Due date set");
         }
 
         else
         {
-            System.out.println("Error, incorrect due date parameters.");
+            System.out.println(">> Error, incorrect due date parameters.");
         }
     }
 

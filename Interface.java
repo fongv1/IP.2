@@ -79,8 +79,8 @@ public class Interface {
         while (!finished) {
 
             command = parser.getInput();
-            invalidInputHelp();
             finished = processInPut(command);
+            invalidInputHelp();
         }
 
     }
@@ -145,11 +145,11 @@ public class Interface {
 
         System.out.println(">> Enter name of Task:");
 
-        String name = command = parser.getInput();
+        command = parser.getInput();
 
         System.out.println("--------------------------------------------------------------------------");
 
-        taskOrganiser.addTask(name);
+        taskOrganiser.addTask(command);
 
         resetInterface();
 
@@ -251,12 +251,22 @@ public class Interface {
                 int dueYear;
                 int dueMonth;
                 int dueDate;
+                int incorrectResult = -1;
 
-                taskId = chooseTaskFromList();
+                chooseTaskFromList();
 
-                int noResult = -1;
+                try{
+                taskId = parser.convertToInt();
+                }
 
-                if (taskOrganiser.findTask(taskId) != noResult) {
+                catch (NumberFormatException e)
+                {
+                    System.out.println(">> Please enter an integer");
+                    resetInterface();
+                    break;
+                }
+
+                if (taskOrganiser.findTask(taskId) != incorrectResult) {
 
                     System.out.println("--------------------------------------------------------------------------");
 
@@ -299,7 +309,9 @@ public class Interface {
             {
 
                 try {
-                    int taskId = chooseTaskFromList();
+                    chooseTaskFromList();
+
+                    int taskId = parser.convertToInt();
 
                     System.out.println("--------------------------------------------------------------------------");
 
@@ -318,6 +330,10 @@ public class Interface {
                 catch (NumberFormatException e){
                     System.out.println(">> Please enter an integer");
                     System.out.println("--------------------------------------------------------------------------");
+                    break;
+                }
+
+                finally {
                     resetInterface();
                     break;
                 }
@@ -335,11 +351,20 @@ public class Interface {
 
                 else
                 {
-                    int taskId = chooseTaskFromList();
-                    System.out.println("--------------------------------------------------------------------------");
-                    taskOrganiser.markAsDone(taskId);
-                    resetInterface();
-                    break;
+                    chooseTaskFromList();
+
+                    try {
+                        int taskId = parser.convertToInt();
+                        System.out.println("--------------------------------------------------------------------------");
+                        taskOrganiser.markAsDone(taskId);
+                        resetInterface();
+                        break;
+                    }
+                    catch (NumberFormatException e){
+                        System.out.println(">> Please enter an integer");
+                        resetInterface();
+                        break;
+                    }
                 }
             }
 
@@ -349,7 +374,8 @@ public class Interface {
 
                 try {
 
-                    int taskId = chooseTaskFromList();
+                    chooseTaskFromList();
+                    int taskId = parser.convertToInt();
                     System.out.println("--------------------------------------------------------------------------");
 
 
@@ -447,7 +473,7 @@ public class Interface {
      * @return The task Id of the task for manipulation
      */
 
-    public int chooseTaskFromList()
+    public int chooseTaskFromListx()
     {
         System.out.println(">> Please choose which Task ID of the task you would like" +
                            " to update:");
@@ -456,8 +482,25 @@ public class Interface {
         taskOrganiser.printAllTasks();
         System.out.println("--------------------------------------------------------------------------");
 
-        return parser.convertToInt();
+        try {
+            return parser.convertToInt();
+        }
 
+        catch (NumberFormatException e){
+            System.out.println(">> Please enter an integer");
+            resetInterface();
+            return -1;
+        }
+    }
+
+    public void chooseTaskFromList()
+    {
+        System.out.println(">> Please choose which Task ID of the task you would like" +
+                " to update:");
+
+        System.out.println("--------------------------------------------------------------------------");
+        taskOrganiser.printAllTasks();
+        System.out.println("--------------------------------------------------------------------------");
     }
 
     /**
@@ -488,7 +531,6 @@ public class Interface {
     public void resetInterface()
     {
         printWelcome();
-        parser.getInput();
     }
 }
 

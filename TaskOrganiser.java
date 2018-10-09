@@ -324,7 +324,7 @@ public class TaskOrganiser implements Serializable
 
             if (!result.getDate().checkIfDefaultDate())
             {
-                System.out.println(">> Due date set");
+                //System.out.println(">> Due date set");
             }
         }
 
