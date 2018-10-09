@@ -283,11 +283,14 @@ public class Interface {
 
 
                         taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
+                        resetInterface();
+                        break;
                     }
 
                     catch (NumberFormatException e) {
                         System.out.println(">> Please enter integers");
                         resetInterface();
+                        break;
                     }
                 }
             }
@@ -357,6 +360,8 @@ public class Interface {
 
 
                     taskOrganiser.changeTaskTitle(taskId, command);
+                    resetInterface();
+                    break;
                 }
 
                 catch (NumberFormatException e)
