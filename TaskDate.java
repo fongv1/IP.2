@@ -9,14 +9,19 @@ import java.util.Date;
  * interface. Finally, the task organiser allows the end user to save
  * and load their tasks to use at different times.
  *
- * The date class models the due date and time specific details related
+ * The TaskDate class models the due date and time specific details related
  * to a task.
  */
 
 public class TaskDate implements Serializable {
 
-    private Date creationDate;
     private Date dueDate;
+
+    /**
+     * A dueDate of a task will always start at a default state
+     * of an instance of the Calendar class. This is done through
+     * the constructor and the setEmptyDate method.
+     */
 
     public TaskDate()
     {
@@ -25,15 +30,9 @@ public class TaskDate implements Serializable {
 
 
     /**
-     * @return Return the date of creation of the task
-     */
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    /**
      * @return Return the due date of the task
      */
+
     public Date getDueDate() {
         return dueDate;
     }
@@ -45,6 +44,7 @@ public class TaskDate implements Serializable {
      * @param month The month which the  task is due
      * @param date  The date which the task is due
      */
+
     public void setDueDate(int year, int month, int date)
     {
         if (testDateParameters(year, month, date)) {
@@ -61,14 +61,6 @@ public class TaskDate implements Serializable {
         }
     }
 
-    /**
-     * Set the year, month and date to when the task was
-     * initialised
-     */
-    public void setCreationDate() {
-        Calendar now = Calendar.getInstance();
-        creationDate = now.getTime();
-    }
 
     /**
      * This tests if the user's calendar input is a valid for the
@@ -80,6 +72,7 @@ public class TaskDate implements Serializable {
      * @param date  Test the date of the due date of the task
      * @return Will return true, if parameters are valid
      */
+
     public boolean testDateParameters(int year, int month, int date) {
         boolean test;
 
@@ -95,6 +88,15 @@ public class TaskDate implements Serializable {
 
         return test;
     }
+
+    /**
+     * A method to print out information on the dueDate field
+     * related to a task. It works in tandem with the checkIfDefault
+     * method to confirm if a dueDate is at its default state, or if
+     * it has been set by the user.
+     *
+     * @return A String based on the dueDate of a task
+     */
 
     public String printDateString()
     {
@@ -114,13 +116,13 @@ public class TaskDate implements Serializable {
 
     }
 
-    public Date setEmptyDate()
-    {
-        Calendar empty = Calendar.getInstance();
-        empty.clear();
-
-        return empty.getTime();
-    }
+    /**
+     * A method which checks if the dueDate field is at its
+     * default beginning state, or if it has been set by the
+     * user.
+     *
+     * @return Is the due date default?
+     */
 
     public boolean checkIfDefaultDate()
     {
@@ -140,5 +142,20 @@ public class TaskDate implements Serializable {
         {
             return result;
         }
+    }
+
+    /**
+     * A method to set each new dueDate field of a task,
+     * to the default state of an instance in the
+     * Calendar class.
+     *
+     * @return A default state of the Calendar instance
+     */
+    public Date setEmptyDate()
+    {
+        Calendar empty = Calendar.getInstance();
+        empty.clear();
+
+        return empty.getTime();
     }
 }

@@ -30,7 +30,14 @@ public class Interface {
     private String command;
     private int invalidInputCount = 0;
 
-
+    /**
+     * The constructor will use the loadFile method to stage the
+     * previous state of the taskOrganiser object for further
+     * manipulation.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Interface() throws IOException, ClassNotFoundException
     {
         parser = new Parser();
@@ -395,10 +402,28 @@ public class Interface {
         taskOrganiser.saveFile(taskOrganiser);
     }
 
+    /**
+     * This is used to load the previous state of the taskOrganiser
+     * object and is done automatically in this class's constructor
+     * every time the application is run.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void loadFile() throws IOException, ClassNotFoundException
     {
         taskOrganiser = TaskOrganiser.loadFile("sda");
     }
+
+    /**
+     * This is a method which is reused in functions to help the user
+     * select a task in the organiser to perform an action on. In
+     * particular it is used when no String input is required from
+     * the user. This is done by identifying the task ID from the
+     * printAllTasks method.
+     *
+     * @return Returns the taskId of the task the user wants to update
+     */
 
     public int chooseTaskFromList()
     {
@@ -413,6 +438,12 @@ public class Interface {
 
     }
 
+    /**
+     * A method to check the count on how many times the user has
+     * entered an unexpected value in the program and print text
+     * to help them navigate the program.
+     */
+
     public void invalidInputHelp()
     {
         if (invalidInputCount % 4 == 3)
@@ -421,6 +452,12 @@ public class Interface {
             printWelcome();
         }
     }
+
+    /**
+     * A method which talks to the Parser class to assist in catching
+     * exceptions in that class. It will reset the interface if an
+     * exception is thrown the parser.
+     */
 
     public void revertErrorFlag()
     {
