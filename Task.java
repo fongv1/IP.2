@@ -26,11 +26,13 @@ public class Task implements Serializable
 
     /**
      * Create a task object, which will automatically assign it an ID.
-     * You are also able to assign a project to this task manually.
      * The constructor will also set up the next ID for the next object
-     * created.
+     * created. Using the methods in this class will allow you to update
+     * the state of a task object.
+     *
      * @param taskTitle What the task is.
      */
+
     public Task (String taskTitle)
     {
         this.taskTitle = taskTitle;
@@ -44,6 +46,7 @@ public class Task implements Serializable
      *
      * @return Returns the description of the task
      */
+
     public String getTaskTitle ()
     {
         return taskTitle;
@@ -53,6 +56,7 @@ public class Task implements Serializable
      *
      * @param changes Changes you want to make to the task title
      */
+
     public void changeTaskTitle (String changes)
     {
         taskTitle = changes;
@@ -62,6 +66,7 @@ public class Task implements Serializable
      *
      * @return Returns the task's ID
      */
+
     public int getTaskId()
     {
         return taskId;
@@ -71,6 +76,7 @@ public class Task implements Serializable
      *
      * @return Returns the project associated with the task.
      */
+
     public String getProject()
     {
         return project;
@@ -80,6 +86,7 @@ public class Task implements Serializable
      *
      * @param projectName The name of the project assigned to the task
      */
+
     public void setProject(String projectName)
     {
         project = projectName;
@@ -87,10 +94,11 @@ public class Task implements Serializable
 
     /**
      * This returns information on the task related to date and time.
+     * Task objects is composed of a TaskDate object
      *
      * @return Returns the date object related to the task
-     *
      */
+
     public TaskDate getDate()
     {
         return date;
@@ -98,18 +106,23 @@ public class Task implements Serializable
 
     /**
      * This method allows the user to define when a task is due,
-     * relative to the parameters.
+     * relative to the parameters
      *
      * @param dueYear The year a task is due
      * @param dueMonth The month a task is due
      * @param dueDate The date a task is due
      */
+
     public void setDueDate (int dueYear, int dueMonth, int dueDate)
     {
 
         date.setDueDate(dueYear, dueMonth, dueDate);
     }
 
+    /**
+     *
+     * @return A string representation of the Task object
+     */
 
     public String toString()
     {
@@ -125,8 +138,8 @@ public class Task implements Serializable
     /**
      * This changes the status of the task from
      * In progress to finished
-     *
      */
+
     public void changeStatus()
     {
         status = statusOptions[1];
@@ -136,6 +149,7 @@ public class Task implements Serializable
      *
      * @return Returns the status of the task.
      */
+
     public String getStatus()
     {
         return status;

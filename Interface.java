@@ -1,18 +1,49 @@
+import java.io.IOException;
 import java.io.Reader;
 import java.util.InputMismatchException;
 
+/**
+ * Task Organiser is a simple application which allows users to manage
+ * their tasks. It can filter by certain fields associated to the task,
+ * for example by due date. This is all done through a text based user
+ * interface. Finally, the task organiser allows the end user to save
+ * and load their tasks to use at different times.
+ *
+ * The Interface class is the main kick off point for the application.
+ * Taking values its parser object from the Parser class, it interprets
+ * information from the user into commands. These commands are used on
+ * the taskOrganiser object to manipulate tasks. This class also has
+ * all the interface menu options to allow the user to logically
+ * move through the system.
+ */
+
 public class Interface {
+
+    /**
+     * The command field is regularly updated in this class, and is
+     * used to action commmands from the user. This is done by
+     * collecting information from the parser object.
+     */
 
     private Parser parser;
     private TaskOrganiser taskOrganiser;
     private String command;
+    private int invalidInputCount = 0;
 
-    public Interface() {
+
+    public Interface() throws IOException, ClassNotFoundException
+    {
         parser = new Parser();
         command = "";
         taskOrganiser = new TaskOrganiser();
+        loadFile();
         printWelcome();
     }
+
+    /**
+     * A welcome message, which acts as the home page for
+     * the application.
+     */
 
     public void printWelcome() {
         System.out.println("--------------------------------------------------------------------------");
@@ -22,10 +53,17 @@ public class Interface {
                            ">> (1) Add New Task" + "\n" +
                            ">> (2) Show Task List" + "\n" +
                            ">> (3) Edit Task" + "\n" +
-                           ">> (4) Save and Quit");
+                           ">> (4) Save and Quit ");
         System.out.println("--------------------------------------------------------------------------");
 
     }
+
+    /**
+     * The kickoff point of the application, this uses a loop
+     * to keep the application running. It will action commands
+     * by interating with the processInput method, which also
+     * contains a scenario where the user can quit the system.
+     */
 
     public void start() {
         boolean finished = false;
@@ -33,10 +71,23 @@ public class Interface {
         while (!finished) {
 
             command = parser.getInput();
+            invalidInputHelp();
             finished = processInPut(command);
         }
 
     }
+
+    /**
+     * This is the first branch from the home page, each case
+     * will branch further into functions related to it. The
+     * method will return true, which will stop the program
+     * through the start method.
+     *
+     * @param command Stores a command from the user
+     * @return False if the program is to continue running,
+     * true, if the program is to stop.
+     *
+     */
 
     public boolean processInPut (String command) {
 
@@ -59,18 +110,25 @@ public class Interface {
             }
 
             case "4": {
-                System.out.println("Bye");
+                optionFour();
+                System.out.println("Goodbye");
                 finished = true;
                 break;
             }
 
             default:
                 System.out.println("Invalid input");
+                invalidInputCount += 1;
 
         }
         return finished;
     }
 
+    /**
+     * The First branch from option one on the home page:
+     * (1) Add New Task
+     *
+     */
 
     public void optionOne()
     {
@@ -85,6 +143,14 @@ public class Interface {
         printWelcome();
 
     }
+
+    /**
+     * The second branch from option two on the home page:
+     * (2) Show Task List
+     *
+     * It allows the user to further specify their needs
+     * by creating more branches.
+     */
 
     public void optionTwo()
     {
@@ -138,6 +204,14 @@ public class Interface {
             }
         }
     }
+
+    /**
+     * The third branch from option two on the home page:
+     * (3) Edit Task
+     *
+     * It allows the user to further specify their needs
+     * by creating more branches.
+     */
 
     public void optionThree()
     {
@@ -309,6 +383,23 @@ public class Interface {
         }
     }
 
+    /**
+     * The fourth branch from option four on the home page:
+     * (4) Save and Quit
+     *
+     * This will load the task organiser object from a file
+     * in the same directory as this project
+     */
+    public void optionFour()
+    {
+        taskOrganiser.saveFile(taskOrganiser);
+    }
+
+    public void loadFile() throws IOException, ClassNotFoundException
+    {
+        taskOrganiser = TaskOrganiser.loadFile("sda");
+    }
+
     public int chooseTaskFromList()
     {
         int taskId;
@@ -320,6 +411,15 @@ public class Interface {
 
         return taskId = parser.getIntInput();
 
+    }
+
+    public void invalidInputHelp()
+    {
+        if (invalidInputCount % 4 == 3)
+        {
+            System.out.println("Try to only type values asked for in the program");
+            printWelcome();
+        }
     }
 
     public void revertErrorFlag()

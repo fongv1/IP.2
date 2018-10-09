@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -11,15 +10,15 @@ import java.util.List;
  * interface. Finally, the task organiser allows the end user to save
  * and load their tasks to use at different times.
  *
- * The task orgnaniser class provides the user with functionality to
- * filter and sort tasks to their requirement. It interacts with the
- * task objects and Task date objects in order to achieve this.
+ * The TaskOrganiser class provides the user with functionality to
+ * manipulate the task objects using a collection. A TaskOrganiser
+ * object will receive commands from the user through the interface to
+ * make the requisite actions
  */
 
 public class TaskOrganiser implements Serializable
 {
     private ArrayList<Task> tasks;
-    private ArrayList<Task> orderByDate;
     private ArrayList<Task> finishedTasks;
 
     public TaskOrganiser() {
@@ -44,13 +43,16 @@ public class TaskOrganiser implements Serializable
      * @return Returns the arraylist of tasks added, in the
      * order they were added
      */
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
     /**
      * This will print out a brief description of each task,
-     * using the toString method.
+     * using the toString method if there have been tasks
+     * added.
+     *
      */
     public void printAllTasks()
     {
@@ -71,7 +73,6 @@ public class TaskOrganiser implements Serializable
      * task which is due first, to task which is due last (if
      * they have a due date set).
      *
-     * @return a List which is ordered by due date of a task
      */
 
     public void orderByDate()
@@ -138,7 +139,10 @@ public class TaskOrganiser implements Serializable
 
     /**
      * This method allows users to mark the task as done,
-     * which will remove it from the current collection of tasks
+     * which will remove it from the current collection of tasks.
+     * It also checks whether the task ID exists, by calling the
+     * findTask method in this class. The result of findTask
+     * method will always be -1 if the task does not exist.
      *
      * @param taskId The task ID associated to the task you
      *               would like to mark as done and remove
@@ -163,7 +167,9 @@ public class TaskOrganiser implements Serializable
 
     /**
      * This method allows the user to link a task to a particular
-     * project.
+     * project. It also checks whether the task ID exists, by
+     * calling the findTask method in this class. The result of
+     * findTask method will always be -1 if the task does not exist.
      *
      * @param taskId The task and ID used to link with a project
      * @param projectName The name of the project
@@ -183,7 +189,8 @@ public class TaskOrganiser implements Serializable
 
     /**
      * This will remove a specific task from the orgnaniser,
-     * according to the task ID
+     * according to the task ID. It also checks if the task
+     * exists by calling the checkValidId method.
      *
      * @param taskId The task ID related to the task, that
      *               you would like to remove
@@ -247,8 +254,10 @@ public class TaskOrganiser implements Serializable
     /**
      * This method finds a task in the organiser according
      * to the Task ID. It returns the position of the task
-     * in the Array List and is helps other functions in this
-     * class perform its tasks.
+     * in the Array List and helps other functions in this
+     * class perform their tasks. If the task does not
+     * exist it returns -1, which is used by other methods
+     * in this class.
      *
      * @param taskId The Task ID you are searching for
      * @return The position of the task in the Array List
@@ -292,7 +301,9 @@ public class TaskOrganiser implements Serializable
 
     /**
      * This method allows you to update the due date of a task
-     * according to its ID.
+     * according to its ID. It also checks whether the task ID exists, by
+     * calling the findTask method in this class. The result of
+     * findTask method will always be -1 if the task does not exist.
      *
      * @param taskId The Task ID of the task to be updated
      * @param dueYear The year the task is due
@@ -319,6 +330,15 @@ public class TaskOrganiser implements Serializable
 
     }
 
+    /**
+     * This method allows you to change the title of a task.
+     * It also checks whether the task ID exists, by
+     * calling the findTask method in this class. The result of
+     * findTask method will always be -1 if the task does not exist.
+     *
+     * @param taskId The Task ID of the task to be changed
+     * @param changes The new Task Title
+     */
     public void changeTaskTitle (int taskId, String changes)
     {
         int noResult = -1;
@@ -338,23 +358,23 @@ public class TaskOrganiser implements Serializable
      * Allows user to save their tasks to a text file which they created
      * to the project's directory.
      *
-     * @param object The taskorganiser with tasks you would like
-     *               saved.
-     * @param fileName The name of the file you would like saved
+     * @param object The taskOrganiser object you would like saved
      */
 
-    public static void saveFile (Object object, String fileName)
+    public static void saveFile (Object object)
     {
         try
         {
-            File file = new File (fileName);
+            File file = new File ("sda");
 
             ObjectOutputStream writer =
                     new ObjectOutputStream(new BufferedOutputStream
-                            (new FileOutputStream(fileName)));
+                            (new FileOutputStream("sda")));
 
             writer.writeObject(object);
             writer.close();
+
+            System.out.println("File saved");
         }
 
         catch (IOException e)
@@ -364,8 +384,9 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * A private method which reads a text file from the project
-     * directory, saved with existing tasks from the file
+     * A method which reads a text file from the project
+     * directory, saved with existing tasks from the file. It
+     * should be used in tandem with the loadFile method.
      *
      * @param fileName The file name you would like to unpack
      * @return An object saved from previous use of the app
@@ -386,7 +407,7 @@ public class TaskOrganiser implements Serializable
 
     /**
      * This prepares the Task Organiser with its tasks from
-     * a previous state and readies it for further manipuation
+     * a previous state and readies it for further manipulation
      * or querying. The file loaded, must be saved from the
      * same directory as the project
      *
