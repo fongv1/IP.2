@@ -17,9 +17,12 @@ import java.util.Scanner;
 public class Parser {
 
     private Scanner reader;
+    private boolean errorFlag;
 
-    public Parser() {
+    public Parser()
+    {
         reader = new Scanner(System.in);
+        errorFlag = false;
     }
 
     /**
@@ -39,9 +42,44 @@ public class Parser {
 
     }
 
+    public int getIntInput()
+    {
+        System.out.println(">> ");
+
+        try
+        {
+            int input = reader.nextInt();
+            return input;
+        }
+
+        catch (NumberFormatException e)
+        {
+            System.out.println("Please enter an integer");
+            errorFlag = true;
+            return -1;
+        }
+
+        catch (InputMismatchException e)
+        {
+            System.out.println("Please enter an integer");
+            errorFlag = true;
+            return -1;
+        }
+    }
+
     public Scanner getReader()
     {
         return reader;
+    }
+
+    public boolean getErrorFlag()
+    {
+        return errorFlag;
+    }
+
+    public void revertErrorFlag()
+    {
+        errorFlag = false;
     }
 
 }
