@@ -14,8 +14,8 @@ import java.io.Serializable;
 
 public class Task implements Serializable
 {
-    private static int nextId = 0;
-    private static String[] statusOptions = {"In Progress", "Finished"};
+    private static int nextId;
+    private static final String[] statusOptions = {"In Progress", "Finished"};
 
     private int taskId;
     private String taskTitle;
@@ -127,9 +127,9 @@ public class Task implements Serializable
     public String toString()
     {
             String result = "Task id: " + taskId + "\n" +
-                    "Task title: " + taskTitle + "\n" +
+                    "Task Title: " + taskTitle + "\n" +
                     "Project: " + project + "\n" +
-                    "Due date: " + date.printDateString() + "\n" +
+                    "Due Date: " + date.printDateString() + "\n" +
                     "Status: " + getStatus() + "\n";
 
             return result;

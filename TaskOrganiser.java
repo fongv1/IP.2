@@ -36,7 +36,7 @@ public class TaskOrganiser implements Serializable
     {
         Task t = new Task(taskTitle);
         tasks.add(t);
-        System.out.println("Task added");
+        System.out.println(">> Task added");
     }
 
     /**
@@ -58,7 +58,7 @@ public class TaskOrganiser implements Serializable
     {
             if (tasks.isEmpty())
             {
-                System.out.println("There are no tasks to show.");
+                System.out.println(">> There are no tasks to show.");
             }
 
             else {
@@ -88,14 +88,14 @@ public class TaskOrganiser implements Serializable
 
             if (orderByDate.isEmpty())
             {
-                System.out.println("No tasks to show");
+                System.out.println(">> No tasks to show");
             }
 
         }
 
         catch (NullPointerException e)
         {
-            System.out.println("Due date values may be incorrect");
+            System.out.println(">> Due date values may be incorrect");
         }
     }
 
@@ -121,7 +121,7 @@ public class TaskOrganiser implements Serializable
             if (filterByProject.isEmpty())
             {
                 System.out.println("--------------------------------------------------------------------------");
-                System.out.println("No tasks related to this project");
+                System.out.println(">> No tasks related to this project");
             }
 
             else {
@@ -159,7 +159,7 @@ public class TaskOrganiser implements Serializable
 
             tasks.get(index).changeStatus();
 
-            System.out.println("Task is now done");
+            System.out.println(">> Task is now done");
         }
 
     }
@@ -183,7 +183,7 @@ public class TaskOrganiser implements Serializable
         {
             int index = findTask(taskId);
             tasks.get(index).setProject(projectName);
-            System.out.println("Project updated");
+            System.out.println(">> Project updated");
         }
     }
 
@@ -209,14 +209,14 @@ public class TaskOrganiser implements Serializable
                     finishedTasks.add(search);
                     it.remove();
                     found = true;
-                    System.out.println("Task successfully removed");
+                    System.out.println(">> Task successfully removed");
                 }
             }
         }
 
         else
         {
-            System.out.println("There are no tasks under this ID");
+            System.out.println(">> There are no tasks under this ID");
         }
     }
 
@@ -290,7 +290,7 @@ public class TaskOrganiser implements Serializable
 
         else
         {
-            System.out.println("No task under this ID");
+            System.out.println(">> No task under this ID");
 
             int noResult = -1;
 
@@ -324,10 +324,53 @@ public class TaskOrganiser implements Serializable
 
             if (!result.getDate().checkIfDefaultDate())
             {
-                System.out.println("Due date set");
+                System.out.println(">> Due date set");
             }
         }
 
+    }
+
+    /**
+     * A method used to count how many tasks in the organiser
+     * are in progress, this is displayed in the welcome
+     * message.
+     *
+     * @return A count of tasks in progress.
+     */
+
+    public int countToDo()
+    {
+        int result = 0;
+
+        for (Task toDo : tasks) {
+            if (toDo.getStatus().equals("In Progress")) {
+                result += 1;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * A method used to count how many tasks in the organiser
+     * are finished, this is displayed in the welcome message.
+     *
+     * @return A count of tasks that are finished.
+     */
+
+    public int countDone()
+    {
+        int result = 0;
+
+        for (Task done : tasks)
+        {
+            if (done.getStatus().equals("Finished"))
+            {
+                result += 1;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -343,14 +386,14 @@ public class TaskOrganiser implements Serializable
     {
         int noResult = -1;
 
-        if (findTask(taskId) != -1)
+        if (findTask(taskId) != noResult)
         {
             int index = findTask(taskId);
             Task result = tasks.get(index);
 
             result.changeTaskTitle(changes);
 
-            System.out.println("Task title changed");
+            System.out.println(">> Task title changed");
         }
     }
 
@@ -374,12 +417,12 @@ public class TaskOrganiser implements Serializable
             writer.writeObject(object);
             writer.close();
 
-            System.out.println("File saved");
+            System.out.println(">> File Saved");
         }
 
         catch (IOException e)
         {
-            System.out.println("Error with file input/output");
+            System.out.println(">> Error with file input/output");
         }
     }
 
@@ -394,7 +437,7 @@ public class TaskOrganiser implements Serializable
      * @throws ClassNotFoundException
      */
 
-    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
+    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException, InvalidClassException
     {
         FileInputStream fis = new FileInputStream(fileName);
         BufferedInputStream bis = new BufferedInputStream(fis);
