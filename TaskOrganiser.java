@@ -39,8 +39,23 @@ public class TaskOrganiser implements Serializable
         System.out.println(">> Task added");
     }
 
+
+    public Task getTask (int taskId) {
+
+        if (checkValidId(taskId))
+        {
+            return tasks.get(taskId);
+        }
+
+        else
+        {
+            System.out.println(">> Invalid ID");
+            return null;
+        }
+    }
+
     /**
-     * @return Returns the arraylist of tasks added, in the
+     * @return Returns the ArrayList of tasks added, in the
      * order they were added
      */
 
@@ -48,12 +63,14 @@ public class TaskOrganiser implements Serializable
         return tasks;
     }
 
+
     /**
      * This will print out a brief description of each task,
      * using the toString method if there have been tasks
      * added.
      *
      */
+
     public void printAllTasks()
     {
             if (tasks.isEmpty())
