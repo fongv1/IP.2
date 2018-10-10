@@ -253,7 +253,7 @@ public class Interface {
                 int dueDate;
                 int incorrectResult = -1;
 
-                if (taskOrganiser.getTasks().isEmpty())
+                if (taskOrganiser.isEmpty())
                 {
                     System.out.println(">> No Tasks to update");
                     printWelcome();
@@ -275,7 +275,7 @@ public class Interface {
                         break;
                     }
 
-                    if (taskOrganiser.findTask(taskId) != incorrectResult) {
+                    if (taskOrganiser.findTaskIndex(taskId) != incorrectResult) {
 
                         System.out.println("--------------------------------------------------------------------------");
 
@@ -320,7 +320,7 @@ public class Interface {
             case "b":
             {
 
-                if (taskOrganiser.getTasks().isEmpty())
+                if (taskOrganiser.isEmpty())
                 {
                     System.out.println(">> No Tasks to update");
                     printWelcome();
@@ -357,7 +357,7 @@ public class Interface {
 
             case "c":
             {
-                if (taskOrganiser.getTasks().isEmpty())
+                if (taskOrganiser.isEmpty())
                 {
                     System.out.println(">> No Tasks to update");
                     printWelcome();
@@ -386,7 +386,7 @@ public class Interface {
             case "d":
             {
 
-                if (taskOrganiser.getTasks().isEmpty())
+                if (taskOrganiser.isEmpty())
                 {
                     System.out.println(">> No Tasks to update");
                     printWelcome();
@@ -421,7 +421,7 @@ public class Interface {
 
             case "e": {
 
-                if (taskOrganiser.getTasks().isEmpty())
+                if (taskOrganiser.isEmpty())
                 {
                     System.out.println(">> No Tasks to update");
                     printWelcome();
@@ -510,10 +510,6 @@ public class Interface {
         System.out.println("--------------------------------------------------------------------------");
     }
 
-    public void emptyList()
-    {
-        taskOrganiser.printAllTasks();
-    }
 
     /**
      * A method to check the count on how many times the user has

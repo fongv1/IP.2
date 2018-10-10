@@ -45,30 +45,18 @@ public class TaskOrganiser implements Serializable
         System.out.println(">> Task added");
     }
 
-
-    public Task getTask (int taskId) {
-
-        if (checkValidId(taskId))
-        {
-            return tasks.get(taskId);
-        }
-
-        else
-        {
-            System.out.println(">> Invalid ID");
-            return null;
-        }
-    }
-
     /**
-     * @return Returns the ArrayList of tasks added, in the
-     * order they were added
+     * An empty ArrayList will affect what is displayed
+     * on the interface and will commonly stop functions
+     * to continue, considering it is empty.
+     *
+     * @return A boolean to check if ArrayList is empty
      */
 
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public boolean isEmpty()
+    {
+        return tasks.isEmpty();
     }
-
 
     /**
      * This will print out a brief description of each task,
@@ -176,9 +164,9 @@ public class TaskOrganiser implements Serializable
         ArrayList<Task> finishedTasks = new ArrayList<>();
         int noResult = -1;
 
-        if (findTask(taskId) != noResult)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
 
             tasks.get(index).changeStatus();
 
@@ -202,9 +190,9 @@ public class TaskOrganiser implements Serializable
     {
         int noResult = -1;
 
-        if (findTask (taskId) != noResult)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
             tasks.get(index).setProject(projectName);
             System.out.println(">> Project updated");
         }
@@ -286,7 +274,7 @@ public class TaskOrganiser implements Serializable
      * @return The position of the task in the Array List
      */
 
-    public int findTask (int taskId)
+    public int findTaskIndex (int taskId)
     {
         if (checkValidId(taskId))
         {
@@ -338,17 +326,13 @@ public class TaskOrganiser implements Serializable
     {
         int noResult = -1;
 
-        if (findTask(taskId) != noResult)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
             Task result = tasks.get(index);
 
             tasks.get(index).setDueDate(dueYear, dueMonth, dueDate);
 
-            if (!result.getDate().checkIfDefaultDate())
-            {
-                //System.out.println(">> Due date set");
-            }
         }
 
     }
@@ -409,9 +393,9 @@ public class TaskOrganiser implements Serializable
     {
         int noResult = -1;
 
-        if (findTask(taskId) != noResult)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
             Task result = tasks.get(index);
 
             result.changeTaskTitle(changes);
