@@ -21,8 +21,11 @@ public class Interface {
 
     /**
      * The command field is regularly updated in this class, and is
-     * used to action commmands from the user. This is done by
-     * collecting information from the parser object.
+     * used to action commands from the user. This is done by
+     * collecting information from the parser object. The
+     * invalidInputCount, counts the number of times a user types
+     * an unexpected value in the interface. The interface will
+     * display messages related to this integer.
      */
 
     private Parser parser;
@@ -80,7 +83,6 @@ public class Interface {
 
             command = parser.getInput();
             finished = processInPut(command);
-            invalidInputHelp();
         }
 
     }
@@ -125,10 +127,21 @@ public class Interface {
                 break;
             }
 
-            default:
+            default: {
                 System.out.println(">> Invalid input");
-                invalidInputCount += 1;
 
+                invalidInputCount += 1;
+                if (invalidInputHelp())
+                {
+                    printInvalidInputHelp();
+                }
+
+                else
+                {
+                    printWelcome();
+                }
+                break;
+            }
         }
         return finished;
     }
@@ -136,7 +149,6 @@ public class Interface {
     /**
      * The First branch from option one on the home page:
      * (1) Add New Task
-     *
      */
 
     public void optionOne()
@@ -215,7 +227,16 @@ public class Interface {
             {
                 System.out.println(">> Invalid input");
                 invalidInputCount += 1;
-                printWelcome();
+
+                if (invalidInputHelp())
+                {
+                    printInvalidInputHelp();
+                }
+
+                else
+                {
+                    printWelcome();
+                }
                 break;
             }
         }
@@ -303,6 +324,7 @@ public class Interface {
                             taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
                             printWelcome();
                             break;
+
                         } catch (NumberFormatException e) {
                             System.out.println(">> Please enter integers");
                             printWelcome();
@@ -459,8 +481,18 @@ public class Interface {
             default:
             {
                 System.out.println(">> Invalid input");
+
                 invalidInputCount += 1;
-                printWelcome();
+
+                if (invalidInputHelp())
+                {
+                    printInvalidInputHelp();
+                }
+
+                else
+                {
+                    printWelcome();
+                }
                 break;
             }
         }
@@ -510,24 +542,46 @@ public class Interface {
         System.out.println("--------------------------------------------------------------------------");
     }
 
-
     /**
-     * A method to check the count on how many times the user has
-     * entered an unexpected value in the program and print text
-     * to help them navigate the program.
+     * A method which checks the invalidInputCount field,
+     * which is related to any unexpected value the user
+     * types in the interface. Works in conjunction with
+     * printInvalidInputHelp method and the interface
+     * to print out help messages in a correct order.
+     *
+     * @return A flag which tells the interface if the
+     * printWelcome message has already been called
+     * and is not required again.
      */
 
-    public void invalidInputHelp()
+    public boolean invalidInputHelp()
     {
+        boolean alreadyPrintedWelcome = false;
+
         if (invalidInputCount % 3 == 2)
         {
-            System.out.println("--------------------------------------------------------------------------");
-            System.out.println(">> Try to only type expected values in the program. " + "\n" +
-                               ">> For example, to add a new task press: 1. " + "\n" +
-                               ">> Then press enter.");
-            printWelcome();
-
+            return alreadyPrintedWelcome = true;
         }
+
+        else
+        {
+            return alreadyPrintedWelcome;
+        }
+    }
+
+    /**
+     * A method which works together with the interface and
+     * invalidInputHelp method, to print a help message to
+     * the user.
+     */
+
+    public void printInvalidInputHelp()
+    {
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println(">> Try to only type expected values in the program. " + "\n" +
+                           ">> For example, to add a new task press: 1. " + "\n" +
+                           ">> Then press enter.");
+        printWelcome();
     }
 }
 
