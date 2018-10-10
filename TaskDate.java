@@ -16,6 +16,7 @@ import java.util.Date;
 public class TaskDate implements Serializable {
 
     private Date dueDate;
+    private Calendar dueDate1 = Calendar.getInstance();
 
     /**
      * A dueDate of a task will always start at a default state
@@ -26,6 +27,7 @@ public class TaskDate implements Serializable {
     public TaskDate()
     {
         dueDate = setEmptyDate();
+        dueDate1.clear();
     }
 
 
@@ -35,6 +37,11 @@ public class TaskDate implements Serializable {
 
     public Date getDueDate() {
         return dueDate;
+    }
+
+    public Calendar getDueDate1()
+    {
+        return dueDate1;
     }
 
     /**
@@ -52,8 +59,15 @@ public class TaskDate implements Serializable {
             currentCalendar.set(Calendar.YEAR, year);
             currentCalendar.set(Calendar.MONTH, month - 1);
             currentCalendar.set(Calendar.DATE, date);
+
+            dueDate1.set(Calendar.YEAR, year);
+            dueDate1.set(Calendar.MONTH, month - 1);
+            dueDate1.set(Calendar.DATE, date);
+
+
             dueDate = currentCalendar.getTime();
             System.out.println(">> Due date set");
+
         }
 
         else
@@ -165,5 +179,10 @@ public class TaskDate implements Serializable {
         empty.clear();
 
         return empty.getTime();
+    }
+
+    public void test()
+    {
+        System.out.println(dueDate.getDate());
     }
 }

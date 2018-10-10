@@ -118,6 +118,29 @@ public class TaskOrganiser implements Serializable
         }
     }
 
+    public void orderByDate1()
+    {
+        try
+        {
+            ArrayList<Task> orderByDate = new ArrayList<>(tasks);
+            Collections.sort(orderByDate, new CalendarComparator());
+
+            for (Task ordered : orderByDate) {
+                System.out.println(ordered.toString());
+            }
+
+            if (orderByDate.isEmpty())
+            {
+                System.out.println(">> No tasks to show");
+            }
+
+        }
+
+        catch (NullPointerException e)
+        {
+            System.out.println(">> Due date values may be incorrect");
+        }
+    }
 
     /**
      * This will filter tasks by the project they are related to
@@ -214,6 +237,7 @@ public class TaskOrganiser implements Serializable
      * @param taskId The task ID related to the task, that
      * you would like to remove
      */
+
     public void removeTask(int taskId)
     {
         if (checkValidId(taskId)) {
