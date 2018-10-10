@@ -46,7 +46,7 @@ public class Interface {
         parser = new Parser();
         command = "";
         taskOrganiser = new TaskOrganiser();
-        //loadFile();
+        loadFile();
         printWelcome();
     }
 
@@ -207,14 +207,22 @@ public class Interface {
 
             case "c":
             {
-                System.out.println(">> Enter project you would like to filter by:");
+                System.out.println(">> Choose project you would like to filter by:");
+                if (taskOrganiser.printAllProjects())
+                {
+                    printWelcome();
+                    break;
+                }
 
-                command = parser.getInput();
-                System.out.println("--------------------------------------------------------------------------");
+                else
+                {
+                    command = parser.getInput();
+                    System.out.println("--------------------------------------------------------------------------");
 
-                taskOrganiser.filterByProject(command);
-                printWelcome();
-                break;
+                    taskOrganiser.filterByProject(command);
+                    printWelcome();
+                    break;
+                }
             }
 
             case "d":
@@ -269,6 +277,7 @@ public class Interface {
         {
             case "a": {
                 int taskId;
+                int index;
                 int dueYear;
                 int dueMonth;
                 int dueDate;
@@ -303,6 +312,7 @@ public class Interface {
 
 
                         System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
+                                           ">> The year can be from 1900 and 5000 (inclusive)" + "\n" +
                                            ">> Please enter the year the task is due:");
 
                         try {
@@ -312,31 +322,25 @@ public class Interface {
                             System.out.println("--------------------------------------------------------------------------");
 
 
-                            System.out.println(">> Please enter the month the task is due:");
+                            System.out.println(">> The month can be from 1 and 12 (inclusive)." + "\n" +
+                                               ">> Please enter the month the task is due:");
 
                             dueMonth = parser.convertToInt();
 
 
                             System.out.println("--------------------------------------------------------------------------");
 
-                            System.out.println(">> Please enter the date the task is due:");
+                            System.out.println(">> The date can be from 1 and 31 (inclusive)." + "\n" +
+                                               ">> Please enter the date the task is due:");
 
                             dueDate = parser.convertToInt();
 
-                            try
-                            {
-                                taskOrganiser.getTask(taskId).getDate().setDueDate(dueYear, dueMonth, dueDate);
-                                printWelcome();
-                                break;
-                            }
 
-                            catch (IndexOutOfBoundsException e)
-                            {
-                                System.out.println(">> Error, incorrect date parameters");
-                                printWelcome();
-                                break;
-                            }
+                            index = taskOrganiser.findTaskIndex(taskId);
 
+                            taskOrganiser.getTask(index).getDate().setDueDate(dueYear, dueMonth, dueDate);
+                            printWelcome();
+                            break;
                         }
 
                         catch (NumberFormatException e) {
@@ -387,6 +391,7 @@ public class Interface {
                     catch (NumberFormatException e) {
                         System.out.println(">> Please enter an integer");
                         System.out.println("--------------------------------------------------------------------------");
+                        printWelcome();
                         break;
                     }
                 }

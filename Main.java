@@ -7,11 +7,22 @@ public class Main {
         Interface sda = new Interface();
         sda.start();
 
-        /*TaskOrganiser sda = new TaskOrganiser();
+
+
+        /*TaskOrganiser t = new TaskOrganiser();
+        t.addTask("lol");
+
+        t.getTask(0).getDate().setDueDate(2000, 1 , 1);
+        System.out.println(t.getTask(0).getDate());*/
+        /*TaskOrganiser sda =  new TaskOrganiser();
         sda.addTask("lol");
-        sda.addTask("lol1");
-        TaskOrganiser.saveFile(sda);
-        TaskOrganiser t =TaskOrganiser.loadFile("sda");
-        t.addTask("no1");*/
+        sda.addTask("wow");
+        sda.addTask("afd");
+
+        sda.updateProject(1, "ip");
+        sda.updateProject(2, "gp");
+
+        sda.printAllProjects1();*/
+
     }
 }

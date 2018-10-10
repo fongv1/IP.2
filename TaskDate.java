@@ -75,19 +75,26 @@ public class TaskDate implements Serializable {
      */
 
     public boolean testDateParameters(int year, int month, int date) {
-        boolean test;
+        boolean correct = false;
 
         if (year < 1900 || year > 5000) {
-            test = false;
-        } else if (month < 1 || month > 12) {
-            test = false;
-        } else if (date < 1 || date > 31) {
-            test = false;
-        } else {
-            test = true;
+            correct = false;
         }
 
-        return test;
+        else if (month < 1 || month > 12) {
+            correct = false;
+        }
+
+        else if (date < 1 || date > 31) {
+            correct = false;
+        }
+
+        else {
+            correct = true;
+        }
+
+        return correct;
+
     }
 
     /**
@@ -103,7 +110,7 @@ public class TaskDate implements Serializable {
     {
         if (checkIfDefaultDate())
         {
-            String result = "Due date not set";
+            String result = "Not set";
 
             return result;
         }

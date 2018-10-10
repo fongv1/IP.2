@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -214,7 +212,7 @@ public class TaskOrganiser implements Serializable
      * exists by calling the checkValidId method.
      *
      * @param taskId The task ID related to the task, that
-     *               you would like to remove
+     * you would like to remove
      */
     public void removeTask(int taskId)
     {
@@ -318,6 +316,46 @@ public class TaskOrganiser implements Serializable
             return noResult;
         }
 
+    }
+
+
+    /**
+     * A method to print all projects if there has been one set.
+     * This uses a HashSet to enforce one project to be printed.
+     * The boolean return value is used, to print the correct
+     * information to the user in the interface class.
+     *
+     * @return Are there no projects set to the tasks
+     */
+
+    public boolean printAllProjects()
+    {
+        boolean noProjects = true;
+        HashSet<String> uniqueProjects = new HashSet<String>();
+
+        for (Task task : tasks)
+        {
+            if (!task.getProject().equals(""))
+            {
+                uniqueProjects.add(task.getProject());
+                noProjects = false;
+            }
+        }
+
+        if (uniqueProjects.isEmpty())
+        {
+            System.out.println(">> No projects to filter by");
+        }
+
+        else
+        {
+            for (String projects : uniqueProjects)
+            {
+                System.out.println(">> " + projects);
+            }
+        }
+
+        return noProjects;
     }
 
     /**
@@ -456,5 +494,7 @@ public class TaskOrganiser implements Serializable
 
         return (TaskOrganiser) unpackFile(fileName);
     }
+
+
 
 }

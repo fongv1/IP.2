@@ -20,6 +20,7 @@ public class DateComparator implements Comparator, Serializable
         Task t2 = (Task) obj2;
 
         return (t1.getDate().getDueDate().compareTo(t2.getDate().getDueDate()));
+
     }
 
 }
