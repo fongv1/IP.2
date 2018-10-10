@@ -25,5 +25,33 @@ Listed below, will be instructions on how to get the program running.
 Here is how to install the program after downloading the project
 from GitHub.
 
+1. Unzip the project file to your preferred location
+
 #####From Terminal
-1. 
+1. Copy the file path from where you unzipped the project 
+   folder
+2. Open terminal
+3. 
+
+````
+ $ cd [paste path from project directory]
+ 
+ $ javac Main.java
+ 
+ $ java Main
+
+````
+
+#####From an IDE
+1. From navigation bar at the top, click *File*
+2. Navigate to *New*
+3. Then to *Project from Existing Sources*
+4. Find the project directory, from where you unzipped
+   the file.
+   
+##User Manual
+
+
+
+ 
+
