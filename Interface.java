@@ -55,7 +55,7 @@ public class Interface {
      * the application.
      */
 
-    public void printWelcome() {
+    private void printWelcome() {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> Welcome to Task Organiser" + "\n" +
                            ">> You have " + taskOrganiser.countToDo() + " tasks to do and "
@@ -99,7 +99,7 @@ public class Interface {
      *
      */
 
-    public boolean processInPut (String command) {
+    private boolean processInPut (String command) {
 
         boolean finished = false;
 
@@ -151,7 +151,7 @@ public class Interface {
      * (1) Add New Task
      */
 
-    public void optionOne()
+    private void optionOne()
     {
         System.out.println("--------------------------------------------------------------------------");
 
@@ -175,7 +175,7 @@ public class Interface {
      * by creating more branches.
      */
 
-    public void optionTwo()
+    private void optionTwo()
     {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> (a) show all tasks" + "\n" +
@@ -200,7 +200,7 @@ public class Interface {
 
             case "b":
             {
-                taskOrganiser.orderByDate();
+                taskOrganiser.orderByDate1();
                 printWelcome();
                 break;
             }
@@ -258,7 +258,7 @@ public class Interface {
      * by creating more branches.
      */
 
-    public void optionThree()
+    private void optionThree()
     {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> (a) add due date" + "\n" +
@@ -531,7 +531,7 @@ public class Interface {
      * in the same directory as this project
      */
 
-    public void optionFour()
+    private void optionFour()
     {
         taskOrganiser.saveFile(taskOrganiser);
     }
@@ -545,7 +545,7 @@ public class Interface {
      * @throws ClassNotFoundException
      */
 
-    public void loadFile() throws IOException, ClassNotFoundException
+    private void loadFile() throws IOException, ClassNotFoundException
     {
         taskOrganiser = TaskOrganiser.loadFile("sda");
     }
@@ -557,7 +557,7 @@ public class Interface {
      * @return The task Id of the task for manipulation
      */
 
-    public void chooseTaskFromList() {
+    private void chooseTaskFromList() {
 
         System.out.println(">> Please choose which Task ID of the task you would like" +
                            " to update:");
@@ -579,7 +579,7 @@ public class Interface {
      * and is not required again.
      */
 
-    public boolean invalidInputHelp()
+    private boolean invalidInputHelp()
     {
         boolean alreadyPrintedWelcome = false;
 
@@ -600,7 +600,7 @@ public class Interface {
      * the user.
      */
 
-    public void printInvalidInputHelp()
+    private void printInvalidInputHelp()
     {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> Try to only type expected values in the program. " + "\n" +

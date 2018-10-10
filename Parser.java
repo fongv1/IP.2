@@ -40,6 +40,7 @@ public class Parser {
 
     }
 
+
     /**
      * A method to parse user input from the interface from String
      * to integers.

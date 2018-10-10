@@ -94,7 +94,7 @@ public class TaskOrganiser implements Serializable
      *
      */
 
-    public void orderByDate()
+    /*public void orderByDate()
     {
         try
         {
@@ -116,7 +116,7 @@ public class TaskOrganiser implements Serializable
         {
             System.out.println(">> Due date values may be incorrect");
         }
-    }
+    }*/
 
     public void orderByDate1()
     {

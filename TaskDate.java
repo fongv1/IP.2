@@ -1,6 +1,5 @@
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -9,25 +8,21 @@ import java.util.Date;
  * interface. Finally, the task organiser allows the end user to save
  * and load their tasks to use at different times.
  *
- * The TaskDate class models the due date and time specific details related
- * to a task.
+ * The TaskDate class models the due date of a task.
  */
 
 public class TaskDate implements Serializable {
 
-    private Date dueDate;
-    private Calendar dueDate1 = Calendar.getInstance();
+    private Calendar dueDate = Calendar.getInstance();
 
     /**
      * A dueDate of a task will always start at a default state
-     * of an instance of the Calendar class. This is done through
-     * the constructor and the setEmptyDate method.
+     * of an instance of the Calendar class. This is so we can
+     * compare dates that haven't been set, to ones that have.
      */
 
-    public TaskDate()
-    {
-        dueDate = setEmptyDate();
-        dueDate1.clear();
+    public TaskDate() {
+        dueDate.clear();
     }
 
 
@@ -35,43 +30,33 @@ public class TaskDate implements Serializable {
      * @return Return the due date of the task
      */
 
-    public Date getDueDate() {
+
+    public Calendar getDueDate() {
         return dueDate;
     }
 
-    public Calendar getDueDate1()
-    {
-        return dueDate1;
-    }
-
     /**
-     * Set the due date of a task relative to the parameters
+     * Set the due date of a task relative to the parameters,
+     * provided the parameters are valid.
      *
      * @param year  The year which the task is due
      * @param month The month which the  task is due
      * @param date  The date which the task is due
      */
 
-    public void setDueDate(int year, int month, int date)
-    {
+    public void setDueDate(int year, int month, int date) {
         if (testDateParameters(year, month, date)) {
             Calendar currentCalendar = Calendar.getInstance();
             currentCalendar.set(Calendar.YEAR, year);
             currentCalendar.set(Calendar.MONTH, month - 1);
             currentCalendar.set(Calendar.DATE, date);
 
-            dueDate1.set(Calendar.YEAR, year);
-            dueDate1.set(Calendar.MONTH, month - 1);
-            dueDate1.set(Calendar.DATE, date);
-
-
-            dueDate = currentCalendar.getTime();
+            dueDate.set(Calendar.YEAR, year);
+            dueDate.set(Calendar.MONTH, month - 1);
+            dueDate.set(Calendar.DATE, date);
             System.out.println(">> Due date set");
 
-        }
-
-        else
-        {
+        } else {
             System.out.println(">> Error, incorrect due date parameters.");
         }
     }
@@ -88,22 +73,16 @@ public class TaskDate implements Serializable {
      * @return Will return true, if parameters are valid
      */
 
-    public boolean testDateParameters(int year, int month, int date) {
-        boolean correct = false;
+    private boolean testDateParameters(int year, int month, int date) {
+        boolean correct;
 
         if (year < 1900 || year > 5000) {
             correct = false;
-        }
-
-        else if (month < 1 || month > 12) {
+        } else if (month < 1 || month > 12) {
             correct = false;
-        }
-
-        else if (date < 1 || date > 31) {
+        } else if (date < 1 || date > 31) {
             correct = false;
-        }
-
-        else {
+        } else {
             correct = true;
         }
 
@@ -120,18 +99,32 @@ public class TaskDate implements Serializable {
      * @return A String based on the dueDate of a task
      */
 
-    public String printDateString()
-    {
-        if (checkIfDefaultDate())
-        {
+    public String printDateString() {
+
+        String dateString;
+        String monthString;
+
+        if (checkIfDefaultDate()) {
+
             String result = "Not set";
 
             return result;
-        }
 
-        else
-        {
-            String result = dueDate.toString();
+        } else {
+
+            int date = dueDate.get(Calendar.DATE);
+
+            if (date < 10) {
+                dateString = "0" + date;
+            } else {
+                dateString = date + "";
+            }
+
+            int month = dueDate.get(Calendar.MONTH) + 1;
+            monthString = dueDate.get(Calendar.MONTH) + 1 + "";
+
+            String result = dueDate.get(Calendar.YEAR) + "-" +
+                            monthString + "-" + dateString;
 
             return result;
         }
@@ -146,43 +139,19 @@ public class TaskDate implements Serializable {
      * @return Is the due date default?
      */
 
-    public boolean checkIfDefaultDate()
-    {
+    public boolean checkIfDefaultDate() {
         boolean result = false;
 
         Calendar empty = Calendar.getInstance();
         empty.clear();
-        Date emptyTest = empty.getTime();
 
-        if (dueDate.equals(emptyTest))
-        {
+
+        if (dueDate.equals(empty)) {
             result = true;
+            return result = true;
+
+        } else {
             return result;
         }
-
-        else
-        {
-            return result;
-        }
-    }
-
-    /**
-     * A method to set each new dueDate field of a task,
-     * to the default state of an instance in the
-     * Calendar class.
-     *
-     * @return A default state of the Calendar instance
-     */
-    public Date setEmptyDate()
-    {
-        Calendar empty = Calendar.getInstance();
-        empty.clear();
-
-        return empty.getTime();
-    }
-
-    public void test()
-    {
-        System.out.println(dueDate.getDate());
     }
 }
