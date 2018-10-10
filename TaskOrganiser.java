@@ -18,8 +18,10 @@ import java.util.Iterator;
 
 public class TaskOrganiser implements Serializable
 {
+
     private ArrayList<Task> tasks;
     private ArrayList<Task> finishedTasks;
+    private int nextId = 0;
 
     public TaskOrganiser() {
         tasks = new ArrayList<>();
@@ -27,15 +29,19 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * Add a new task to the collection.
+     * This method creates a task object from the Task
+     * class and stores the object in the TaskOrganiser
+     * ArrayList. The nextId field helps assign each task
+     * a unique ID each time this method is called.
      *
-     * @param taskTitle The description of your task
+     * @param taskTitle The title of your task
      */
 
     public void addTask(String taskTitle)
     {
-        Task t = new Task(taskTitle);
+        Task t = new Task(taskTitle, nextId + 1);
         tasks.add(t);
+        nextId += 1;
         System.out.println(">> Task added");
     }
 

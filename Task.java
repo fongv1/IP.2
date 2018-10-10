@@ -14,7 +14,6 @@ import java.io.Serializable;
 
 public class Task implements Serializable
 {
-    private static int nextId;
     private static final String[] statusOptions = {"In Progress", "Finished"};
 
     private int taskId;
@@ -33,11 +32,10 @@ public class Task implements Serializable
      * @param taskTitle What the task is.
      */
 
-    public Task (String taskTitle)
+    public Task (String taskTitle, int taskId)
     {
         this.taskTitle = taskTitle;
-        taskId = nextId + 1;
-        nextId += 1;
+        this.taskId = taskId;
         status = statusOptions[0];
         date = new TaskDate();
     }
