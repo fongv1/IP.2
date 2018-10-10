@@ -46,7 +46,7 @@ public class Interface {
         parser = new Parser();
         command = "";
         taskOrganiser = new TaskOrganiser();
-        loadFile();
+        //loadFile();
         printWelcome();
     }
 
@@ -296,13 +296,15 @@ public class Interface {
                         break;
                     }
 
-                    if (taskOrganiser.findTaskIndex(taskId) != incorrectResult) {
+                    if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
+                    {
 
                         System.out.println("--------------------------------------------------------------------------");
 
 
                         System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
-                                ">> Please enter the year the task is due:");
+                                           ">> Please enter the year the task is due:");
+
                         try {
                             dueYear = parser.convertToInt();
 
@@ -321,11 +323,23 @@ public class Interface {
 
                             dueDate = parser.convertToInt();
 
-                            taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
-                            printWelcome();
-                            break;
+                            try
+                            {
+                                taskOrganiser.getTask(taskId).getDate().setDueDate(dueYear, dueMonth, dueDate);
+                                printWelcome();
+                                break;
+                            }
 
-                        } catch (NumberFormatException e) {
+                            catch (IndexOutOfBoundsException e)
+                            {
+                                System.out.println(">> Error, incorrect date parameters");
+                                printWelcome();
+                                break;
+                            }
+
+                        }
+
+                        catch (NumberFormatException e) {
                             System.out.println(">> Please enter integers");
                             printWelcome();
                             break;
@@ -359,7 +373,7 @@ public class Interface {
                         System.out.println("--------------------------------------------------------------------------");
 
                         System.out.println(">> Please enter the name of the project you would like" +
-                                " to add:");
+                                           " to add:");
 
                         command = parser.getInput();
                         System.out.println("--------------------------------------------------------------------------");
@@ -369,6 +383,7 @@ public class Interface {
                         printWelcome();
                         break;
                     }
+
                     catch (NumberFormatException e) {
                         System.out.println(">> Please enter an integer");
                         System.out.println("--------------------------------------------------------------------------");
@@ -397,6 +412,7 @@ public class Interface {
                         printWelcome();
                         break;
                     }
+
                     catch (NumberFormatException e){
                         System.out.println(">> Please enter an integer");
                         printWelcome();
@@ -432,7 +448,9 @@ public class Interface {
                         taskOrganiser.changeTaskTitle(taskId, command);
                         printWelcome();
                         break;
-                    } catch (NumberFormatException e) {
+                    }
+
+                    catch (NumberFormatException e) {
                         System.out.println(">> Please enter an integer");
                         System.out.println("--------------------------------------------------------------------------");
                         printWelcome();
@@ -454,7 +472,7 @@ public class Interface {
                     taskOrganiser.printAllTasks();
                     System.out.println("--------------------------------------------------------------------------");
                     System.out.println(">> Please choose which Task ID of the task you " +
-                            "would like to remove");
+                                       "would like to remove");
 
                     try {
                         int remove = parser.convertToInt();
@@ -463,7 +481,9 @@ public class Interface {
                         taskOrganiser.removeTask(remove);
                         printWelcome();
                         break;
-                    } catch (NumberFormatException e) {
+                    }
+
+                    catch (NumberFormatException e) {
                         System.out.println(">> Please enter an integer");
                         System.out.println("--------------------------------------------------------------------------");
                         printWelcome();

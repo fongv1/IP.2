@@ -46,6 +46,16 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
+     * A method that returns a task
+     * @param index The index of the task to be returned
+     * @return A task object
+     */
+    public Task getTask(int index)
+    {
+        return tasks.get(index);
+    }
+
+    /**
      * An empty ArrayList will affect what is displayed
      * on the interface and will commonly stop functions
      * to continue, considering it is empty.
@@ -306,33 +316,6 @@ public class TaskOrganiser implements Serializable
             int noResult = -1;
 
             return noResult;
-        }
-
-    }
-
-    /**
-     * This method allows you to update the due date of a task
-     * according to its ID. It also checks whether the task ID exists, by
-     * calling the findTask method in this class. The result of
-     * findTask method will always be -1 if the task does not exist.
-     *
-     * @param taskId The Task ID of the task to be updated
-     * @param dueYear The year the task is due
-     * @param dueMonth The month the task is due
-     * @param dueDate The date the task is due
-     */
-
-    public void setDueDate(int taskId, int dueYear, int dueMonth, int dueDate)
-    {
-        int noResult = -1;
-
-        if (findTaskIndex(taskId) != noResult)
-        {
-            int index = findTaskIndex(taskId);
-            Task result = tasks.get(index);
-
-            tasks.get(index).setDueDate(dueYear, dueMonth, dueDate);
-
         }
 
     }

@@ -103,21 +103,6 @@ public class Task implements Serializable
     }
 
     /**
-     * This method allows the user to define when a task is due,
-     * relative to the parameters
-     *
-     * @param dueYear The year a task is due
-     * @param dueMonth The month a task is due
-     * @param dueDate The date a task is due
-     */
-
-    public void setDueDate (int dueYear, int dueMonth, int dueDate)
-    {
-
-        date.setDueDate(dueYear, dueMonth, dueDate);
-    }
-
-    /**
      *
      * @return A string representation of the Task object
      */
