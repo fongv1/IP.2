@@ -94,7 +94,11 @@ public class TaskDate implements Serializable {
      * A method to print out information on the dueDate field
      * related to a task. It works in tandem with the checkIfDefault
      * method to confirm if a dueDate is at its default state, or if
-     * it has been set by the user.
+     * it has been set by the user. It will shift the month by 1 when
+     * printed to the user, as the Calendar class has a field for
+     * month which starts at 0. It will also add a 0 to the date, if
+     * the date is less than 10, such that the String fits a
+     * YYYY-MM-DD format.
      *
      * @return A String based on the dueDate of a task
      */
