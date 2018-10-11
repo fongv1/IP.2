@@ -200,7 +200,7 @@ public class Interface {
 
             case "b":
             {
-                taskOrganiser.orderByDate1();
+                taskOrganiser.orderByDate();
                 printWelcome();
                 break;
             }

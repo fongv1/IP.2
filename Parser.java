@@ -26,11 +26,17 @@ public class Parser {
     /**
      * This takes the user input which should be an integer, which
      * in eventually would be used to allow the user to choose an
-     * option from the interface
+     * option from the interface. This method cuts spaces between
+     * the user input and converts the String to lower case. Doing
+     * so, avoids exceptions occurring when matching the choices
+     * a user makes when selecting menu options in the
+     * interface.
      *
      * @return The integer or option the user has input
      */
-    public String getInput() {
+
+    public String getInput()
+    {
 
         System.out.println(">> ");
 
@@ -40,13 +46,13 @@ public class Parser {
 
     }
 
-
     /**
-     * A method to parse user input from the interface from String
+     * A method to parse user input on the interface from String
      * to integers.
      *
      * @return An int the user has typed in the interface.
      */
+
     public int convertToInt()
     {
         System.out.println(">> ");

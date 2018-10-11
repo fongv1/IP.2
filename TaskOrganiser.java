@@ -94,31 +94,7 @@ public class TaskOrganiser implements Serializable
      *
      */
 
-    /*public void orderByDate()
-    {
-        try
-        {
-            ArrayList<Task> orderByDate = new ArrayList<>(tasks);
-            Collections.sort(orderByDate, new DateComparator());
-
-            for (Task ordered : orderByDate) {
-                System.out.println(ordered.toString());
-            }
-
-            if (orderByDate.isEmpty())
-            {
-                System.out.println(">> No tasks to show");
-            }
-
-        }
-
-        catch (NullPointerException e)
-        {
-            System.out.println(">> Due date values may be incorrect");
-        }
-    }*/
-
-    public void orderByDate1()
+    public void orderByDate()
     {
         try
         {
