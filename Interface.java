@@ -46,7 +46,7 @@ public class Interface {
         parser = new Parser();
         command = "";
         taskOrganiser = new TaskOrganiser();
-        loadFile();
+        //loadFile();
         printWelcome();
     }
 
@@ -607,8 +607,8 @@ public class Interface {
     {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> Try to only type expected values in the program. " + "\n" +
-                           ">> For example, to add a new task press: 1. " + "\n" +
-                           ">> Then press enter.");
+                           ">> For example, to add a new task press: 1 " + "\n" +
+                           ">> Then press enter");
         printWelcome();
     }
 }

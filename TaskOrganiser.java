@@ -1,5 +1,17 @@
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -27,20 +39,23 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method creates a task object from the Task
-     * class and stores the object in the TaskOrganiser
-     * ArrayList. The nextId field helps assign each task
-     * a unique ID each time this method is called.
+     * This method creates a task object from the Task class
+     * and stores the object in the taskOrganiser ArrayList.
+     * The nextId field helps assign each task a unique ID
+     * each time this method is called.
      *
-     * @param taskTitle The title of your task
+     * @param taskTitle The description of the task.
+     * @return returns the TaskID, mainly used to validate
+     * unit testing class.
      */
 
-    public void addTask(String taskTitle)
+    public int addTask(String taskTitle)
     {
         Task t = new Task(taskTitle, nextId + 1);
         tasks.add(t);
         nextId += 1;
         System.out.println(">> Task added");
+        return t.getTaskId();
     }
 
     /**
@@ -48,6 +63,7 @@ public class TaskOrganiser implements Serializable
      * @param index The index of the task to be returned
      * @return A task object
      */
+
     public Task getTask(int index)
     {
         return tasks.get(index);
@@ -70,7 +86,6 @@ public class TaskOrganiser implements Serializable
      * This will print out a brief description of each task,
      * using the toString method if there have been tasks
      * added.
-     *
      */
 
     public void printAllTasks()
@@ -88,14 +103,17 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method will sort the tasks by their due date from
+     * This method will sort the tasks by their due date, from
      * task which is due first, to task which is due last (if
-     * they have a due date set).
+     * there has been a due date set).
      *
+     * @return True if tasks were ordered by date.
      */
 
-    public void orderByDate()
+    public boolean orderByDate()
     {
+        boolean functionSuccessful = false;
+
         try
         {
             ArrayList<Task> orderByDate = new ArrayList<>(tasks);
@@ -108,14 +126,21 @@ public class TaskOrganiser implements Serializable
             if (orderByDate.isEmpty())
             {
                 System.out.println(">> No tasks to show");
+                functionSuccessful = false;
             }
 
+            else
+            {
+                functionSuccessful = true;
+            }
         }
 
         catch (NullPointerException e)
         {
             System.out.println(">> Due date values may be incorrect");
         }
+
+        return functionSuccessful;
     }
 
     /**
@@ -160,14 +185,16 @@ public class TaskOrganiser implements Serializable
      * which will remove it from the current collection of tasks.
      * It also checks whether the task ID exists, by calling the
      * findTask method in this class. The result of findTask
-     * method will always be -1 if the task does not exist.
+     * will always be -1 if the task does not exist.
      *
-     * @param taskId The task ID associated to the task you
-     *               would like to mark as done and remove
+     * @param taskId The task ID related to task to be updated.
+     * @return True if task marked as done successfully
      */
 
-    public void markAsDone(int taskId)
+    public boolean markAsDone(int taskId)
     {
+        boolean functionSuccessful = false;
+
         ArrayList<Task> finishedTasks = new ArrayList<>();
         int noResult = -1;
 
@@ -178,23 +205,34 @@ public class TaskOrganiser implements Serializable
             tasks.get(index).changeStatus();
 
             System.out.println(">> Task is now done");
+
+            functionSuccessful = true;
         }
 
-    }
+        else
+        {
+            functionSuccessful = false;
+        }
 
+        return functionSuccessful;
+    }
 
     /**
      * This method allows the user to link a task to a particular
      * project. It also checks whether the task ID exists, by
-     * calling the findTask method in this class. The result of
-     * findTask method will always be -1 if the task does not exist.
+     * comparing the noResult local variable through the
+     * findTaskIndex method. No result will always equal -1
+     * if taskId is invalid (from the findTaskIndex method).
      *
-     * @param taskId The task and ID used to link with a project
-     * @param projectName The name of the project
+     * @param taskId The task ID of the task to update.
+     * @param projectName The name of the project to update.
+     * @return True if updating project was successful.
      */
 
-    public void updateProject(int taskId, String projectName)
+    public boolean updateProject(int taskId, String projectName)
     {
+        boolean functionSuccessful = false;
+
         int noResult = -1;
 
         if (findTaskIndex(taskId) != noResult)
@@ -202,20 +240,32 @@ public class TaskOrganiser implements Serializable
             int index = findTaskIndex(taskId);
             tasks.get(index).setProject(projectName);
             System.out.println(">> Project updated");
+
+            functionSuccessful = true;
         }
+
+        else
+        {
+            functionSuccessful = false;
+        }
+
+        return functionSuccessful;
     }
 
     /**
-     * This will remove a specific task from the orgnaniser,
-     * according to the task ID. It also checks if the task
+     * This will remove a specific task from the organiser,
+     * according to the task ID. It also check if the task
      * exists by calling the checkValidId method.
      *
      * @param taskId The task ID related to the task, that
-     * you would like to remove
+     * you would like to remove.
+     * @return True if task removed.
      */
 
-    public void removeTask(int taskId)
+    public boolean removeTask(int taskId)
     {
+        boolean functionSuccessful = false;
+
         if (checkValidId(taskId)) {
 
             boolean found = false;
@@ -229,6 +279,8 @@ public class TaskOrganiser implements Serializable
                     it.remove();
                     found = true;
                     System.out.println(">> Task successfully removed");
+
+                    functionSuccessful = true;
                 }
             }
         }
@@ -237,6 +289,8 @@ public class TaskOrganiser implements Serializable
         {
             System.out.println(">> There are no tasks under this ID");
         }
+
+        return functionSuccessful;
     }
 
     /**
@@ -409,9 +463,12 @@ public class TaskOrganiser implements Serializable
      *
      * @param taskId The Task ID of the task to be changed
      * @param changes The new Task Title
+     * @return True if task title changed.
      */
-    public void changeTaskTitle (int taskId, String changes)
+    public boolean changeTaskTitle (int taskId, String changes)
     {
+        boolean functionSuccessful = false;
+
         int noResult = -1;
 
         if (findTaskIndex(taskId) != noResult)
@@ -422,18 +479,26 @@ public class TaskOrganiser implements Serializable
             result.changeTaskTitle(changes);
 
             System.out.println(">> Task title changed");
+
+            functionSuccessful = true;
         }
+
+        return functionSuccessful;
     }
 
     /**
-     * Allows user to save their tasks to a text file which they created
-     * to the project's directory.
+     * Allows user to save their tasks and the state of their
+     * tasks through an object stream. There is only one file
+     * saved and loaded for the application.
      *
-     * @param object The taskOrganiser object you would like saved
+     * @param object The taskOrganiser object you would like saved.
+     * @return True if the taskOrganiser object saved correctly.
      */
 
-    public static void saveFile (Object object)
+    public static boolean saveFile (Object object)
     {
+        boolean successful = false;
+
         try
         {
             File file = new File ("sda");
@@ -446,12 +511,16 @@ public class TaskOrganiser implements Serializable
             writer.close();
 
             System.out.println(">> File Saved");
+            successful = true;
         }
 
         catch (IOException e)
         {
             System.out.println(">> Error with file input/output");
+            successful = false;
         }
+
+        return successful;
     }
 
     /**
@@ -465,7 +534,7 @@ public class TaskOrganiser implements Serializable
      * @throws ClassNotFoundException
      */
 
-    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException, InvalidClassException
+    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
     {
         FileInputStream fis = new FileInputStream(fileName);
         BufferedInputStream bis = new BufferedInputStream(fis);

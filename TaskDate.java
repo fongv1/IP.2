@@ -37,7 +37,9 @@ public class TaskDate implements Serializable {
 
     /**
      * Set the due date of a task relative to the parameters,
-     * provided the parameters are valid.
+     * provided the parameters are valid. Month value has one
+     * taken away from the users input to fall in line with a
+     * 0 start to months (i.e. 0 is January).
      *
      * @param year  The year which the task is due
      * @param month The month which the  task is due
@@ -46,11 +48,6 @@ public class TaskDate implements Serializable {
 
     public void setDueDate(int year, int month, int date) {
         if (testDateParameters(year, month, date)) {
-            Calendar currentCalendar = Calendar.getInstance();
-            currentCalendar.set(Calendar.YEAR, year);
-            currentCalendar.set(Calendar.MONTH, month - 1);
-            currentCalendar.set(Calendar.DATE, date);
-
             dueDate.set(Calendar.YEAR, year);
             dueDate.set(Calendar.MONTH, month - 1);
             dueDate.set(Calendar.DATE, date);
@@ -125,7 +122,14 @@ public class TaskDate implements Serializable {
             }
 
             int month = dueDate.get(Calendar.MONTH) + 1;
-            monthString = dueDate.get(Calendar.MONTH) + 1 + "";
+
+            if (month < 10){
+                monthString = "0" + month ;
+            }
+
+            else {
+                monthString = month + "";
+            }
 
             String result = dueDate.get(Calendar.YEAR) + "-" +
                             monthString + "-" + dateString;
@@ -151,7 +155,7 @@ public class TaskDate implements Serializable {
 
 
         if (dueDate.equals(empty)) {
-            result = true;
+
             return result = true;
 
         } else {
