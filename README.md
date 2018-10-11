@@ -13,6 +13,7 @@ not all elements/functions from both modules. For example, Task
 Organiser was managed with an *incremental agile* approach and 
 mainly used an *ArrayList* to meet its requirements.
 
+
 ##Getting Started
 Listed below, will be instructions on how to get the program running.
 
