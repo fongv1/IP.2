@@ -48,16 +48,16 @@ from GitHub.
 2. Navigate to *New*
 3. Then to *Project from Existing Sources*
 4. Find the project directory, from where you unzipped
-   the file.
+   the file to open the project.
    
 ## User Manual
 Below is a screenshot of the main menu, from 
 here you will be able to navigate to all the
 functions available to you in the system.
 
-![lol]((/BUGS/#47.PNG))
 
-![](https://imgur.com/1WQoXWV)
+
+
 
  
 

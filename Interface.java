@@ -104,21 +104,22 @@ public class Interface {
         boolean finished = false;
 
         switch (command) {
+            // Add New Task
             case "1": {
                 optionOne();
                 break;
             }
-
+            //Show Task List
             case "2": {
                 optionTwo();
                 break;
             }
-
+            // Edit Task
             case "3": {
                 optionThree();
                 break;
             }
-
+            // Save and Quit
             case "4": {
                 optionFour();
                 System.out.println(">> Goodbye");
@@ -126,7 +127,7 @@ public class Interface {
                 finished = true;
                 break;
             }
-
+            //Invalid Input
             default: {
                 System.out.println(">> Invalid input");
 
@@ -191,20 +192,21 @@ public class Interface {
 
         switch (command)
         {
+            // Show all tasks
             case "a":
             {
                 taskOrganiser.printAllTasks();
                 printWelcome();
                 break;
             }
-
+            //Ordered by date
             case "b":
             {
                 taskOrganiser.orderByDate();
                 printWelcome();
                 break;
             }
-
+            // Filtered by project
             case "c":
             {
                 System.out.println(">> Choose project you would like to filter by:");
@@ -224,13 +226,13 @@ public class Interface {
                     break;
                 }
             }
-
+            //Return to main menu
             case "d":
             {
                 printWelcome();
                 break;
             }
-
+            // Invalid input
             default:
             {
                 System.out.println(">> Invalid input");
@@ -275,6 +277,7 @@ public class Interface {
 
         switch (command)
         {
+            // Add due date
             case "a": {
                 int taskId;
                 int index;
@@ -291,7 +294,7 @@ public class Interface {
                 }
 
                 else {
-
+                    // Display tasks
                     chooseTaskFromList();
 
                     try
@@ -304,7 +307,7 @@ public class Interface {
                         printWelcome();
                         break;
                     }
-
+                    // Is the taskID selected by the user valid ?
                     if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
                     {
 
@@ -356,7 +359,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Add project
             case "b":
             {
 
@@ -396,7 +399,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Mark as done
             case "c":
             {
                 if (taskOrganiser.isEmpty())
@@ -425,7 +428,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Edit task name
             case "d":
             {
 
@@ -463,7 +466,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Remove
             case "e": {
 
                 if (taskOrganiser.isEmpty())
@@ -496,7 +499,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Return to main menu
             case "f":
             {
                 printWelcome();
