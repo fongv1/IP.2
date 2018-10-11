@@ -31,17 +31,15 @@ from GitHub.
 ##### From Terminal
 1. Copy the file path from where you unzipped the project 
    folder
-2. Open terminal
-3. 
-
-````
- $ cd [paste path from project directory]
- 
- $ javac Main.java
- 
- $ java Main
-
-````
+2. Open terminal and enter these commands line by line:
+3. ````
+    $ cd [paste path from project directory]
+    
+    $ javac Main.java
+    
+    $ java Main
+   
+   ````
 
 ##### From an IDE
 1. From navigation bar at the top, click *File*

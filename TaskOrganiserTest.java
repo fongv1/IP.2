@@ -7,6 +7,9 @@ import org.junit.Before;
 
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 public class TaskOrganiserTest {
 
     private TaskOrganiser taskOrg;
@@ -23,17 +26,16 @@ public class TaskOrganiserTest {
     }
 
     @Test
-    public void AddTaskTest() {
+    public void emptyAddTaskTest() {
 
         int id = emptyTaskOrg.addTask("Hello");
         assertEquals("Task ID's should start at 1", 1, id);
 
-        id = emptyTaskOrg.addTask("Hello");
-        assertEquals("Next ID should increment by 1", 2, id);
+        int id1 = emptyTaskOrg.addTask("Hello");
+        assertEquals("Next ID should increment by 1", 2, id1);
 
     }
 
-    // Check the boolean in this one
     @Test
     public void emptyPrintAllProjectsTest() {
 
@@ -151,8 +153,19 @@ public class TaskOrganiserTest {
         assertEquals("true if file saved", true, TaskOrganiser.saveFile(emptyTaskOrg));
     }
 
+
+    /*This test will only pass if system is at its default state. This is
+      because task organiser will save and load the same file named "sda".
+     */
+
     @Test
-    public void emptyLoadFileTest(){
+    public void emptyLoadFileTest() throws IOException, ClassNotFoundException {
+        boolean loadFileTest = TaskOrganiser.loadFile("sda").isEmpty();
+        assertEquals("true as task organiser is empty", true, loadFileTest);
+    }
+
+    @Test
+    public void addTaskTest(){
 
     }
 }

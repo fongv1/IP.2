@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -117,7 +116,7 @@ public class TaskOrganiser implements Serializable
         try
         {
             ArrayList<Task> orderByDate = new ArrayList<>(tasks);
-            Collections.sort(orderByDate, new CalendarComparator());
+            orderByDate.sort(new CalendarComparator());
 
             for (Task ordered : orderByDate) {
                 System.out.println(ordered.toString());
@@ -126,7 +125,6 @@ public class TaskOrganiser implements Serializable
             if (orderByDate.isEmpty())
             {
                 System.out.println(">> No tasks to show");
-                functionSuccessful = false;
             }
 
             else
@@ -169,11 +167,9 @@ public class TaskOrganiser implements Serializable
 
             else {
 
-                for (int i = 0; i < filterByProject.size(); i++)
+                for (Task filtered : filterByProject)
                 {
-                    Task search = filterByProject.get(i);
-
-                    System.out.println(search);
+                    System.out.println(filtered);
                 }
             }
 
@@ -195,7 +191,6 @@ public class TaskOrganiser implements Serializable
     {
         boolean functionSuccessful = false;
 
-        ArrayList<Task> finishedTasks = new ArrayList<>();
         int noResult = -1;
 
         if (findTaskIndex(taskId) != noResult)
