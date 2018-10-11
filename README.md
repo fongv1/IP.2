@@ -14,21 +14,21 @@ Organiser was managed with an *incremental agile* approach and
 mainly used an *ArrayList* to meet its requirements.
 
 
-##Getting Started
+## Getting Started
 Listed below, will be instructions on how to get the program running.
 
-###Prerequisites
+### Prerequisites
 
 * Java Run Time Environment installed
 * or Java Development Kit 9 as a minimum
 
-###Installing
+### Installing
 Here is how to install the program after downloading the project
 from GitHub.
 
 1. Unzip the project file to your preferred location
 
-#####From Terminal
+##### From Terminal
 1. Copy the file path from where you unzipped the project 
    folder
 2. Open terminal
@@ -43,16 +43,21 @@ from GitHub.
 
 ````
 
-#####From an IDE
+##### From an IDE
 1. From navigation bar at the top, click *File*
 2. Navigate to *New*
 3. Then to *Project from Existing Sources*
 4. Find the project directory, from where you unzipped
    the file.
    
-##User Manual
+## User Manual
+Below is a screenshot of the main menu, from 
+here you will be able to navigate to all the
+functions available to you in the system.
 
+![lol]((/BUGS/#47.PNG))
 
+![](https://imgur.com/1WQoXWV)
 
  
 
