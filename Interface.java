@@ -46,7 +46,7 @@ public class Interface {
         parser = new Parser();
         command = "";
         taskOrganiser = new TaskOrganiser();
-        //loadFile();
+        loadFile();
         printWelcome();
     }
 
