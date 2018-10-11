@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -18,8 +16,10 @@ import java.util.Iterator;
 
 public class TaskOrganiser implements Serializable
 {
+
     private ArrayList<Task> tasks;
     private ArrayList<Task> finishedTasks;
+    private int nextId = 0;
 
     public TaskOrganiser() {
         tasks = new ArrayList<>();
@@ -27,25 +27,43 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * Add a new task to the collection.
+     * This method creates a task object from the Task
+     * class and stores the object in the TaskOrganiser
+     * ArrayList. The nextId field helps assign each task
+     * a unique ID each time this method is called.
      *
-     * @param taskTitle The description of your task
+     * @param taskTitle The title of your task
      */
 
     public void addTask(String taskTitle)
     {
-        Task t = new Task(taskTitle);
+        Task t = new Task(taskTitle, nextId + 1);
         tasks.add(t);
-        System.out.println("Task added");
+        nextId += 1;
+        System.out.println(">> Task added");
     }
 
     /**
-     * @return Returns the arraylist of tasks added, in the
-     * order they were added
+     * A method that returns a task
+     * @param index The index of the task to be returned
+     * @return A task object
+     */
+    public Task getTask(int index)
+    {
+        return tasks.get(index);
+    }
+
+    /**
+     * An empty ArrayList will affect what is displayed
+     * on the interface and will commonly stop functions
+     * to continue, considering it is empty.
+     *
+     * @return A boolean to check if ArrayList is empty
      */
 
-    public ArrayList<Task> getTasks() {
-        return tasks;
+    public boolean isEmpty()
+    {
+        return tasks.isEmpty();
     }
 
     /**
@@ -54,11 +72,12 @@ public class TaskOrganiser implements Serializable
      * added.
      *
      */
+
     public void printAllTasks()
     {
             if (tasks.isEmpty())
             {
-                System.out.println("There are no tasks to show.");
+                System.out.println(">> There are no tasks to show.");
             }
 
             else {
@@ -80,7 +99,7 @@ public class TaskOrganiser implements Serializable
         try
         {
             ArrayList<Task> orderByDate = new ArrayList<>(tasks);
-            Collections.sort(orderByDate, new DateComparator());
+            Collections.sort(orderByDate, new CalendarComparator());
 
             for (Task ordered : orderByDate) {
                 System.out.println(ordered.toString());
@@ -88,17 +107,16 @@ public class TaskOrganiser implements Serializable
 
             if (orderByDate.isEmpty())
             {
-                System.out.println("No tasks to show");
+                System.out.println(">> No tasks to show");
             }
 
         }
 
         catch (NullPointerException e)
         {
-            System.out.println("Due date values may be incorrect");
+            System.out.println(">> Due date values may be incorrect");
         }
     }
-
 
     /**
      * This will filter tasks by the project they are related to
@@ -121,7 +139,7 @@ public class TaskOrganiser implements Serializable
             if (filterByProject.isEmpty())
             {
                 System.out.println("--------------------------------------------------------------------------");
-                System.out.println("No tasks related to this project");
+                System.out.println(">> No tasks related to this project");
             }
 
             else {
@@ -153,13 +171,13 @@ public class TaskOrganiser implements Serializable
         ArrayList<Task> finishedTasks = new ArrayList<>();
         int noResult = -1;
 
-        if (findTask(taskId) != noResult)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
 
             tasks.get(index).changeStatus();
 
-            System.out.println("Task is now done");
+            System.out.println(">> Task is now done");
         }
 
     }
@@ -179,11 +197,11 @@ public class TaskOrganiser implements Serializable
     {
         int noResult = -1;
 
-        if (findTask (taskId) != noResult)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
             tasks.get(index).setProject(projectName);
-            System.out.println("Project updated");
+            System.out.println(">> Project updated");
         }
     }
 
@@ -193,8 +211,9 @@ public class TaskOrganiser implements Serializable
      * exists by calling the checkValidId method.
      *
      * @param taskId The task ID related to the task, that
-     *               you would like to remove
+     * you would like to remove
      */
+
     public void removeTask(int taskId)
     {
         if (checkValidId(taskId)) {
@@ -209,14 +228,14 @@ public class TaskOrganiser implements Serializable
                     finishedTasks.add(search);
                     it.remove();
                     found = true;
-                    System.out.println("Task successfully removed");
+                    System.out.println(">> Task successfully removed");
                 }
             }
         }
 
         else
         {
-            System.out.println("There are no tasks under this ID");
+            System.out.println(">> There are no tasks under this ID");
         }
     }
 
@@ -263,7 +282,7 @@ public class TaskOrganiser implements Serializable
      * @return The position of the task in the Array List
      */
 
-    public int findTask (int taskId)
+    public int findTaskIndex (int taskId)
     {
         if (checkValidId(taskId))
         {
@@ -290,7 +309,7 @@ public class TaskOrganiser implements Serializable
 
         else
         {
-            System.out.println("No task under this ID");
+            System.out.println(">> No task under this ID");
 
             int noResult = -1;
 
@@ -299,35 +318,87 @@ public class TaskOrganiser implements Serializable
 
     }
 
+
     /**
-     * This method allows you to update the due date of a task
-     * according to its ID. It also checks whether the task ID exists, by
-     * calling the findTask method in this class. The result of
-     * findTask method will always be -1 if the task does not exist.
+     * A method to print all projects if there has been one set.
+     * This uses a HashSet to enforce one project to be printed.
+     * The boolean return value is used, to print the correct
+     * information to the user in the interface class.
      *
-     * @param taskId The Task ID of the task to be updated
-     * @param dueYear The year the task is due
-     * @param dueMonth The month the task is due
-     * @param dueDate The date the task is due
+     * @return Are there no projects set to the tasks
      */
 
-    public void setDueDate(int taskId, int dueYear, int dueMonth, int dueDate)
+    public boolean printAllProjects()
     {
-        int noResult = -1;
+        boolean noProjects = true;
+        HashSet<String> uniqueProjects = new HashSet<String>();
 
-        if (findTask(taskId) != noResult)
+        for (Task task : tasks)
         {
-            int index = findTask(taskId);
-            Task result = tasks.get(index);
-
-            tasks.get(index).setDueDate(dueYear, dueMonth, dueDate);
-
-            if (!result.getDate().checkIfDefaultDate())
+            if (!task.getProject().equals(""))
             {
-                System.out.println("Due date set");
+                uniqueProjects.add(task.getProject());
+                noProjects = false;
             }
         }
 
+        if (uniqueProjects.isEmpty())
+        {
+            System.out.println(">> No projects to filter by");
+        }
+
+        else
+        {
+            for (String projects : uniqueProjects)
+            {
+                System.out.println(">> " + projects);
+            }
+        }
+
+        return noProjects;
+    }
+
+    /**
+     * A method used to count how many tasks in the organiser
+     * are in progress, this is displayed in the welcome
+     * message.
+     *
+     * @return A count of tasks in progress.
+     */
+
+    public int countToDo()
+    {
+        int result = 0;
+
+        for (Task toDo : tasks) {
+            if (toDo.getStatus().equals("In Progress")) {
+                result += 1;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * A method used to count how many tasks in the organiser
+     * are finished, this is displayed in the welcome message.
+     *
+     * @return A count of tasks that are finished.
+     */
+
+    public int countDone()
+    {
+        int result = 0;
+
+        for (Task done : tasks)
+        {
+            if (done.getStatus().equals("Finished"))
+            {
+                result += 1;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -343,14 +414,14 @@ public class TaskOrganiser implements Serializable
     {
         int noResult = -1;
 
-        if (findTask(taskId) != -1)
+        if (findTaskIndex(taskId) != noResult)
         {
-            int index = findTask(taskId);
+            int index = findTaskIndex(taskId);
             Task result = tasks.get(index);
 
             result.changeTaskTitle(changes);
 
-            System.out.println("Task title changed");
+            System.out.println(">> Task title changed");
         }
     }
 
@@ -374,12 +445,12 @@ public class TaskOrganiser implements Serializable
             writer.writeObject(object);
             writer.close();
 
-            System.out.println("File saved");
+            System.out.println(">> File Saved");
         }
 
         catch (IOException e)
         {
-            System.out.println("Error with file input/output");
+            System.out.println(">> Error with file input/output");
         }
     }
 
@@ -394,7 +465,7 @@ public class TaskOrganiser implements Serializable
      * @throws ClassNotFoundException
      */
 
-    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
+    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException, InvalidClassException
     {
         FileInputStream fis = new FileInputStream(fileName);
         BufferedInputStream bis = new BufferedInputStream(fis);
@@ -423,5 +494,7 @@ public class TaskOrganiser implements Serializable
 
         return (TaskOrganiser) unpackFile(fileName);
     }
+
+
 
 }

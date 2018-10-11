@@ -21,8 +21,11 @@ public class Interface {
 
     /**
      * The command field is regularly updated in this class, and is
-     * used to action commmands from the user. This is done by
-     * collecting information from the parser object.
+     * used to action commands from the user. This is done by
+     * collecting information from the parser object. The
+     * invalidInputCount, counts the number of times a user types
+     * an unexpected value in the interface. The interface will
+     * display messages related to this integer.
      */
 
     private Parser parser;
@@ -30,7 +33,14 @@ public class Interface {
     private String command;
     private int invalidInputCount = 0;
 
-
+    /**
+     * The constructor will use the loadFile method to stage the
+     * previous state of the taskOrganiser object for further
+     * manipulation.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Interface() throws IOException, ClassNotFoundException
     {
         parser = new Parser();
@@ -45,10 +55,11 @@ public class Interface {
      * the application.
      */
 
-    public void printWelcome() {
+    private void printWelcome() {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> Welcome to Task Organiser" + "\n" +
-                           ">> You have X tasks todo and Y tasks are done!" + "\n" +
+                           ">> You have " + taskOrganiser.countToDo() + " tasks to do and "
+                               + taskOrganiser.countDone() + " tasks are done!" + "\n" +
                            ">> Pick an option:" + "\n" +
                            ">> (1) Add New Task" + "\n" +
                            ">> (2) Show Task List" + "\n" +
@@ -71,7 +82,6 @@ public class Interface {
         while (!finished) {
 
             command = parser.getInput();
-            invalidInputHelp();
             finished = processInPut(command);
         }
 
@@ -89,7 +99,7 @@ public class Interface {
      *
      */
 
-    public boolean processInPut (String command) {
+    private boolean processInPut (String command) {
 
         boolean finished = false;
 
@@ -111,15 +121,27 @@ public class Interface {
 
             case "4": {
                 optionFour();
-                System.out.println("Goodbye");
+                System.out.println(">> Goodbye");
+                System.out.println("--------------------------------------------------------------------------");
                 finished = true;
                 break;
             }
 
-            default:
-                System.out.println("Invalid input");
-                invalidInputCount += 1;
+            default: {
+                System.out.println(">> Invalid input");
 
+                invalidInputCount += 1;
+                if (invalidInputHelp())
+                {
+                    printInvalidInputHelp();
+                }
+
+                else
+                {
+                    printWelcome();
+                }
+                break;
+            }
         }
         return finished;
     }
@@ -127,18 +149,19 @@ public class Interface {
     /**
      * The First branch from option one on the home page:
      * (1) Add New Task
-     *
      */
 
-    public void optionOne()
+    private void optionOne()
     {
+        System.out.println("--------------------------------------------------------------------------");
+
         System.out.println(">> Enter name of Task:");
 
-        String name = command = parser.getInput();
+        command = parser.getInput();
 
         System.out.println("--------------------------------------------------------------------------");
 
-        taskOrganiser.addTask(name);
+        taskOrganiser.addTask(command);
 
         printWelcome();
 
@@ -152,12 +175,14 @@ public class Interface {
      * by creating more branches.
      */
 
-    public void optionTwo()
+    private void optionTwo()
     {
+        System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> (a) show all tasks" + "\n" +
                            ">> (b) ordered by date" + "\n" +
                            ">> (c) filtered by project" + "\n" +
                            ">> (d) return to main menu");
+        System.out.println("--------------------------------------------------------------------------");
 
         command = parser.getInput();
 
@@ -182,13 +207,22 @@ public class Interface {
 
             case "c":
             {
-                System.out.println(">> Enter project you would like to filter by:");
+                System.out.println(">> Choose project you would like to filter by:");
+                if (taskOrganiser.printAllProjects())
+                {
+                    printWelcome();
+                    break;
+                }
 
-                command = parser.getInput();
+                else
+                {
+                    command = parser.getInput();
+                    System.out.println("--------------------------------------------------------------------------");
 
-                taskOrganiser.filterByProject(command);
-                printWelcome();
-                break;
+                    taskOrganiser.filterByProject(command);
+                    printWelcome();
+                    break;
+                }
             }
 
             case "d":
@@ -199,8 +233,19 @@ public class Interface {
 
             default:
             {
-                System.out.println("Invalid input");
-                optionTwo();
+                System.out.println(">> Invalid input");
+                invalidInputCount += 1;
+
+                if (invalidInputHelp())
+                {
+                    printInvalidInputHelp();
+                }
+
+                else
+                {
+                    printWelcome();
+                }
+                break;
             }
         }
     }
@@ -213,14 +258,16 @@ public class Interface {
      * by creating more branches.
      */
 
-    public void optionThree()
+    private void optionThree()
     {
+        System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> (a) add due date" + "\n" +
                            ">> (b) add project" + "\n" +
                            ">> (c) mark as done" + "\n" +
                            ">> (d) edit task name" + "\n" +
                            ">> (e) remove" + "\n" +
                            ">> (f) return to main menu");
+        System.out.println("--------------------------------------------------------------------------");
 
         command = parser.getInput();
 
@@ -228,145 +275,226 @@ public class Interface {
 
         switch (command)
         {
-            case "a":
-            {
+            case "a": {
                 int taskId;
+                int index;
                 int dueYear;
                 int dueMonth;
                 int dueDate;
+                int incorrectResult = -1;
 
-                taskId = chooseTaskFromList();
-
-                if (parser.getErrorFlag())
+                if (taskOrganiser.isEmpty())
                 {
-                    printWelcome();
-                    revertErrorFlag();
-                    break;
-                }
-
-                if (taskOrganiser.findTask(taskId) != -1) {
-
-                    System.out.println("--------------------------------------------------------------------------");
-
-
-                    System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
-                            ">> Please enter the year the task is due:");
-
-                    dueYear = parser.getIntInput();
-                    if (parser.getErrorFlag()) {
-                        printWelcome();
-                        revertErrorFlag();
-                        break;
-                    }
-
-                    System.out.println("--------------------------------------------------------------------------");
-
-
-                    System.out.println(">> Please enter the month the task is due:");
-
-                    dueMonth = parser.getIntInput();
-                    if (parser.getErrorFlag()) {
-                        printWelcome();
-                        revertErrorFlag();
-                        break;
-                    }
-
-                    System.out.println("--------------------------------------------------------------------------");
-
-
-                    System.out.println(">> Please enter the date the task is due:");
-
-                    dueDate = parser.getIntInput();
-                    if (parser.getErrorFlag()) {
-                        printWelcome();
-                        revertErrorFlag();
-                        break;
-                    }
-
-                    taskOrganiser.setDueDate(taskId, dueYear, dueMonth, dueDate);
+                    System.out.println(">> No Tasks to update");
                     printWelcome();
                     break;
                 }
 
-                else
-                {
-                    printWelcome();
-                    break;
-                }
+                else {
 
+                    chooseTaskFromList();
+
+                    try
+                    {
+                        taskId = parser.convertToInt();
+                    }
+
+                    catch (NumberFormatException e) {
+                        System.out.println(">> Please enter an integer");
+                        printWelcome();
+                        break;
+                    }
+
+                    if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
+                    {
+
+                        System.out.println("--------------------------------------------------------------------------");
+
+
+                        System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
+                                           ">> The year can be from 1900 and 5000 (inclusive)" + "\n" +
+                                           ">> Please enter the year the task is due:");
+
+                        try {
+                            dueYear = parser.convertToInt();
+
+
+                            System.out.println("--------------------------------------------------------------------------");
+
+
+                            System.out.println(">> The month can be from 1 and 12 (inclusive)." + "\n" +
+                                               ">> Please enter the month the task is due:");
+
+                            dueMonth = parser.convertToInt();
+
+
+                            System.out.println("--------------------------------------------------------------------------");
+
+                            System.out.println(">> The date can be from 1 and 31 (inclusive)." + "\n" +
+                                               ">> Please enter the date the task is due:");
+
+                            dueDate = parser.convertToInt();
+
+
+                            index = taskOrganiser.findTaskIndex(taskId);
+
+                            taskOrganiser.getTask(index).getDate().setDueDate(dueYear, dueMonth, dueDate);
+                            printWelcome();
+                            break;
+                        }
+
+                        catch (NumberFormatException e) {
+                            System.out.println(">> Please enter integers");
+                            printWelcome();
+                            break;
+                        }
+                    }
+
+                    else {
+                        printWelcome();
+                        break;
+                    }
+                }
             }
 
-            //!!!! ERROR WITH ADD PROJECT USING GETINTINPUT
             case "b":
             {
-                System.out.println(">> Please choose which Task ID of the task you would like" +
-                        " to update:");
 
-                taskOrganiser.printAllTasks();
-                int taskId = parser.getIntInput();
+                if (taskOrganiser.isEmpty())
+                {
+                    System.out.println(">> No Tasks to update");
+                    printWelcome();
+                    break;
+                }
+
+                else {
+                    chooseTaskFromList();
+
+                    try {
+
+                        int taskId = parser.convertToInt();
+
+                        System.out.println("--------------------------------------------------------------------------");
+
+                        System.out.println(">> Please enter the name of the project you would like" +
+                                           " to add:");
+
+                        command = parser.getInput();
+                        System.out.println("--------------------------------------------------------------------------");
 
 
-                System.out.println("--------------------------------------------------------------------------");
+                        taskOrganiser.updateProject(taskId, command);
+                        printWelcome();
+                        break;
+                    }
 
-                System.out.println(">> Please enter the name of the project you would like" +
-                                   " to add:");
-
-                command = parser.getInput();
-
-                taskOrganiser.updateProject(taskId, command);
-                break;
-
+                    catch (NumberFormatException e) {
+                        System.out.println(">> Please enter an integer");
+                        System.out.println("--------------------------------------------------------------------------");
+                        printWelcome();
+                        break;
+                    }
+                }
             }
 
             case "c":
             {
-                if (taskOrganiser.getTasks().isEmpty())
+                if (taskOrganiser.isEmpty())
                 {
-                    System.out.println("No Tasks to mark");
+                    System.out.println(">> No Tasks to update");
                     printWelcome();
                     break;
                 }
 
                 else
                 {
-                    int taskId = chooseTaskFromList();
-                    taskOrganiser.markAsDone(taskId);
-                    printWelcome();
-                    break;
+                    chooseTaskFromList();
+
+                    try {
+                        int taskId = parser.convertToInt();
+                        System.out.println("--------------------------------------------------------------------------");
+                        taskOrganiser.markAsDone(taskId);
+                        printWelcome();
+                        break;
+                    }
+
+                    catch (NumberFormatException e){
+                        System.out.println(">> Please enter an integer");
+                        printWelcome();
+                        break;
+                    }
                 }
             }
 
             case "d":
             {
 
-                taskOrganiser.printAllTasks();
-                System.out.println(">> Please choose which Task ID of the task you " +
-                        "would like to update");
-
-                try {
-                    int taskId = Integer.parseInt(parser.getInput());
-
-
-                    System.out.println(">> Enter your new task name:");
-
-                    command = parser.getInput();
-
-                    taskOrganiser.changeTaskTitle(taskId, command);
+                if (taskOrganiser.isEmpty())
+                {
+                    System.out.println(">> No Tasks to update");
+                    printWelcome();
+                    break;
                 }
 
-                catch (NumberFormatException e)
-                {
-                    System.out.println("Please enter an integer");
-                    System.out.println("--------------------------------------------------------------------------");
-                    optionThree();
-                    break;
+                else {
+                    try {
+
+                        chooseTaskFromList();
+                        int taskId = parser.convertToInt();
+                        System.out.println("--------------------------------------------------------------------------");
+
+
+                        System.out.println(">> Enter your new task name:");
+
+                        command = parser.getInput();
+                        System.out.println("--------------------------------------------------------------------------");
+
+
+                        taskOrganiser.changeTaskTitle(taskId, command);
+                        printWelcome();
+                        break;
+                    }
+
+                    catch (NumberFormatException e) {
+                        System.out.println(">> Please enter an integer");
+                        System.out.println("--------------------------------------------------------------------------");
+                        printWelcome();
+                        break;
+                    }
                 }
             }
 
-            case "e":
-            {
-                taskOrganiser.removeTask(chooseTaskFromList());
-                break;
+            case "e": {
+
+                if (taskOrganiser.isEmpty())
+                {
+                    System.out.println(">> No Tasks to update");
+                    printWelcome();
+                    break;
+                }
+
+                else {
+                    taskOrganiser.printAllTasks();
+                    System.out.println("--------------------------------------------------------------------------");
+                    System.out.println(">> Please choose which Task ID of the task you " +
+                                       "would like to remove");
+
+                    try {
+                        int remove = parser.convertToInt();
+                        System.out.println("--------------------------------------------------------------------------");
+
+                        taskOrganiser.removeTask(remove);
+                        printWelcome();
+                        break;
+                    }
+
+                    catch (NumberFormatException e) {
+                        System.out.println(">> Please enter an integer");
+                        System.out.println("--------------------------------------------------------------------------");
+                        printWelcome();
+                        break;
+                    }
+                }
             }
 
             case "f":
@@ -377,7 +505,19 @@ public class Interface {
 
             default:
             {
-                System.out.println("Invalid input");
+                System.out.println(">> Invalid input");
+
+                invalidInputCount += 1;
+
+                if (invalidInputHelp())
+                {
+                    printInvalidInputHelp();
+                }
+
+                else
+                {
+                    printWelcome();
+                }
                 break;
             }
         }
@@ -390,41 +530,83 @@ public class Interface {
      * This will load the task organiser object from a file
      * in the same directory as this project
      */
-    public void optionFour()
+
+    private void optionFour()
     {
         taskOrganiser.saveFile(taskOrganiser);
     }
 
-    public void loadFile() throws IOException, ClassNotFoundException
+    /**
+     * This is used to load the previous state of the taskOrganiser
+     * object and is done automatically in this class's constructor
+     * every time the application is run.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+
+    private void loadFile() throws IOException, ClassNotFoundException
     {
         taskOrganiser = TaskOrganiser.loadFile("sda");
     }
 
-    public int chooseTaskFromList()
-    {
-        int taskId;
+    /**
+     * A method which is reused by several functions to help the user
+     * pick a task from the organiser for further manipulation.
+     *
+     * @return The task Id of the task for manipulation
+     */
+
+    private void chooseTaskFromList() {
 
         System.out.println(">> Please choose which Task ID of the task you would like" +
-                " to update:");
+                           " to update:");
 
+        System.out.println("--------------------------------------------------------------------------");
         taskOrganiser.printAllTasks();
-
-        return taskId = parser.getIntInput();
-
+        System.out.println("--------------------------------------------------------------------------");
     }
 
-    public void invalidInputHelp()
+    /**
+     * A method which checks the invalidInputCount field,
+     * which is related to any unexpected value the user
+     * types in the interface. Works in conjunction with
+     * printInvalidInputHelp method and the interface
+     * to print out help messages in a correct order.
+     *
+     * @return A flag which tells the interface if the
+     * printWelcome message has already been called
+     * and is not required again.
+     */
+
+    private boolean invalidInputHelp()
     {
-        if (invalidInputCount % 4 == 3)
+        boolean alreadyPrintedWelcome = false;
+
+        if (invalidInputCount % 3 == 2)
         {
-            System.out.println("Try to only type values asked for in the program");
-            printWelcome();
+            return alreadyPrintedWelcome = true;
+        }
+
+        else
+        {
+            return alreadyPrintedWelcome;
         }
     }
 
-    public void revertErrorFlag()
+    /**
+     * A method which works together with the interface and
+     * invalidInputHelp method, to print a help message to
+     * the user.
+     */
+
+    private void printInvalidInputHelp()
     {
-        parser.revertErrorFlag();
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println(">> Try to only type expected values in the program. " + "\n" +
+                           ">> For example, to add a new task press: 1. " + "\n" +
+                           ">> Then press enter.");
+        printWelcome();
     }
 }
 

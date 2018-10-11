@@ -14,8 +14,7 @@ import java.io.Serializable;
 
 public class Task implements Serializable
 {
-    private static int nextId = 0;
-    private static String[] statusOptions = {"In Progress", "Finished"};
+    private static final String[] statusOptions = {"In Progress", "Finished"};
 
     private int taskId;
     private String taskTitle;
@@ -33,11 +32,10 @@ public class Task implements Serializable
      * @param taskTitle What the task is.
      */
 
-    public Task (String taskTitle)
+    public Task (String taskTitle, int taskId)
     {
         this.taskTitle = taskTitle;
-        taskId = nextId + 1;
-        nextId += 1;
+        this.taskId = taskId;
         status = statusOptions[0];
         date = new TaskDate();
     }
@@ -105,21 +103,6 @@ public class Task implements Serializable
     }
 
     /**
-     * This method allows the user to define when a task is due,
-     * relative to the parameters
-     *
-     * @param dueYear The year a task is due
-     * @param dueMonth The month a task is due
-     * @param dueDate The date a task is due
-     */
-
-    public void setDueDate (int dueYear, int dueMonth, int dueDate)
-    {
-
-        date.setDueDate(dueYear, dueMonth, dueDate);
-    }
-
-    /**
      *
      * @return A string representation of the Task object
      */
@@ -127,9 +110,9 @@ public class Task implements Serializable
     public String toString()
     {
             String result = "Task id: " + taskId + "\n" +
-                    "Task title: " + taskTitle + "\n" +
+                    "Task Title: " + taskTitle + "\n" +
                     "Project: " + project + "\n" +
-                    "Due date: " + date.printDateString() + "\n" +
+                    "Due Date: " + date.printDateString() + "\n" +
                     "Status: " + getStatus() + "\n";
 
             return result;

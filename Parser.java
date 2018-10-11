@@ -17,22 +17,26 @@ import java.util.Scanner;
 public class Parser {
 
     private Scanner reader;
-    private boolean errorFlag;
 
     public Parser()
     {
         reader = new Scanner(System.in);
-        errorFlag = false;
     }
 
     /**
      * This takes the user input which should be an integer, which
      * in eventually would be used to allow the user to choose an
-     * option from the interface
+     * option from the interface. This method cuts spaces between
+     * the user input and converts the String to lower case. Doing
+     * so, avoids exceptions occurring when matching the choices
+     * a user makes when selecting menu options in the
+     * interface.
      *
      * @return The integer or option the user has input
      */
-    public String getInput() {
+
+    public String getInput()
+    {
 
         System.out.println(">> ");
 
@@ -42,44 +46,22 @@ public class Parser {
 
     }
 
-    public int getIntInput()
+    /**
+     * A method to parse user input on the interface from String
+     * to integers.
+     *
+     * @return An int the user has typed in the interface.
+     */
+
+    public int convertToInt()
     {
         System.out.println(">> ");
 
-        try
-        {
-            int input = reader.nextInt();
-            return input;
-        }
+            String input = reader.nextLine().trim();
 
-        catch (NumberFormatException e)
-        {
-            System.out.println("Please enter an integer");
-            errorFlag = true;
-            return -1;
-        }
+            int result = Integer.parseInt(input);
 
-        catch (InputMismatchException e)
-        {
-            System.out.println("Please enter an integer");
-            errorFlag = true;
-            return -1;
-        }
-    }
-
-    public Scanner getReader()
-    {
-        return reader;
-    }
-
-    public boolean getErrorFlag()
-    {
-        return errorFlag;
-    }
-
-    public void revertErrorFlag()
-    {
-        errorFlag = false;
+            return result;
     }
 
 }
