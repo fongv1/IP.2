@@ -170,7 +170,7 @@ public class TaskDate implements Serializable {
 
     public void handleLoopYears()
     {
-
+        int nextLoopYear = 1972
     }
 
     public void handleShortMonths()
