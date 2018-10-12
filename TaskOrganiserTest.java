@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 
@@ -78,6 +79,9 @@ public class TaskOrganiserTest {
     @Test
     public void emptyOrderByDateTest(){
 
+        ArrayList<Task> emptyOrderbyDate = emptyTaskOrg.orderByDate();
+        assertEquals("true if empty task is empty", true, emptyTaskOrg.isEmpty() );
+        
     }
 
     @Test
