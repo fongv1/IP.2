@@ -3,10 +3,10 @@ import java.util.Calendar;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
  * The TaskDate class models the due date of a task. It will prepare
  * a due date for a task to have a default state. And enforce
@@ -41,7 +41,7 @@ public class TaskDate implements Serializable {
     /**
      * Set the due date of a task relative to the parameters,
      * provided the parameters are valid. Month value has one
-     * taken away from the users input to fall in line with a
+     * taken away from the users' input to fall in line with a
      * 0 start to months (i.e. 0 is January).
      *
      * @param year  The year which the task is due
@@ -63,10 +63,10 @@ public class TaskDate implements Serializable {
 
 
     /**
-     * This tests if the user's calendar input is a valid for the
+     * This tests if the user's calendar input is valid for the
      * task's due date. Users will only be able to set tasks due
-     * from 1971, because the date of a default/cleared Calendar
-     * object has a year of 1970.
+     * from 1971 to 5000 (an arbitrary figure), because the date
+     * of a default/cleared Calendar object has a year of 1970.
      *
      * @param year  Test the year due date of the task
      * @param month Test the month due date of the task
@@ -97,8 +97,8 @@ public class TaskDate implements Serializable {
      * method to confirm if a dueDate is at its default state, or if
      * it has been set by the user. It will shift the month by 1 when
      * printed to the user, as the Calendar class has a field for
-     * month which starts at 0. It will also add a 0 to the date, if
-     * the date is less than 10, such that the String fits a
+     * month which starts at 0. It will also add a 0 to the date/month
+     * , if the date is less than 10, such that the String fits a
      * YYYY-MM-DD format.
      *
      * @return A String based on the dueDate of a task
@@ -108,12 +108,12 @@ public class TaskDate implements Serializable {
 
         String dateString;
         String monthString;
+        String result;
 
         if (checkIfDefaultDate()) {
 
-            String result = "Not set";
+            result = "Not set";
 
-            return result;
 
         } else {
 
@@ -135,12 +135,12 @@ public class TaskDate implements Serializable {
                 monthString = month + "";
             }
 
-            String result = dueDate.get(Calendar.YEAR) + "-" +
+            result = dueDate.get(Calendar.YEAR) + "-" +
                             monthString + "-" + dateString;
 
-            return result;
         }
 
+        return result;
     }
 
     /**

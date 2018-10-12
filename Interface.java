@@ -4,14 +4,14 @@ import java.util.InputMismatchException;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
- * The Interface class is the main kick off point for the application.
- * Taking values its parser object from the Parser class, it interprets
- * information from the user into commands. These commands are used on
+ * The Interface class is the kick off point for the application.
+ * Taking values from the parser object, it interprets information
+ * from the user into commands. These commands are used on
  * the taskOrganiser object to manipulate tasks. This class also has
  * all the interface menu options to allow the user to logically
  * move through the system.
@@ -72,7 +72,7 @@ public class Interface {
     /**
      * The kickoff point of the application, this uses a loop
      * to keep the application running. It will action commands
-     * by interating with the processInput method, which also
+     * by interacting with the processInput method, which also
      * contains a scenario where the user can quit the system.
      */
 
@@ -89,9 +89,9 @@ public class Interface {
 
     /**
      * This is the first branch from the home page, each case
-     * will branch further into functions related to it. The
-     * method will return true, which will stop the program
-     * through the start method.
+     * will branch further into more specific functions. It
+     * passes a command from the parser to process the users'
+     * input.
      *
      * @param command Stores a command from the user
      * @return False if the program is to continue running,
@@ -173,7 +173,7 @@ public class Interface {
      * (2) Show Task List
      *
      * It allows the user to further specify their needs
-     * by creating more branches.
+     * by displaying more menu branches.
      */
 
     private void optionTwo()
@@ -257,7 +257,7 @@ public class Interface {
      * (3) Edit Task
      *
      * It allows the user to further specify their needs
-     * by creating more branches.
+     * by displaying more menu branches.
      */
 
     private void optionThree()
@@ -553,8 +553,8 @@ public class Interface {
      * The fourth branch from option four on the home page:
      * (4) Save and Quit
      *
-     * This will load the task organiser object from a file
-     * in the same directory as this project
+     * This will save the task organiser object to a file
+     * in the same directory as this project.
      */
 
     private void optionFour()
@@ -564,8 +564,8 @@ public class Interface {
 
     /**
      * This is used to load the previous state of the taskOrganiser
-     * object and is done automatically in this class's constructor
-     * every time the application is run.
+     * object and is done each time the application is run (in this
+     * class's constructor).
      *
      * @throws IOException
      * @throws ClassNotFoundException
@@ -611,13 +611,10 @@ public class Interface {
 
         if (invalidInputCount % 3 == 2)
         {
-            return alreadyPrintedWelcome = true;
+            alreadyPrintedWelcome = true;
         }
 
-        else
-        {
-            return alreadyPrintedWelcome;
-        }
+        return alreadyPrintedWelcome;
     }
 
     /**

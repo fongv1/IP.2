@@ -14,15 +14,14 @@ import java.util.ArrayList;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
  * The TaskOrganiser class provides the user with functionality to
- * manipulate the task objects using a collection. A TaskOrganiser
- * object will receive commands from the user through the interface to
- * make the requisite actions
+ * manipulate and store task object. A TaskOrganiser object will receive
+ * commands from the user through the interface to make the requisite actions.
  */
 
 public class TaskOrganiser implements Serializable
@@ -32,7 +31,8 @@ public class TaskOrganiser implements Serializable
     private int nextId = 0;
 
 
-    public TaskOrganiser() {
+    public TaskOrganiser()
+    {
         tasks = new ArrayList<>();
     }
 
@@ -43,8 +43,7 @@ public class TaskOrganiser implements Serializable
      * each time this method is called.
      *
      * @param taskTitle The description of the task.
-     * @return returns the TaskID, mainly used to validate
-     * unit testing class.
+     * @return returns the TaskID.
      */
 
     public int addTask(String taskTitle)
@@ -69,8 +68,8 @@ public class TaskOrganiser implements Serializable
 
     /**
      * An empty ArrayList will affect what is displayed
-     * on the interface and will commonly stop functions
-     * to continue, considering it is empty.
+     * on the interface and will commonly dictate particular
+     * behaviours in the application according to its result.
      *
      * @return A boolean to check if ArrayList is empty
      */
@@ -102,11 +101,11 @@ public class TaskOrganiser implements Serializable
 
     /**
      * This method will return the number of tasks in the organiser
-     * have no due date set by the user. This is used in conjuction
+     * that have no due date set by the user. Used in conjunction
      * with the orderByDate method.
      *
      * @return The number of tasks which have a default Calendar
-     * object date.
+     * object date (Jan 1st 1970).
      */
     public int testIfNoDueDates()
     {
@@ -126,17 +125,18 @@ public class TaskOrganiser implements Serializable
     /**
      * This method aims to sort a task by its due date in an ascending
      * order. It will not display anything to the user if no tasks have
-     * been added, or if tasks have been added and all of them do not
-     * have a due date.
+     * been added, or if tasks have been added and none of them have a
+     * due date set by the user.
      *
-     * Task organisers that have some tasks with due dates and others
-     * not, will be sorted and displayed to the user through the interface.
-     * Users are only allowed to set due dates after 1st of Jan 1970.
+     * Task organisers that have some tasks with due dates set by the user
+     * and others not, will be sorted and displayed to the user through
+     * the interface.
      *
-     * However, because a default date (a task with no due date set) will
-     * have a Calendar objects cleared state (1st Jan 1970), a sorted
-     * task organiser will order these tasks first, then tasks which
-     * have their due date set by the user.
+     * However, a default date (a task with no due date set) will
+     * have a Calendar objects cleared state (1st Jan 1970). Users are
+     * restricted to setting due dates after this date. Task organiser
+     * will at first not distinguish a default due date and one set by
+     * the user, when sorting the taks.
      *
      * In these scenarios this method will add extra logic to display
      * tasks in the correct order by date.
@@ -189,7 +189,7 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This will filter tasks by the project they are related to
+     * This will filter tasks by the project they are related to.
      *
      * @param projectSearch The project name you want to filter by
      * @return An ArrayList of Tasks associated to the filtered
@@ -224,11 +224,11 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method allows users to mark the task as done,
-     * which will remove it from the current collection of tasks.
+     * This method allows users to mark the task as done.
      * It also checks whether the task ID exists, by calling the
      * findTask method in this class. The result of findTask
-     * will always be -1 if the task does not exist.
+     * will always be -1 if the task does not exist (since there
+     * is never an ID with -1).
      *
      * @param taskId The task ID related to task to be updated.
      * @return True if task marked as done successfully
@@ -236,7 +236,7 @@ public class TaskOrganiser implements Serializable
 
     public boolean markAsDone(int taskId)
     {
-        boolean functionSuccessful = false;
+        boolean functionSuccessful;
 
         int noResult = -1;
 
@@ -273,7 +273,7 @@ public class TaskOrganiser implements Serializable
 
     public boolean updateProject(int taskId, String projectName)
     {
-        boolean functionSuccessful = false;
+        boolean functionSuccessful;
 
         int noResult = -1;
 
@@ -366,15 +366,15 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method finds a task in the organiser according
+     * This method that finds a task in the organiser according
      * to the Task ID. It returns the position of the task
-     * in the Array List and helps other functions in this
+     * in the Array List as an index and helps other functions in this
      * class perform their tasks. If the task does not
      * exist it returns -1, which is used by other methods
      * in this class.
      *
      * @param taskId The Task ID you are searching for
-     * @return The position of the task in the Array List
+     * @return The position or index of the task in the Array List
      */
 
     public int findTaskIndex (int taskId)
@@ -416,11 +416,11 @@ public class TaskOrganiser implements Serializable
 
     /**
      * A method to print all projects if they have been set.
-     * This uses a HashSet to enforce one project to be printed.
-     * The boolean return value is used, to print the correct
+     * This uses a HashSet to enforce unique projects to be printed.
+     * The boolean return value is used, to help print the correct
      * information to the user in the interface class.
      *
-     * @return Are there no projects set to the tasks
+     * @return True if no projects linked to tasks
      */
 
     public boolean printAllProjects()
@@ -506,6 +506,7 @@ public class TaskOrganiser implements Serializable
      * @param changes The new Task Title
      * @return True if task title changed.
      */
+
     public boolean changeTaskTitle (int taskId, String changes)
     {
         boolean functionSuccessful = false;
@@ -558,7 +559,6 @@ public class TaskOrganiser implements Serializable
         catch (IOException e)
         {
             System.out.println(">> Error with file input/output");
-            successful = false;
         }
 
         return successful;

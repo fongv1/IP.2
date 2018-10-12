@@ -3,10 +3,10 @@ import java.util.Comparator;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
  * This interface allows the comparison of two due dates of a task, to
  * facilitate the sorting of a task (by due date).
