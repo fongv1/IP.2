@@ -56,15 +56,14 @@ Below is an example of the main menu, from
 here you will be able to navigate to all the
 functions available to you in the system.
 
-![Main Menu](/Users/tmp-sda-1163/Desktop/IP.2/Screenshots/MainMenu.png)
+![Main Menu](https://user-images.githubusercontent.com/42774596/46870225-4e2a1b80-ce2e-11e8-9d0a-a2b3e57f189d.png)
 
 * To navigate to a menu, select the option inside the bracket
 by typing the choice and pressing enter. 
 * You may find more specific functions under each option.
 * For example, to Save and Quit press "4" and enter
 
-![Save and Quit](/Users/tmp-sda-1163/Desktop/IP.2/Screenshots/SaveQuit.png
-)
+![Save and Quit](https://user-images.githubusercontent.com/42774596/46870252-669a3600-ce2e-11e8-8de7-99690acae3a7.png)
 
 ### Entering Values
 * At certain times, you will be prompted to enter input for a 
@@ -73,7 +72,7 @@ task.
 * For example setting a due date for a task will only accept
 integers
 
-![Entering Values](/Users/tmp-sda-1163/Desktop/IP.2/Screenshots/EnteringValues1.png)
+![Entering Values](https://user-images.githubusercontent.com/42774596/46870174-2a66d580-ce2e-11e8-9cc9-7e14d69f8289.png)
 
 
 
