@@ -32,14 +32,14 @@ from GitHub.
 1. Copy the file path from where you unzipped the project 
    folder
 2. Open terminal and enter these commands line by line:
-3. ````
+     ````
     $ cd [paste path from project directory]
     
     $ javac Main.java
     
     $ java Main
    
-   ````
+     ````
 
 ##### From an IDE
 1. From navigation bar at the top, click *File*
@@ -49,9 +49,14 @@ from GitHub.
    the file to open the project.
    
 ## User Manual
-Below is a screenshot of the main menu, from 
+Below is an example of the main menu, from 
 here you will be able to navigate to all the
 functions available to you in the system.
+
+![Uploading Screen Shot 2018-10-11 at 10.27.01.png…]()
+
+
+
 
 
 

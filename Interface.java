@@ -376,19 +376,30 @@ public class Interface {
                     try {
 
                         int taskId = parser.convertToInt();
+                        int incorrectResult = -1;
 
-                        System.out.println("--------------------------------------------------------------------------");
+                        if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
+                        {
 
-                        System.out.println(">> Please enter the name of the project you would like" +
-                                           " to add:");
+                            System.out.println("--------------------------------------------------------------------------");
 
-                        command = parser.getInput();
-                        System.out.println("--------------------------------------------------------------------------");
+                            System.out.println(">> Please enter the name of the project you would like" +
+                                    " to add:");
+
+                            command = parser.getInput();
+                            System.out.println("--------------------------------------------------------------------------");
 
 
-                        taskOrganiser.updateProject(taskId, command);
-                        printWelcome();
-                        break;
+                            taskOrganiser.updateProject(taskId, command);
+                            printWelcome();
+                            break;
+                        }
+
+                        else
+                        {
+                            printWelcome();
+                            break;
+                        }
                     }
 
                     catch (NumberFormatException e) {
@@ -444,19 +455,31 @@ public class Interface {
 
                         chooseTaskFromList();
                         int taskId = parser.convertToInt();
-                        System.out.println("--------------------------------------------------------------------------");
+                        int incorrectResult = -1;
+
+                        if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
+                        {
+                            System.out.println("--------------------------------------------------------------------------");
 
 
-                        System.out.println(">> Enter your new task name:");
+                            System.out.println(">> Enter your new task name:");
 
-                        command = parser.getInput();
-                        System.out.println("--------------------------------------------------------------------------");
+                            command = parser.getInput();
+                            System.out.println("--------------------------------------------------------------------------");
 
 
-                        taskOrganiser.changeTaskTitle(taskId, command);
-                        printWelcome();
-                        break;
-                    }
+                            taskOrganiser.changeTaskTitle(taskId, command);
+                            printWelcome();
+                            break;
+                        }
+
+                        else
+                        {
+                            printWelcome();
+                            break;
+                        }
+
+                        }
 
                     catch (NumberFormatException e) {
                         System.out.println(">> Please enter an integer");

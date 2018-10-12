@@ -7,7 +7,6 @@ import org.junit.Before;
 
 
 import org.junit.Test;
-import org.junit.runner.notification.RunListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -180,12 +179,6 @@ public class TaskOrganiserTest {
     public void emptySaveFileTest(){
         assertEquals("true if file saved", true, TaskOrganiser.saveFile(emptyTaskOrg));
     }
-
-
-
-    /*This test will only pass if system is at its default state. This is
-      because task organiser will save and load the same file named "sda".
-     */
 
     @Test
     public void emptyLoadFileTest() throws IOException, ClassNotFoundException {

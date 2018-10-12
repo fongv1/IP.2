@@ -29,13 +29,11 @@ public class TaskOrganiser implements Serializable
 {
 
     private ArrayList<Task> tasks;
-    private ArrayList<Task> finishedTasks;
     private int nextId = 0;
 
 
     public TaskOrganiser() {
         tasks = new ArrayList<>();
-        finishedTasks = new ArrayList<>();
     }
 
     /**
@@ -103,6 +101,29 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
+     * This method will return the number of tasks in the organiser
+     * have no due date set by the user. This is used in conjuction
+     * with the orderByDate method.
+     *
+     * @return The number of tasks which have a default Calendar
+     * object date.
+     */
+    public int testIfNoDueDates()
+    {
+        int testIfNoDueDates = 0;
+
+        for (Task tests : tasks)
+        {
+            if (tests.getDate().checkIfDefaultDate())
+            {
+                testIfNoDueDates += 1;
+            }
+        }
+
+        return testIfNoDueDates;
+    }
+
+    /**
      * This method aims to sort a task by its due date in an ascending
      * order. It will not display anything to the user if no tasks have
      * been added, or if tasks have been added and all of them do not
@@ -126,19 +147,9 @@ public class TaskOrganiser implements Serializable
     public ArrayList<Task> orderByDate() {
         ArrayList<Task> orderByDate = new ArrayList<>(tasks);
 
-        int testIfNoDueDates = 0;
-
-        for (Task tests : orderByDate)
+        if (testIfNoDueDates() == orderByDate.size())
         {
-            if (tests.getDate().checkIfDefaultDate())
-            {
-                testIfNoDueDates += 1;
-            }
-        }
-
-        if (testIfNoDueDates == orderByDate.size())
-        {
-            System.out.println(">> No due dates set for all tasks. Can not sort tasks");
+            System.out.println(">> No due date set for any task. Can not order tasks");
         }
 
         else if (orderByDate.isEmpty())
@@ -306,7 +317,6 @@ public class TaskOrganiser implements Serializable
                 Task search = it.next();
 
                 if (search.getTaskId() == taskId) {
-                    finishedTasks.add(search);
                     it.remove();
                     found = true;
                     System.out.println(">> Task successfully removed");
@@ -416,7 +426,7 @@ public class TaskOrganiser implements Serializable
     public boolean printAllProjects()
     {
         boolean noProjects = true;
-        HashSet<String> uniqueProjects = new HashSet<String>();
+        HashSet<String> uniqueProjects = new HashSet<>();
 
         for (Task task : tasks)
         {
