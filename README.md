@@ -73,7 +73,7 @@ task.
 * For example setting a due date for a task will only accept
 integers
 
-
+![Entering Values](/Users/tmp-sda-1163/Desktop/IP.2/Screenshots/EnteringValues1.png)
 
 
 
