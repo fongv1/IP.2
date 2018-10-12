@@ -81,7 +81,7 @@ public class TaskOrganiserTest {
 
         ArrayList<Task> emptyOrderbyDate = emptyTaskOrg.orderByDate();
         assertEquals("true if empty task is empty", true, emptyTaskOrg.isEmpty() );
-        
+
     }
 
     @Test
