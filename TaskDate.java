@@ -167,4 +167,14 @@ public class TaskDate implements Serializable {
 
         return result;
     }
+
+    public void handleLoopYears()
+    {
+
+    }
+
+    public void handleShortMonths()
+    {
+        
+    }
 }
