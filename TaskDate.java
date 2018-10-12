@@ -1,5 +1,7 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Task Organiser is a simple application which allows users to manage
@@ -16,7 +18,13 @@ import java.util.Calendar;
 
 public class TaskDate implements Serializable {
 
+    private static ArrayList<Integer> monthsWithThirtyDays = {3, 5, 8, 10};
+
     private Calendar dueDate = Calendar.getInstance();
+    private HashMap<Integer, Integer> daysInMonth;
+    private ArrayList<Integer> leapYears;
+
+
 
     /**
      * A dueDate of a task will always start at a default state
@@ -26,6 +34,8 @@ public class TaskDate implements Serializable {
 
     public TaskDate() {
         dueDate.clear();
+        populateLeapYears();
+        populateDaysInMonth();
     }
 
 
@@ -65,7 +75,7 @@ public class TaskDate implements Serializable {
     /**
      * This tests if the user's calendar input is valid for the
      * task's due date. Users will only be able to set tasks due
-     * from 1971 to 5000 (an arbitrary figure), because the date
+     * from 2000 to 2100 (an arbitrary figure), because the date
      * of a default/cleared Calendar object has a year of 1970.
      *
      * @param year  Test the year due date of the task
@@ -77,13 +87,19 @@ public class TaskDate implements Serializable {
     private boolean testDateParameters(int year, int month, int date) {
         boolean correct;
 
-        if (year < 1971 || year > 5000) {
+        if (year < 2000 || year > 2100) {
             correct = false;
-        } else if (month < 1 || month > 12) {
+        }
+
+        else if (month < 1 || month > 12) {
             correct = false;
-        } else if (date < 1 || date > 31) {
+        }
+
+        else if (date < 1 || date > 31) {
             correct = false;
-        } else {
+        }
+
+        else {
             correct = true;
         }
 
@@ -168,13 +184,68 @@ public class TaskDate implements Serializable {
         return result;
     }
 
-    public void handleLoopYears()
-    {
-        int nextLoopYear = 1972
+    public boolean testDate(int year, int month, int date) {
+        boolean correct = false;
+        int february = 1;
+        Calendar tempCal = Calendar.getInstance();
+
+        if (leapYears.contains(year))
+        {
+            if (month == february)
+            {
+                if (date <= 29)
+                {
+                    correct = true;
+                }
+
+                else {
+                        System.out.println(">> " + year + " is a leap year, February can only have 29 days");
+                }
+            }
+
+            else {
+
+                if (monthsWithThirtyDays.contains(month))
+                {
+                    if (date < 31)
+                    {
+                        correct = true;
+                    }
+
+                    else
+                    {
+                        tempCal.set(Calendar.MONTH, month);
+                        System.out.println(">> There are only 30 days in " + tempCal.get() );
+                    }
+                }
+
+            }
+        }
+
     }
 
-    public void handleShortMonths()
+    public void populateLeapYears()
     {
-        
+        leapYears = new ArrayList<>();
+
+        for (int i = 2000; i < 2100; i += 4)
+        {
+            leapYears.add(i);
+        }
+
+        for (Integer all : leapYears)
+        {
+            System.out.println(all);
+        }
+
     }
+
+    public void populateThirtyDayMonths()
+        {
+            monthsWithThirtyDays.add(3);
+            monthsWithThirtyDays.add(5);
+            monthsWithThirtyDays.add(8);
+            monthsWithThirtyDays.add(10);
+        }
+
 }
