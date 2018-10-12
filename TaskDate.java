@@ -3,12 +3,15 @@ import java.util.Calendar;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
- * The TaskDate class models the due date of a task.
+ * The TaskDate class models the due date of a task. It will prepare
+ * a due date for a task to have a default state. And enforce
+ * expected due date values to ensure the task organiser can perform
+ * its functions.
  */
 
 public class TaskDate implements Serializable {
@@ -37,7 +40,9 @@ public class TaskDate implements Serializable {
 
     /**
      * Set the due date of a task relative to the parameters,
-     * provided the parameters are valid.
+     * provided the parameters are valid. Month value has one
+     * taken away from the users' input to fall in line with a
+     * 0 start to months (i.e. 0 is January).
      *
      * @param year  The year which the task is due
      * @param month The month which the  task is due
@@ -46,11 +51,6 @@ public class TaskDate implements Serializable {
 
     public void setDueDate(int year, int month, int date) {
         if (testDateParameters(year, month, date)) {
-            Calendar currentCalendar = Calendar.getInstance();
-            currentCalendar.set(Calendar.YEAR, year);
-            currentCalendar.set(Calendar.MONTH, month - 1);
-            currentCalendar.set(Calendar.DATE, date);
-
             dueDate.set(Calendar.YEAR, year);
             dueDate.set(Calendar.MONTH, month - 1);
             dueDate.set(Calendar.DATE, date);
@@ -63,9 +63,10 @@ public class TaskDate implements Serializable {
 
 
     /**
-     * This tests if the user's calendar input is a valid for the
+     * This tests if the user's calendar input is valid for the
      * task's due date. Users will only be able to set tasks due
-     * up till the year 5000.
+     * from 1971 to 5000 (an arbitrary figure), because the date
+     * of a default/cleared Calendar object has a year of 1970.
      *
      * @param year  Test the year due date of the task
      * @param month Test the month due date of the task
@@ -76,7 +77,7 @@ public class TaskDate implements Serializable {
     private boolean testDateParameters(int year, int month, int date) {
         boolean correct;
 
-        if (year < 1900 || year > 5000) {
+        if (year < 1971 || year > 5000) {
             correct = false;
         } else if (month < 1 || month > 12) {
             correct = false;
@@ -96,8 +97,8 @@ public class TaskDate implements Serializable {
      * method to confirm if a dueDate is at its default state, or if
      * it has been set by the user. It will shift the month by 1 when
      * printed to the user, as the Calendar class has a field for
-     * month which starts at 0. It will also add a 0 to the date, if
-     * the date is less than 10, such that the String fits a
+     * month which starts at 0. It will also add a 0 to the date/month
+     * , if the date is less than 10, such that the String fits a
      * YYYY-MM-DD format.
      *
      * @return A String based on the dueDate of a task
@@ -107,12 +108,12 @@ public class TaskDate implements Serializable {
 
         String dateString;
         String monthString;
+        String result;
 
         if (checkIfDefaultDate()) {
 
-            String result = "Not set";
+            result = "Not set";
 
-            return result;
 
         } else {
 
@@ -125,20 +126,28 @@ public class TaskDate implements Serializable {
             }
 
             int month = dueDate.get(Calendar.MONTH) + 1;
-            monthString = dueDate.get(Calendar.MONTH) + 1 + "";
 
-            String result = dueDate.get(Calendar.YEAR) + "-" +
+            if (month < 10){
+                monthString = "0" + month ;
+            }
+
+            else {
+                monthString = month + "";
+            }
+
+            result = dueDate.get(Calendar.YEAR) + "-" +
                             monthString + "-" + dateString;
 
-            return result;
         }
 
+        return result;
     }
 
     /**
      * A method which checks if the dueDate field is at its
      * default beginning state, or if it has been set by the
-     * user.
+     * user. The default date of a Calendar object is 1st Jan
+     * 1970. Users can only set due dates after this date.
      *
      * @return Is the due date default?
      */
@@ -151,11 +160,11 @@ public class TaskDate implements Serializable {
 
 
         if (dueDate.equals(empty)) {
-            result = true;
-            return result = true;
 
-        } else {
-            return result;
+            result = true;
+
         }
+
+        return result;
     }
 }

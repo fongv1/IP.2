@@ -1,17 +1,14 @@
-import java.io.Reader;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
- * The Parser class reads user input and tries to interpret it as a
- * command to use Task Organiser's functions. The parser uses a simple
- * set of known numbers as controls to direct the application.
+ * The Parser class reads user input and converts it into information
+ * passed on to the Interface.
  */
 
 public class Parser {
@@ -24,15 +21,12 @@ public class Parser {
     }
 
     /**
-     * This takes the user input which should be an integer, which
-     * in eventually would be used to allow the user to choose an
-     * option from the interface. This method cuts spaces between
-     * the user input and converts the String to lower case. Doing
-     * so, avoids exceptions occurring when matching the choices
-     * a user makes when selecting menu options in the
-     * interface.
+     * This takes user input and converts it to a String. This
+     * is used in tandem with the Interface class and task
+     * organiser class to match user input with menu options,
+     * or to store values to mutate or manipulate tasks.
      *
-     * @return The integer or option the user has input
+     * @return A String of input from the user.
      */
 
     public String getInput()
@@ -47,10 +41,12 @@ public class Parser {
     }
 
     /**
-     * A method to parse user input on the interface from String
-     * to integers.
+     * This takes user input and converts it to an integer. This
+     * is used in tandem with the Interface class and task
+     * organiser class to match user input with menu options,
+     * or to store values to mutate or manipulate tasks.
      *
-     * @return An int the user has typed in the interface.
+     * @return An integer the user has typed in the interface.
      */
 
     public int convertToInt()

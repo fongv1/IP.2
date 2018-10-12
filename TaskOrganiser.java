@@ -1,46 +1,58 @@
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
  * The TaskOrganiser class provides the user with functionality to
- * manipulate the task objects using a collection. A TaskOrganiser
- * object will receive commands from the user through the interface to
- * make the requisite actions
+ * manipulate and store task object. A TaskOrganiser object will receive
+ * commands from the user through the interface to make the requisite actions.
  */
 
 public class TaskOrganiser implements Serializable
 {
 
     private ArrayList<Task> tasks;
-    private ArrayList<Task> finishedTasks;
     private int nextId = 0;
 
-    public TaskOrganiser() {
+
+    public TaskOrganiser()
+    {
         tasks = new ArrayList<>();
-        finishedTasks = new ArrayList<>();
     }
 
     /**
-     * This method creates a task object from the Task
-     * class and stores the object in the TaskOrganiser
-     * ArrayList. The nextId field helps assign each task
-     * a unique ID each time this method is called.
+     * This method creates a task object from the Task class
+     * and stores the object in the taskOrganiser ArrayList.
+     * The nextId field helps assign each task a unique ID
+     * each time this method is called.
      *
-     * @param taskTitle The title of your task
+     * @param taskTitle The description of the task.
+     * @return returns the TaskID.
      */
 
-    public void addTask(String taskTitle)
+    public int addTask(String taskTitle)
     {
         Task t = new Task(taskTitle, nextId + 1);
         tasks.add(t);
         nextId += 1;
         System.out.println(">> Task added");
+        return t.getTaskId();
     }
 
     /**
@@ -48,6 +60,7 @@ public class TaskOrganiser implements Serializable
      * @param index The index of the task to be returned
      * @return A task object
      */
+
     public Task getTask(int index)
     {
         return tasks.get(index);
@@ -55,8 +68,8 @@ public class TaskOrganiser implements Serializable
 
     /**
      * An empty ArrayList will affect what is displayed
-     * on the interface and will commonly stop functions
-     * to continue, considering it is empty.
+     * on the interface and will commonly dictate particular
+     * behaviours in the application according to its result.
      *
      * @return A boolean to check if ArrayList is empty
      */
@@ -70,7 +83,6 @@ public class TaskOrganiser implements Serializable
      * This will print out a brief description of each task,
      * using the toString method if there have been tasks
      * added.
-     *
      */
 
     public void printAllTasks()
@@ -88,38 +100,96 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method will sort the tasks by their due date from
-     * task which is due first, to task which is due last (if
-     * they have a due date set).
+     * This method will return the number of tasks in the organiser
+     * that have no due date set by the user. Used in conjunction
+     * with the orderByDate method.
      *
+     * @return The number of tasks which have a default Calendar
+     * object date (Jan 1st 1970).
      */
-
-    public void orderByDate()
+    public int testIfNoDueDates()
     {
-        try
+        int testIfNoDueDates = 0;
+
+        for (Task tests : tasks)
         {
-            ArrayList<Task> orderByDate = new ArrayList<>(tasks);
-            Collections.sort(orderByDate, new CalendarComparator());
-
-            for (Task ordered : orderByDate) {
-                System.out.println(ordered.toString());
-            }
-
-            if (orderByDate.isEmpty())
+            if (tests.getDate().checkIfDefaultDate())
             {
-                System.out.println(">> No tasks to show");
+                testIfNoDueDates += 1;
             }
-
         }
 
-        catch (NullPointerException e)
-        {
-            System.out.println(">> Due date values may be incorrect");
-        }
+        return testIfNoDueDates;
     }
 
     /**
-     * This will filter tasks by the project they are related to
+     * This method aims to sort a task by its due date in an ascending
+     * order. It will not display anything to the user if no tasks have
+     * been added, or if tasks have been added and none of them have a
+     * due date set by the user.
+     *
+     * Task organisers that have some tasks with due dates set by the user
+     * and others not, will be sorted and displayed to the user through
+     * the interface.
+     *
+     * However, a default date (a task with no due date set) will
+     * have a Calendar objects cleared state (1st Jan 1970). Users are
+     * restricted to setting due dates after this date. Task organiser
+     * will at first not distinguish a default due date and one set by
+     * the user, when sorting the taks.
+     *
+     * In these scenarios this method will add extra logic to display
+     * tasks in the correct order by date.
+     *
+     * @return A sorted list of tasks by date.
+     */
+
+    public ArrayList<Task> orderByDate() {
+        ArrayList<Task> orderByDate = new ArrayList<>(tasks);
+
+        if (testIfNoDueDates() == orderByDate.size())
+        {
+            System.out.println(">> No due date set for any task. Can not order tasks");
+        }
+
+        else if (orderByDate.isEmpty())
+        {
+            System.out.println(">> No tasks to order");
+        }
+
+        else
+            {
+            try
+            {
+                orderByDate.sort(new CalendarComparator());
+
+                for (Task hasDueDates : orderByDate)
+                {
+                    if (!hasDueDates.getDate().checkIfDefaultDate())
+                    {
+                        System.out.println(hasDueDates.toString());
+                    }
+                }
+
+                for (Task noDueDates : orderByDate)
+                {
+                    if (noDueDates.getDate().checkIfDefaultDate())
+                    {
+                        System.out.println(noDueDates);
+                    }
+                }
+            } catch (NullPointerException e)
+
+            {
+                System.out.println(">> Due date values may be incorrect");
+            }
+        }
+
+        return orderByDate;
+    }
+
+    /**
+     * This will filter tasks by the project they are related to.
      *
      * @param projectSearch The project name you want to filter by
      * @return An ArrayList of Tasks associated to the filtered
@@ -144,11 +214,9 @@ public class TaskOrganiser implements Serializable
 
             else {
 
-                for (int i = 0; i < filterByProject.size(); i++)
+                for (Task filtered : filterByProject)
                 {
-                    Task search = filterByProject.get(i);
-
-                    System.out.println(search);
+                    System.out.println(filtered);
                 }
             }
 
@@ -156,19 +224,20 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method allows users to mark the task as done,
-     * which will remove it from the current collection of tasks.
+     * This method allows users to mark the task as done.
      * It also checks whether the task ID exists, by calling the
      * findTask method in this class. The result of findTask
-     * method will always be -1 if the task does not exist.
+     * will always be -1 if the task does not exist (since there
+     * is never an ID with -1).
      *
-     * @param taskId The task ID associated to the task you
-     *               would like to mark as done and remove
+     * @param taskId The task ID related to task to be updated.
+     * @return True if task marked as done successfully
      */
 
-    public void markAsDone(int taskId)
+    public boolean markAsDone(int taskId)
     {
-        ArrayList<Task> finishedTasks = new ArrayList<>();
+        boolean functionSuccessful;
+
         int noResult = -1;
 
         if (findTaskIndex(taskId) != noResult)
@@ -178,23 +247,34 @@ public class TaskOrganiser implements Serializable
             tasks.get(index).changeStatus();
 
             System.out.println(">> Task is now done");
+
+            functionSuccessful = true;
         }
 
-    }
+        else
+        {
+            functionSuccessful = false;
+        }
 
+        return functionSuccessful;
+    }
 
     /**
      * This method allows the user to link a task to a particular
      * project. It also checks whether the task ID exists, by
-     * calling the findTask method in this class. The result of
-     * findTask method will always be -1 if the task does not exist.
+     * comparing the noResult local variable through the
+     * findTaskIndex method. No result will always equal -1
+     * if taskId is invalid (from the findTaskIndex method).
      *
-     * @param taskId The task and ID used to link with a project
-     * @param projectName The name of the project
+     * @param taskId The task ID of the task to update.
+     * @param projectName The name of the project to update.
+     * @return True if updating project was successful.
      */
 
-    public void updateProject(int taskId, String projectName)
+    public boolean updateProject(int taskId, String projectName)
     {
+        boolean functionSuccessful;
+
         int noResult = -1;
 
         if (findTaskIndex(taskId) != noResult)
@@ -202,20 +282,32 @@ public class TaskOrganiser implements Serializable
             int index = findTaskIndex(taskId);
             tasks.get(index).setProject(projectName);
             System.out.println(">> Project updated");
+
+            functionSuccessful = true;
         }
+
+        else
+        {
+            functionSuccessful = false;
+        }
+
+        return functionSuccessful;
     }
 
     /**
-     * This will remove a specific task from the orgnaniser,
-     * according to the task ID. It also checks if the task
+     * This will remove a specific task from the organiser,
+     * according to the task ID. It also check if the task
      * exists by calling the checkValidId method.
      *
      * @param taskId The task ID related to the task, that
-     * you would like to remove
+     * you would like to remove.
+     * @return True if task removed.
      */
 
-    public void removeTask(int taskId)
+    public boolean removeTask(int taskId)
     {
+        boolean functionSuccessful = false;
+
         if (checkValidId(taskId)) {
 
             boolean found = false;
@@ -225,10 +317,11 @@ public class TaskOrganiser implements Serializable
                 Task search = it.next();
 
                 if (search.getTaskId() == taskId) {
-                    finishedTasks.add(search);
                     it.remove();
                     found = true;
                     System.out.println(">> Task successfully removed");
+
+                    functionSuccessful = true;
                 }
             }
         }
@@ -237,6 +330,8 @@ public class TaskOrganiser implements Serializable
         {
             System.out.println(">> There are no tasks under this ID");
         }
+
+        return functionSuccessful;
     }
 
     /**
@@ -271,15 +366,15 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method finds a task in the organiser according
+     * This method that finds a task in the organiser according
      * to the Task ID. It returns the position of the task
-     * in the Array List and helps other functions in this
+     * in the Array List as an index and helps other functions in this
      * class perform their tasks. If the task does not
      * exist it returns -1, which is used by other methods
      * in this class.
      *
      * @param taskId The Task ID you are searching for
-     * @return The position of the task in the Array List
+     * @return The position or index of the task in the Array List
      */
 
     public int findTaskIndex (int taskId)
@@ -320,18 +415,18 @@ public class TaskOrganiser implements Serializable
 
 
     /**
-     * A method to print all projects if there has been one set.
-     * This uses a HashSet to enforce one project to be printed.
-     * The boolean return value is used, to print the correct
+     * A method to print all projects if they have been set.
+     * This uses a HashSet to enforce unique projects to be printed.
+     * The boolean return value is used, to help print the correct
      * information to the user in the interface class.
      *
-     * @return Are there no projects set to the tasks
+     * @return True if no projects linked to tasks
      */
 
     public boolean printAllProjects()
     {
         boolean noProjects = true;
-        HashSet<String> uniqueProjects = new HashSet<String>();
+        HashSet<String> uniqueProjects = new HashSet<>();
 
         for (Task task : tasks)
         {
@@ -409,9 +504,13 @@ public class TaskOrganiser implements Serializable
      *
      * @param taskId The Task ID of the task to be changed
      * @param changes The new Task Title
+     * @return True if task title changed.
      */
-    public void changeTaskTitle (int taskId, String changes)
+
+    public boolean changeTaskTitle (int taskId, String changes)
     {
+        boolean functionSuccessful = false;
+
         int noResult = -1;
 
         if (findTaskIndex(taskId) != noResult)
@@ -422,18 +521,26 @@ public class TaskOrganiser implements Serializable
             result.changeTaskTitle(changes);
 
             System.out.println(">> Task title changed");
+
+            functionSuccessful = true;
         }
+
+        return functionSuccessful;
     }
 
     /**
-     * Allows user to save their tasks to a text file which they created
-     * to the project's directory.
+     * Allows user to save their tasks and the state of their
+     * tasks through an object stream. There is only one file
+     * saved and loaded for the application.
      *
-     * @param object The taskOrganiser object you would like saved
+     * @param object The taskOrganiser object you would like saved.
+     * @return True if the taskOrganiser object saved correctly.
      */
 
-    public static void saveFile (Object object)
+    public static boolean saveFile (Object object)
     {
+        boolean successful = false;
+
         try
         {
             File file = new File ("sda");
@@ -446,12 +553,15 @@ public class TaskOrganiser implements Serializable
             writer.close();
 
             System.out.println(">> File Saved");
+            successful = true;
         }
 
         catch (IOException e)
         {
             System.out.println(">> Error with file input/output");
         }
+
+        return successful;
     }
 
     /**
@@ -465,7 +575,7 @@ public class TaskOrganiser implements Serializable
      * @throws ClassNotFoundException
      */
 
-    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException, InvalidClassException
+    public static Object unpackFile (String fileName) throws IOException, ClassNotFoundException
     {
         FileInputStream fis = new FileInputStream(fileName);
         BufferedInputStream bis = new BufferedInputStream(fis);
@@ -494,7 +604,5 @@ public class TaskOrganiser implements Serializable
 
         return (TaskOrganiser) unpackFile(fileName);
     }
-
-
 
 }

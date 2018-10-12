@@ -4,14 +4,14 @@ import java.util.InputMismatchException;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
- * The Interface class is the main kick off point for the application.
- * Taking values its parser object from the Parser class, it interprets
- * information from the user into commands. These commands are used on
+ * The Interface class is the kick off point for the application.
+ * Taking values from the parser object, it interprets information
+ * from the user into commands. These commands are used on
  * the taskOrganiser object to manipulate tasks. This class also has
  * all the interface menu options to allow the user to logically
  * move through the system.
@@ -72,7 +72,7 @@ public class Interface {
     /**
      * The kickoff point of the application, this uses a loop
      * to keep the application running. It will action commands
-     * by interating with the processInput method, which also
+     * by interacting with the processInput method, which also
      * contains a scenario where the user can quit the system.
      */
 
@@ -89,9 +89,9 @@ public class Interface {
 
     /**
      * This is the first branch from the home page, each case
-     * will branch further into functions related to it. The
-     * method will return true, which will stop the program
-     * through the start method.
+     * will branch further into more specific functions. It
+     * passes a command from the parser to process the users'
+     * input.
      *
      * @param command Stores a command from the user
      * @return False if the program is to continue running,
@@ -104,21 +104,22 @@ public class Interface {
         boolean finished = false;
 
         switch (command) {
+            // Add New Task
             case "1": {
                 optionOne();
                 break;
             }
-
+            //Show Task List
             case "2": {
                 optionTwo();
                 break;
             }
-
+            // Edit Task
             case "3": {
                 optionThree();
                 break;
             }
-
+            // Save and Quit
             case "4": {
                 optionFour();
                 System.out.println(">> Goodbye");
@@ -126,7 +127,7 @@ public class Interface {
                 finished = true;
                 break;
             }
-
+            //Invalid Input
             default: {
                 System.out.println(">> Invalid input");
 
@@ -172,7 +173,7 @@ public class Interface {
      * (2) Show Task List
      *
      * It allows the user to further specify their needs
-     * by creating more branches.
+     * by displaying more menu branches.
      */
 
     private void optionTwo()
@@ -191,20 +192,21 @@ public class Interface {
 
         switch (command)
         {
+            // Show all tasks
             case "a":
             {
                 taskOrganiser.printAllTasks();
                 printWelcome();
                 break;
             }
-
+            //Ordered by date
             case "b":
             {
                 taskOrganiser.orderByDate();
                 printWelcome();
                 break;
             }
-
+            // Filtered by project
             case "c":
             {
                 System.out.println(">> Choose project you would like to filter by:");
@@ -224,13 +226,13 @@ public class Interface {
                     break;
                 }
             }
-
+            //Return to main menu
             case "d":
             {
                 printWelcome();
                 break;
             }
-
+            // Invalid input
             default:
             {
                 System.out.println(">> Invalid input");
@@ -255,7 +257,7 @@ public class Interface {
      * (3) Edit Task
      *
      * It allows the user to further specify their needs
-     * by creating more branches.
+     * by displaying more menu branches.
      */
 
     private void optionThree()
@@ -275,6 +277,7 @@ public class Interface {
 
         switch (command)
         {
+            // Add due date
             case "a": {
                 int taskId;
                 int index;
@@ -291,7 +294,7 @@ public class Interface {
                 }
 
                 else {
-
+                    // Display tasks
                     chooseTaskFromList();
 
                     try
@@ -304,7 +307,7 @@ public class Interface {
                         printWelcome();
                         break;
                     }
-
+                    // Is the taskID selected by the user valid ?
                     if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
                     {
 
@@ -312,7 +315,7 @@ public class Interface {
 
 
                         System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
-                                           ">> The year can be from 1900 and 5000 (inclusive)" + "\n" +
+                                           ">> The year can be from 1971 and 5000 (inclusive)" + "\n" +
                                            ">> Please enter the year the task is due:");
 
                         try {
@@ -356,7 +359,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Add project
             case "b":
             {
 
@@ -373,19 +376,30 @@ public class Interface {
                     try {
 
                         int taskId = parser.convertToInt();
+                        int incorrectResult = -1;
 
-                        System.out.println("--------------------------------------------------------------------------");
+                        if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
+                        {
 
-                        System.out.println(">> Please enter the name of the project you would like" +
-                                           " to add:");
+                            System.out.println("--------------------------------------------------------------------------");
 
-                        command = parser.getInput();
-                        System.out.println("--------------------------------------------------------------------------");
+                            System.out.println(">> Please enter the name of the project you would like" +
+                                    " to add:");
+
+                            command = parser.getInput();
+                            System.out.println("--------------------------------------------------------------------------");
 
 
-                        taskOrganiser.updateProject(taskId, command);
-                        printWelcome();
-                        break;
+                            taskOrganiser.updateProject(taskId, command);
+                            printWelcome();
+                            break;
+                        }
+
+                        else
+                        {
+                            printWelcome();
+                            break;
+                        }
                     }
 
                     catch (NumberFormatException e) {
@@ -396,7 +410,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Mark as done
             case "c":
             {
                 if (taskOrganiser.isEmpty())
@@ -425,7 +439,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Edit task name
             case "d":
             {
 
@@ -441,19 +455,31 @@ public class Interface {
 
                         chooseTaskFromList();
                         int taskId = parser.convertToInt();
-                        System.out.println("--------------------------------------------------------------------------");
+                        int incorrectResult = -1;
+
+                        if (taskOrganiser.findTaskIndex(taskId) != incorrectResult)
+                        {
+                            System.out.println("--------------------------------------------------------------------------");
 
 
-                        System.out.println(">> Enter your new task name:");
+                            System.out.println(">> Enter your new task name:");
 
-                        command = parser.getInput();
-                        System.out.println("--------------------------------------------------------------------------");
+                            command = parser.getInput();
+                            System.out.println("--------------------------------------------------------------------------");
 
 
-                        taskOrganiser.changeTaskTitle(taskId, command);
-                        printWelcome();
-                        break;
-                    }
+                            taskOrganiser.changeTaskTitle(taskId, command);
+                            printWelcome();
+                            break;
+                        }
+
+                        else
+                        {
+                            printWelcome();
+                            break;
+                        }
+
+                        }
 
                     catch (NumberFormatException e) {
                         System.out.println(">> Please enter an integer");
@@ -463,7 +489,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Remove
             case "e": {
 
                 if (taskOrganiser.isEmpty())
@@ -496,7 +522,7 @@ public class Interface {
                     }
                 }
             }
-
+            // Return to main menu
             case "f":
             {
                 printWelcome();
@@ -527,8 +553,8 @@ public class Interface {
      * The fourth branch from option four on the home page:
      * (4) Save and Quit
      *
-     * This will load the task organiser object from a file
-     * in the same directory as this project
+     * This will save the task organiser object to a file
+     * in the same directory as this project.
      */
 
     private void optionFour()
@@ -538,8 +564,8 @@ public class Interface {
 
     /**
      * This is used to load the previous state of the taskOrganiser
-     * object and is done automatically in this class's constructor
-     * every time the application is run.
+     * object and is done each time the application is run (in this
+     * class's constructor).
      *
      * @throws IOException
      * @throws ClassNotFoundException
@@ -585,13 +611,10 @@ public class Interface {
 
         if (invalidInputCount % 3 == 2)
         {
-            return alreadyPrintedWelcome = true;
+            alreadyPrintedWelcome = true;
         }
 
-        else
-        {
-            return alreadyPrintedWelcome;
-        }
+        return alreadyPrintedWelcome;
     }
 
     /**
@@ -604,8 +627,8 @@ public class Interface {
     {
         System.out.println("--------------------------------------------------------------------------");
         System.out.println(">> Try to only type expected values in the program. " + "\n" +
-                           ">> For example, to add a new task press: 1. " + "\n" +
-                           ">> Then press enter.");
+                           ">> For example, to add a new task press: 1 " + "\n" +
+                           ">> Then press enter");
         printWelcome();
     }
 }

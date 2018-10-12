@@ -2,10 +2,10 @@ import java.io.Serializable;
 
 /**
  * Task Organiser is a simple application which allows users to manage
- * their tasks. It can filter by certain fields associated to the task,
- * for example by due date. This is all done through a text based user
- * interface. Finally, the task organiser allows the end user to save
- * and load their tasks to use at different times.
+ * their tasks. Using a text based interface, it allows the user to
+ * manipulate tasks individually or in a collection. The application
+ * allows you to explicitly save and implicitly load the state of your
+ * task organiser each time you use the system.
  *
  * A task represents the backbone of the application, it will contain
  * certain fields which you can interact with in the Task Organiser
@@ -25,8 +25,7 @@ public class Task implements Serializable
 
     /**
      * Create a task object, which will automatically assign it an ID.
-     * The constructor will also set up the next ID for the next object
-     * created. Using the methods in this class will allow you to update
+     * Using the methods in this class will allow you to update
      * the state of a task object.
      *
      * @param taskTitle What the task is.
@@ -92,7 +91,8 @@ public class Task implements Serializable
 
     /**
      * This returns information on the task related to date and time.
-     * Task objects is composed of a TaskDate object
+     * Task objects is composed of a TaskDate object which helps set
+     * a due date.
      *
      * @return Returns the date object related to the task
      */
@@ -119,8 +119,9 @@ public class Task implements Serializable
     }
 
     /**
-     * This changes the status of the task from
-     * In progress to finished
+     * This changes the status of the task from in progress to
+     * finished, which are the only two statuses stored in this
+     * class.
      */
 
     public void changeStatus()
