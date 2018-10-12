@@ -315,7 +315,7 @@ public class Interface {
 
 
                         System.out.println(">> Due dates to tasks are set as YYYY - MM - DD" + "\n" +
-                                           ">> The year can be from 1900 and 5000 (inclusive)" + "\n" +
+                                           ">> The year can be from 1971 and 5000 (inclusive)" + "\n" +
                                            ">> Please enter the year the task is due:");
 
                         try {

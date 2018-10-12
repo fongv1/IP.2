@@ -7,22 +7,52 @@ import org.junit.Before;
 
 
 import org.junit.Test;
+import org.junit.runner.notification.RunListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TaskOrganiserTest {
 
     private TaskOrganiser taskOrg;
     private TaskOrganiser emptyTaskOrg;
+    private TaskOrganiser largerTo;
 
     @Before
     public void setup() {
+        //set up small taskOrg
         taskOrg = new TaskOrganiser();
         taskOrg.addTask("This");
         taskOrg.addTask("t.o.");
         taskOrg.addTask("has 3 tasks");
 
+        //set up empty taskOrg
         emptyTaskOrg = new TaskOrganiser();
+
+        //set up large taskOrg
+        largerTo = new TaskOrganiser();
+        largerTo.addTask("make pasta");
+        largerTo.addTask("boil water");
+        largerTo.addTask("chop veggies");
+        largerTo.addTask("boil broth");
+        largerTo.addTask("call mum");
+        largerTo.addTask("pick up da kids");
+        largerTo.addTask("take a snapchat");
+
+        largerTo.getTask(0).getDate().setDueDate(2000, 1, 1);
+        largerTo.getTask(1).getDate().setDueDate(1999, 12, 31);
+        largerTo.getTask(2).getDate().setDueDate(1998, 1, 1);
+        largerTo.getTask(3).getDate().setDueDate(1999, 11, 1);
+        largerTo.getTask(4).getDate().setDueDate(2001, 1, 5);
+        //largerTo.getTask(5).getDate().setDueDate(2001, 1, 1);
+        //largerTo.getTask(6).getDate().setDueDate(1998, 11, 1);
+
+        largerTo.updateProject(0, "lol");
+        largerTo.updateProject(1, "lol");
+        largerTo.updateProject(2, "lol");
+        largerTo.updateProject(3, "sda");
+        largerTo.updateProject(5, "lol");
+        largerTo.updateProject(4, "sda");
     }
 
     @Test
@@ -45,11 +75,9 @@ public class TaskOrganiserTest {
 
     }
 
+
     @Test
     public void emptyOrderByDateTest(){
-
-        boolean testOrderByDate = emptyTaskOrg.orderByDate();
-        assertEquals("Return false if empty", false, testOrderByDate);
 
     }
 
@@ -154,6 +182,7 @@ public class TaskOrganiserTest {
     }
 
 
+
     /*This test will only pass if system is at its default state. This is
       because task organiser will save and load the same file named "sda".
      */
@@ -166,6 +195,78 @@ public class TaskOrganiserTest {
 
     @Test
     public void addTaskTest(){
+        int id = taskOrg.addTask("lol");
+        assertEquals("since there are 3 tasks, id should be 4", 4, id);
+
+        int id1 = taskOrg.addTask("lols");
+        assertEquals("since there are 4 tasks, this should be 5", 5, id1);
+    }
+
+    @Test
+    public void printAllProjects() {
+        boolean printAll = taskOrg.printAllProjects();
+        assertEquals("true if taskOrg is not empty but no project set", true, printAll);
+
+        taskOrg.getTask(0).setProject("lol");
+        boolean printAll1 = taskOrg.printAllProjects();
+        assertEquals("false if taskOrg has a task with project", false, printAll1);
+
+    }
+
+    /**
+     * The test on taskOrg is a shorter test to prove that tasks will be sorted
+     * correctly by date.
+     *
+     * The test on largerTaskOrg, tests the behaviour of a
+     * sorted task list, where there are some tasks with no due date set and
+     * others with a due date. The default date or cleared Calendar object
+     * which tasks start off with, have a date of Jan 1st 1970 and users
+     * are only permitted to set due dates after the default date.
+     *
+     * Therefore, a sorted task list by date, will have the tasks with no
+     * due date come first. OrderByDate method adds extra logic,
+     * so the interface displays these tasks (with no due date), last and
+     * sorts the remaining tasks by due date.
+     *
+     * The largerTaskOrg ArrayList has a size of 7, with the last two tasks
+     * with no due date. The expected behaviour would be for the first
+     * two in this collection (index 0 and 1) to have a default due or
+     * cleared due date.
+     *
+     * N.B. The checkIfDefaultDate method returns true, if the due date
+     * is at its default state.
+     */
+    @Test
+    public void orderByDate(){
+
+        //Testing small taskOrg, all tasks have a due date
+
+        // this should be the last task in a sorted list
+        Task t1 = taskOrg.getTask(0);
+        t1.getDate().setDueDate(2018, 1, 1);
+
+        //this should be the second task in a sorted list
+        Task t2 = taskOrg.getTask(1);
+        t2.getDate().setDueDate(2017,12,31);
+
+        //this should be the first task that falls due (1999)
+        Task t3 = taskOrg.getTask(2);
+        t3.getDate().setDueDate(1999, 1,1);
+
+
+        ArrayList<Task> sorted = taskOrg.orderByDate();
+        assertEquals("task due in 1999 should be index 0 in sorted list", t3, sorted.get(0));
+        assertEquals("task due in 2017 should be index 1 in sorted list", t2, sorted.get(1));
+        assertEquals("task due in 2018 should be index 2 in sorted list", t1, sorted.get(2));
+
+
+
+        ArrayList<Task> sortedLarge = largerTo.orderByDate();
+        Boolean lastTask = sortedLarge.get(0).getDate().checkIfDefaultDate();
+        Boolean penultimateTask = sortedLarge.get(1).getDate().checkIfDefaultDate();
+
+        assertEquals("last task should have default date", true, lastTask);
+        assertEquals("penultimate task should have default date", true, penultimateTask);
 
     }
 }

@@ -8,7 +8,10 @@ import java.util.Calendar;
  * interface. Finally, the task organiser allows the end user to save
  * and load their tasks to use at different times.
  *
- * The TaskDate class models the due date of a task.
+ * The TaskDate class models the due date of a task. It will prepare
+ * a due date for a task to have a default state. And enforce
+ * expected due date values to ensure the task organiser can perform
+ * its functions.
  */
 
 public class TaskDate implements Serializable {
@@ -62,7 +65,8 @@ public class TaskDate implements Serializable {
     /**
      * This tests if the user's calendar input is a valid for the
      * task's due date. Users will only be able to set tasks due
-     * up till the year 5000.
+     * from 1971, because the date of a default/cleared Calendar
+     * object has a year of 1970.
      *
      * @param year  Test the year due date of the task
      * @param month Test the month due date of the task
@@ -73,7 +77,7 @@ public class TaskDate implements Serializable {
     private boolean testDateParameters(int year, int month, int date) {
         boolean correct;
 
-        if (year < 1900 || year > 5000) {
+        if (year < 1971 || year > 5000) {
             correct = false;
         } else if (month < 1 || month > 12) {
             correct = false;
@@ -142,7 +146,8 @@ public class TaskDate implements Serializable {
     /**
      * A method which checks if the dueDate field is at its
      * default beginning state, or if it has been set by the
-     * user.
+     * user. The default date of a Calendar object is 1st Jan
+     * 1970. Users can only set due dates after this date.
      *
      * @return Is the due date default?
      */
@@ -156,10 +161,10 @@ public class TaskDate implements Serializable {
 
         if (dueDate.equals(empty)) {
 
-            return result = true;
+            result = true;
 
-        } else {
-            return result;
         }
+
+        return result;
     }
 }

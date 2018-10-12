@@ -32,6 +32,7 @@ public class TaskOrganiser implements Serializable
     private ArrayList<Task> finishedTasks;
     private int nextId = 0;
 
+
     public TaskOrganiser() {
         tasks = new ArrayList<>();
         finishedTasks = new ArrayList<>();
@@ -102,43 +103,78 @@ public class TaskOrganiser implements Serializable
     }
 
     /**
-     * This method will sort the tasks by their due date, from
-     * task which is due first, to task which is due last (if
-     * there has been a due date set).
+     * This method aims to sort a task by its due date in an ascending
+     * order. It will not display anything to the user if no tasks have
+     * been added, or if tasks have been added and all of them do not
+     * have a due date.
      *
-     * @return True if tasks were ordered by date.
+     * Task organisers that have some tasks with due dates and others
+     * not, will be sorted and displayed to the user through the interface.
+     * Users are only allowed to set due dates after 1st of Jan 1970.
+     *
+     * However, because a default date (a task with no due date set) will
+     * have a Calendar objects cleared state (1st Jan 1970), a sorted
+     * task organiser will order these tasks first, then tasks which
+     * have their due date set by the user.
+     *
+     * In these scenarios this method will add extra logic to display
+     * tasks in the correct order by date.
+     *
+     * @return A sorted list of tasks by date.
      */
 
-    public boolean orderByDate()
-    {
-        boolean functionSuccessful = false;
+    public ArrayList<Task> orderByDate() {
+        ArrayList<Task> orderByDate = new ArrayList<>(tasks);
 
-        try
+        int testIfNoDueDates = 0;
+
+        for (Task tests : orderByDate)
         {
-            ArrayList<Task> orderByDate = new ArrayList<>(tasks);
-            orderByDate.sort(new CalendarComparator());
-
-            for (Task ordered : orderByDate) {
-                System.out.println(ordered.toString());
-            }
-
-            if (orderByDate.isEmpty())
+            if (tests.getDate().checkIfDefaultDate())
             {
-                System.out.println(">> No tasks to show");
-            }
-
-            else
-            {
-                functionSuccessful = true;
+                testIfNoDueDates += 1;
             }
         }
 
-        catch (NullPointerException e)
+        if (testIfNoDueDates == orderByDate.size())
         {
-            System.out.println(">> Due date values may be incorrect");
+            System.out.println(">> No due dates set for all tasks. Can not sort tasks");
         }
 
-        return functionSuccessful;
+        else if (orderByDate.isEmpty())
+        {
+            System.out.println(">> No tasks to order");
+        }
+
+        else
+            {
+            try
+            {
+                orderByDate.sort(new CalendarComparator());
+
+                for (Task hasDueDates : orderByDate)
+                {
+                    if (!hasDueDates.getDate().checkIfDefaultDate())
+                    {
+                        System.out.println(hasDueDates.toString());
+                    }
+                }
+
+                for (Task noDueDates : orderByDate)
+                {
+                    if (noDueDates.getDate().checkIfDefaultDate())
+                    {
+                        System.out.println(noDueDates);
+                    }
+                }
+            } catch (NullPointerException e)
+
+            {
+                System.out.println(">> Due date values may be incorrect");
+            }
+        }
+
+        return orderByDate;
     }
 
     /**
@@ -369,7 +405,7 @@ public class TaskOrganiser implements Serializable
 
 
     /**
-     * A method to print all projects if there has been one set.
+     * A method to print all projects if they have been set.
      * This uses a HashSet to enforce one project to be printed.
      * The boolean return value is used, to print the correct
      * information to the user in the interface class.
@@ -558,7 +594,5 @@ public class TaskOrganiser implements Serializable
 
         return (TaskOrganiser) unpackFile(fileName);
     }
-
-
 
 }
