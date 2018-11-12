@@ -196,7 +196,7 @@ public class TaskDate implements Serializable {
             }
 
             else {
-                System.out.println(">> " + year + " is a leap year, February can only have 28 days");
+                System.out.println(">> " + year + " is not a leap year, February can only have 28 days");
             }
 
         return correct;
